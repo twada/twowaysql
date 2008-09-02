@@ -10,12 +10,8 @@ namespace :racc do
 
     $:.unshift(File.dirname(__FILE__) + '/../lib')
     require 'twowaysql'
-
-    parser = TwoWaySQL::Parser.new(:debug => true,
-                                   :preserve_space => true)
-    root = parser.parse( $stdin )
-    ctx = TwoWaySQL::Context.new
-    root.accept(ctx)
+    template = TwoWaySQL::Template.parse($stdin, :debug => true, :preserve_space => true)
+    template.merge({})
 
     `racc -o lib/twowaysql/parser.rb lib/twowaysql/parser.y`
   end
