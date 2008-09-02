@@ -1,6 +1,7 @@
 = twowaysql
 
-* FIX (url)
+=== github repo:
+http://github.com/twada/twowaysql/tree/master
 
 
 == DESCRIPTION:
