@@ -5,6 +5,10 @@ README.txt
 Rakefile
 config/hoe.rb
 config/requirements.rb
+issues/issue-4bc308d55ae91f266e656162a4147d356de1166c.yaml
+issues/issue-bd38c1cdc965d73dd629a81db2de1bcdcf4b10b8.yaml
+issues/issue-f64d73ed4f9854f1ded77e6496dbf59cfb3770a7.yaml
+issues/project.yaml
 lib/twowaysql.rb
 lib/twowaysql/node.rb
 lib/twowaysql/parser.rb
