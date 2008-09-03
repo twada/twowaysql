@@ -1,0 +1,24 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "'binding' object support"
+desc: TwoWaySQL::Template#merge should accept 'binding' object?
+type: :feature
+component: twowaysql
+release: 
+reporter: takuto <takuto.wada@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-09-03 08:37:03.712475 Z
+references: []
+
+id: 4bc308d55ae91f266e656162a4147d356de1166c
+log_events: 
+- - 2008-09-03 08:41:40.758367 Z
+  - takuto <takuto.wada@gmail.com>
+  - created
+  - |-
+    pros:
+      - user can control names in TwoWaySQL comments
+      - works well with ActiveRecord?
+    cons:
+      - any security risk?
+      - increase coupling between host language and SQL

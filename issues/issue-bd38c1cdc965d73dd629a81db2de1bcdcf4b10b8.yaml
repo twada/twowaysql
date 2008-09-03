@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: rdoc for published classes and methods
+desc: rdoc for published classes and methods
+type: :task
+component: twowaysql
+release: 0.2 release
+reporter: takuto <takuto.wada@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-09-03 08:43:57.377882 Z
+references: []
+
+id: bd38c1cdc965d73dd629a81db2de1bcdcf4b10b8
+log_events: 
+- - 2008-09-03 08:44:14.224213 Z
+  - takuto <takuto.wada@gmail.com>
+  - created
+  - docs needed for published classes and methods
