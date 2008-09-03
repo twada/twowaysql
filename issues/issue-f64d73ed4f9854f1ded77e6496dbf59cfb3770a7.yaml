@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: preserve actual comment content
+desc: preserve actual comment content
+type: :feature
+component: twowaysql
+release: 
+reporter: takuto <takuto.wada@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-09-03 08:33:12.940300 Z
+references: []
+
+id: f64d73ed4f9854f1ded77e6496dbf59cfb3770a7
+log_events: 
+- - 2008-09-03 08:33:34.448031 Z
+  - takuto <takuto.wada@gmail.com>
+  - created
+  - preserve actual comment content if :preserve_comment is on.

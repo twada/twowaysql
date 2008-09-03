@@ -1,0 +1,16 @@
+--- !ditz.rubyforge.org,2008-03-06/project 
+name: twowaysql
+version: "0.4"
+components: 
+- !ditz.rubyforge.org,2008-03-06/component 
+  name: twowaysql
+releases: 
+- !ditz.rubyforge.org,2008-03-06/release 
+  name: 0.2 release
+  status: :unreleased
+  release_time: 
+  log_events: 
+  - - 2008-09-03 08:30:15.096853 Z
+    - takuto <takuto.wada@gmail.com>
+    - created
+    - first published version.
