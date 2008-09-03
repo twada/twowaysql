@@ -28,7 +28,7 @@ Plus, you can run and preview TwoWaySQL-style SQL by tools like pgAdmin3, since 
 
 === What TwoWaySQL intended to do
 * TwoWaySQL is intended to be a small and simple module.
-* TwoWaySQL respects SQL and its set-based operations. TwoWaySQL assists to write complex SQL with ease.
+* TwoWaySQL respects SQL and its set-based operations. TwoWaySQL assists writing complex SQL with ease.
 * TwoWaySQL is not a replacement of ActiveRecord,Sequel,or any other O-R Mappers. Instead, TwoWaySQL will work with O-R Mappers well as a SQL construction module.
 
 
@@ -62,7 +62,7 @@ Please note, TwoWaySQL is not
 
 == SYNOPSIS:
 
-NOTE: some of this section is generally based on docs for S2Dao[http://s2dao.seasar.org/en/s2dao.html#SQLBind]
+NOTE: some of this section is based on docs for S2Dao[http://s2dao.seasar.org/en/s2dao.html#SQLBind]
 
 
 === Published Classes
@@ -73,12 +73,22 @@ TwoWaySQL::Template is the class you may only use. TwoWaySQL::Template acts as a
 === Basic Usage
 
 ==== Input
-* Pass TwoWaySQL-style SQL(string,file or anything like IO) to TwoWaySQL::Template.parse to create template object (note: template object is stateless and reentrant, so you can cache it)
-* Pass data object(Hash-like object) to the TwoWaySQL::Template#merge then TwoWaySQL will evaluate the data.
+* TwoWaySQL-style SQL(string,file or anything like IO) to TwoWaySQL::Template.parse to create template object (note: template object is stateless and reentrant, so you can cache it)
+  * (Optionally) TwoWaySQL::Template.parse accepts Hash of parse options as second argument
+* data object(Hash-like object) to the TwoWaySQL::Template#merge then TwoWaySQL will evaluate the data.
 
 ==== Output
 * SQL String with placeholders (generally, '?' is used for placeholders)
 * Array of bound variables for placeholders
+
+===== usage
+
+  sql = "SELECT * FROM emp WHERE job = /*ctx[:job]*/'CLERK' AND deptno = /*ctx[:deptno]*/20"
+  template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+
+  result = template.merge(:job => "HOGE", :deptno => 30)
+  result.sql                #=> "SELECT * FROM emp WHERE job = ? AND deptno = ?"
+  result.bound_variables    #=> ["HOGE", 30]
 
 
 
@@ -108,7 +118,6 @@ TwoWaySQL may use bind variable as follows. In this case, value of ctx[:empno] i
   template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
 
   result = template.merge(:job => "HOGE", :deptno => 30)
-
   result.sql                #=> "SELECT * FROM emp WHERE job = ? AND deptno = ?"
   result.bound_variables    #=> ["HOGE", 30]
 
@@ -164,7 +173,6 @@ You can use Embedded variable comment to embed value directly (say without quoti
   template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
 
   result = template.merge(:order_by => 'id, :order => 'DESC')
-
   result.sql                #=> "SELECT * FROM emp ORDER BY id DESC"
   result.bound_variables    #=> []
 
@@ -191,8 +199,8 @@ When the condition returns a truthy value, TwoWaySQL treats statements in "/*IF*
 
   # active case
   result = template.merge(:job => 'MANAGER')
-  result.sql                #=> 'SELECT * FROM emp WHERE job = ?'
-  result.bound_variables    #=> ['MANAGER']
+  result.sql                 #=> 'SELECT * FROM emp WHERE job = ?'
+  result.bound_variables     #=> ['MANAGER']
 
   # inactive case
   ctx = {}
@@ -220,8 +228,8 @@ In this case, when the eval(ctx[:foo]) returns an falsy value, string "hoge IS N
 
   # active case
   result = template.merge(:job => 'MANAGER')
-  result.sql                #=> 'SELECT * FROM emp WHERE job = ?'
-  result.bound_variables    #=> ['MANAGER']
+  result.sql                 #=> 'SELECT * FROM emp WHERE job = ?'
+  result.bound_variables     #=> ['MANAGER']
 
   # inactive case
   ctx = {}
@@ -249,9 +257,9 @@ So, BEGIN comment example is as follows:
 
 In the above example, 
 * when job and deptno are nil, WHERE clause will not be outputted.
-* When ctx[:job] == nil and ctx[:deptno] != nil, "WHERE depno = ?" is outputted.
-* When ctx[:job] != nil and ctx[:deptno] == nil, "WHERE job = ?" is outputted.
-* When ctx[:job] != nil and ctx[:deptno] != nil, "WHERE job = ? AND depno = ?" is outputted.
+* When ctx[:job] == nil and ctx[:deptno] != nil, then sql will "WHERE depno = ?".
+* When ctx[:job] != nil and ctx[:deptno] == nil, then sql will "WHERE job = ?".
+* When ctx[:job] != nil and ctx[:deptno] != nil, then sql will "WHERE job = ? AND depno = ?".
 
 
 ==== usage
@@ -262,8 +270,8 @@ In the above example,
   # when data is empty (no param exists)
   ctx = {}
   result = template.merge(ctx)
-  result.sql                #=> 'SELECT * FROM emp'
-  result.bound_variables    #=> []
+  result.sql                 #=> 'SELECT * FROM emp'
+  result.bound_variables     #=> []
 
   # when :job param exists
   result2 = template.merge(:job => 'MANAGER')
