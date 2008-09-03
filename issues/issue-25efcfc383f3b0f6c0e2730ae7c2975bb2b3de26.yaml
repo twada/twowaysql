@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: better whitespace handling
+desc: better whitespace handling on Scanner/Grammer.
+type: :feature
+component: twowaysql
+release: 
+reporter: takuto <takuto.wada@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-09-03 09:00:15.483485 Z
+references: []
+
+id: 25efcfc383f3b0f6c0e2730ae7c2975bb2b3de26
+log_events: 
+- - 2008-09-03 09:01:47.792705 Z
+  - takuto <takuto.wada@gmail.com>
+  - created
+  - fix some dirty rules for whitespaces, if possible.

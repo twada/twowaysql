@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: change line-based scanning to whole string based scanning
+desc: try whole string based scanning to handle multiline comments and directives
+type: :task
+component: twowaysql
+release: 
+reporter: takuto <takuto.wada@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-09-03 09:04:04.695887 Z
+references: []
+
+id: f2b773020b54f839c03d899b38b5113c8fd991df
+log_events: 
+- - 2008-09-03 09:04:46.759048 Z
+  - takuto <takuto.wada@gmail.com>
+  - created
+  - this is a trial. not necessary for current specs.
