@@ -156,9 +156,9 @@ TwoWaySQL may use bind variable as follows. In this case, value of ctx[:empno] i
   sql = "SELECT * FROM emp WHERE job = /*ctx[:job]*/'CLERK' AND deptno = /*ctx[:deptno]*/20"
   template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
 
-  result = template.merge(:job => "HOGE", :deptno => 30)
-  result.sql                #=> "SELECT * FROM emp WHERE job = ? AND deptno = ?"
-  result.bound_variables    #=> ["HOGE", 30]
+  merged = template.merge(:job => "HOGE", :deptno => 30)
+  merged.sql                #=> "SELECT * FROM emp WHERE job = ? AND deptno = ?"
+  merged.bound_variables    #=> ["HOGE", 30]
 
 
 
@@ -179,13 +179,13 @@ acceptable argument for IN clause is an array-like object. Say, Object that resp
   sql = "SELECT * FROM emp WHERE deptno IN /*ctx[:deptnoList]*/(10, 20) ORDER BY ename"
   template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
 
-  result = template.merge(:deptnoList => [30,40,50])
-  result.sql                #=> "SELECT * FROM emp WHERE deptno IN (?, ?, ?) ORDER BY ename"
-  result.bound_variables    #=> [30,40,50]
+  merged = template.merge(:deptnoList => [30,40,50])
+  merged.sql                #=> "SELECT * FROM emp WHERE deptno IN (?, ?, ?) ORDER BY ename"
+  merged.bound_variables    #=> [30,40,50]
 
-  result2 = template.merge(:deptnoList => [80])
-  result2.sql                #=> "SELECT * FROM emp WHERE deptno IN (?) ORDER BY ename"
-  result2.bound_variables    #=> [80]
+  merged2 = template.merge(:deptnoList => [80])
+  merged2.sql                #=> "SELECT * FROM emp WHERE deptno IN (?) ORDER BY ename"
+  merged2.bound_variables    #=> [80]
 
 
 ==== LIKE
@@ -211,9 +211,9 @@ You can use Embedded variable comment to embed value directly (say without quoti
   sql = "SELECT * FROM emp ORDER BY /*$ctx[:order_by]*/ename /*$ctx[:order]*/ASC"
   template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
 
-  result = template.merge(:order_by => 'id, :order => 'DESC')
-  result.sql                #=> "SELECT * FROM emp ORDER BY id DESC"
-  result.bound_variables    #=> []
+  merged = template.merge(:order_by => 'id, :order => 'DESC')
+  merged.sql                #=> "SELECT * FROM emp ORDER BY id DESC"
+  merged.bound_variables    #=> []
 
 
 
@@ -237,15 +237,15 @@ When the condition returns a truthy value, TwoWaySQL treats statements in "/*IF*
 
 
   # active case
-  result = template.merge(:job => 'MANAGER')
-  result.sql                 #=> 'SELECT * FROM emp WHERE job = ?'
-  result.bound_variables     #=> ['MANAGER']
+  merged = template.merge(:job => 'MANAGER')
+  merged.sql                 #=> 'SELECT * FROM emp WHERE job = ?'
+  merged.bound_variables     #=> ['MANAGER']
 
   # inactive case
   ctx = {}
-  result2 = template.merge(ctx)
-  result2.sql                #=> 'SELECT * FROM emp'
-  result2.bound_variables    #=> []
+  merged2 = template.merge(ctx)
+  merged2.sql                #=> 'SELECT * FROM emp'
+  merged2.bound_variables    #=> []
 
 
 
@@ -266,15 +266,15 @@ In this case, when the eval(ctx[:foo]) returns an falsy value, string "hoge IS N
   template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
 
   # active case
-  result = template.merge(:job => 'MANAGER')
-  result.sql                 #=> 'SELECT * FROM emp WHERE job = ?'
-  result.bound_variables     #=> ['MANAGER']
+  merged = template.merge(:job => 'MANAGER')
+  merged.sql                 #=> 'SELECT * FROM emp WHERE job = ?'
+  merged.bound_variables     #=> ['MANAGER']
 
   # inactive case
   ctx = {}
-  result2 = template.merge(ctx)
-  result2.sql                #=> 'SELECT * FROM emp WHERE job IS NULL'
-  result2.bound_variables    #=> []
+  merged2 = template.merge(ctx)
+  merged2.sql                #=> 'SELECT * FROM emp WHERE job IS NULL'
+  merged2.bound_variables    #=> []
 
 
 
@@ -308,22 +308,22 @@ In the above example,
 
   # when data is empty (no param exists)
   ctx = {}
-  result = template.merge(ctx)
-  result.sql                 #=> 'SELECT * FROM emp'
-  result.bound_variables     #=> []
+  merged = template.merge(ctx)
+  merged.sql                 #=> 'SELECT * FROM emp'
+  merged.bound_variables     #=> []
 
   # when :job param exists
-  result2 = template.merge(:job => 'MANAGER')
-  result2.sql                #=> 'SELECT * FROM emp WHERE job = ?'
-  result2.bound_variables    #=> ['MANAGER']
+  merged2 = template.merge(:job => 'MANAGER')
+  merged2.sql                #=> 'SELECT * FROM emp WHERE job = ?'
+  merged2.bound_variables    #=> ['MANAGER']
 
   # when :job and :deptno param exists
   ctx3 = {}
   ctx3[:job] = "MANAGER"
   ctx3[:deptno] = 20
-  result3 = template.merge(ctx3)
-  result3.sql                #=> 'SELECT * FROM emp WHERE job = ? AND deptno = ?'
-  result3.bound_variables    #=> ['MANAGER',20]
+  merged3 = template.merge(ctx3)
+  merged3.sql                #=> 'SELECT * FROM emp WHERE job = ? AND deptno = ?'
+  merged3.bound_variables    #=> ['MANAGER',20]
 
 
 
