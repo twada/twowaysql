@@ -1,7 +1,7 @@
 require 'twowaysql/version'
 
-AUTHOR = 'WADA, Takuto'  # can also be an array of Authors
-EMAIL = "takuto.wada@gmail.com"
+AUTHOR = 'Takuto Wada'  # can also be an array of Authors
+EMAIL = "takuto.wada at gmail dot com"
 DESCRIPTION = "Template Engine for SQL"
 GEM_NAME = 'twowaysql' # what ppl will type to install your gem
 RUBYFORGE_PROJECT = 'twowaysql' # The unix name for your project
@@ -13,7 +13,7 @@ EXTRA_DEPENDENCIES = [
 
 @config_file = "~/.rubyforge/user-config.yml"
 @config = nil
-RUBYFORGE_USERNAME = "unknown"
+RUBYFORGE_USERNAME = "twada"
 def rubyforge_username
   unless @config
     begin
