@@ -1,7 +1,13 @@
-= twowaysql
+= TwoWaySQL
 
-=== github repo:
-http://github.com/twada/twowaysql/tree/master
+=== sites:
+* {Web Site}[http://twowaysql.rubyforge.org/]
+* {Project Page}[http://rubyforge.org/projects/twowaysql]
+* {API Doc}[http://twowaysql.rubyforge.org/rdoc/]
+
+=== sources:
+* http://github.com/twada/twowaysql/tree/master
+
 
 
 == DESCRIPTION:
@@ -84,18 +90,19 @@ With TwoWaySQL, you can
   . . .
 
 
-=== What TwoWaySQL intended to do
+==== What TwoWaySQL intended to do
 * TwoWaySQL is intended to be a small and simple module.
 * TwoWaySQL respects SQL and its set-based operations. TwoWaySQL assists writing complex SQL with ease.
 * TwoWaySQL is not a replacement of ActiveRecord,Sequel,or any other O-R Mappers. Instead, TwoWaySQL will work with O-R Mappers well as a SQL construction module.
 
 
-=== What TwoWaySQL is not
-Please note, TwoWaySQL is not
+==== What TwoWaySQL is not
+TwoWaySQL is not
 * an O-R Mapper
 * a SQL Parser
 * a framework
 * a Prepared Statement
+
 
 
 == FEATURES/PROBLEMS:
@@ -133,7 +140,7 @@ TwoWaySQL::Template is the class you may only use. TwoWaySQL::Template acts as a
 ==== Input
 * TwoWaySQL-style SQL(string,file or anything like IO) to TwoWaySQL::Template.parse to create template object (note: template object is stateless and reentrant, so you can cache it)
   * (Optionally) TwoWaySQL::Template.parse accepts Hash of parse options as second argument
-* data object(Hash-like object) to the TwoWaySQL::Template#merge then TwoWaySQL will evaluate the data.
+* data object(Hash-like object) to the TwoWaySQL::Template#merge then TwoWaySQL will evaluate the data as 'ctx'.
 
 ==== Output
 * SQL String with placeholders (generally, '?' is used for placeholders)
@@ -178,7 +185,7 @@ To bind multiple values in an IN clause, you can also use bind variable comment 
 
   IN /*argument name*/(...)
 
-TwoWaySQL may use bind variable as follows. In this case, ctx[:names] is automatically replaced with values in the data.
+TwoWaySQL may use bind variable as follows. In this case, ctx[:names] is automatically replaced with placeholders associated with number of values in the data.
 
   IN /*ctx[:names]*/('aaa', 'bbb')
 
@@ -215,6 +222,9 @@ Unfortunately, there is no special support for "LIKE". So, to use a wildcard cha
 You can use Embedded variable comment to embed value directly (say without quoting or escaping) into the SQL as a string. Literal to the right of the Embedded variable comment will be replaced with value. Embedded variable comment has the following syntax:
 
   /*$variable name*/Literal
+
+===== CAUTION:
+As you noticed. Embedded variable comment has risk for SQL Injection. Please note, like any other 'eval' usage of TwoWaySQL, Embedded variable comment evals the data in safe level 4. Therefore, dangerous actions in Ruby world (ex. system call, valiable assignments, tainted strings) are never executed. However, this is not enough. Valid ruby string is still dangerous string as SQL fragments. Do NOT use user input or any other strings outside your code. If you use Embedded variable comment, you should carefully check the data and its origin.
 
 ===== usage
 
@@ -344,7 +354,7 @@ In the above example,
 
 == INSTALL:
 
-* comming soon (sudo gem install twowaysql ?)
+* sudo gem install twowaysql
 
 
 == AUTHOR:
