@@ -101,6 +101,8 @@
   merged.bound_variables          #=&gt; [10,20,30,35]
 
   # use merged SQL and variables with any O-R Mapper you like (ex. Sequel)
+  require 'sequel'
+  DB = Sequel.connect('postgres://user:pass@localhost:5432/mydb')
   rows = DB.fetch(merged.sql, *merged.bound_variables).all
   . . .
 </code>
@@ -148,6 +150,7 @@ rake install_gem</pre>
 	<li><a href="http://twowaysql.rubyforge.org/">Web Site</a></li>
 		<li><a href="http://rubyforge.org/projects/twowaysql">Project Page</a></li>
 		<li><a href="http://twowaysql.rubyforge.org/rdoc/"><span class="caps">API</span> Doc</a></li>
+		<li><a href="./issues/index.html">Issue Tracking</a></li>
 	</ul>
 
 

@@ -67,6 +67,7 @@ h2. Demonstration of usage
 
   # use merged SQL and variables with any O-R Mapper you like (ex. Sequel)
   require 'sequel'
+  DB = Sequel.connect('postgres://user:pass@localhost:5432/mydb')
   rows = DB.fetch(merged.sql, *merged.bound_variables).all
   . . .
 </code>
@@ -105,6 +106,7 @@ h2. Links
 * "Web Site":http://twowaysql.rubyforge.org/
 * "Project Page":http://rubyforge.org/projects/twowaysql
 * "API Doc":http://twowaysql.rubyforge.org/rdoc/
+* "Issue Tracking":./issues/index.html
 
 h2. Author(s)
 

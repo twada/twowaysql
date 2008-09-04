@@ -4,6 +4,7 @@
 * {Web Site}[http://twowaysql.rubyforge.org/]
 * {Project Page}[http://rubyforge.org/projects/twowaysql]
 * {API Doc}[http://twowaysql.rubyforge.org/rdoc/]
+* {Issue Tracking}[http://twowaysql.rubyforge.org/issues/]
 
 === sources:
 * http://github.com/twada/twowaysql/tree/master
@@ -86,6 +87,8 @@ With TwoWaySQL, you can
 
 
   # use merged SQL and variables with any O-R Mapper you like (ex. Sequel)
+  require 'sequel'
+  DB = Sequel.connect('postgres://user:pass@localhost:5432/mydb')
   rows = DB.fetch(merged.sql, *merged.bound_variables).all
   . . .
 
