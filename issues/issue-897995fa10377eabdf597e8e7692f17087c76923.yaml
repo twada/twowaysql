@@ -1,0 +1,22 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: RubyForge settings
+desc: Releases and documents will be hosted on RubyForge
+type: :task
+component: twowaysql
+release: 0.2 release
+reporter: takuto <takuto.wada@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-09-04 17:02:51.175082 Z
+references: []
+
+id: 897995fa10377eabdf597e8e7692f17087c76923
+log_events: 
+- - 2008-09-04 17:03:44.376333 Z
+  - takuto <takuto.wada@gmail.com>
+  - created
+  - |-
+    1. get user account
+    2. create twowaysql project
+    3. some settings for upload
+    4. any other task?

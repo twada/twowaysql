@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: integrate ditz html into site
+desc: Integrate ditz html output into site. Ditz site(http://ditz.rubyforge.org/ditz) may help.
+type: :task
+component: twowaysql
+release: 
+reporter: takuto <takuto.wada@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-09-04 17:19:57.462508 Z
+references: []
+
+id: 39023ea09e17e2d64bcef03aa59cdfe38b78ad5b
+log_events: 
+- - 2008-09-04 17:20:02.538939 Z
+  - takuto <takuto.wada@gmail.com>
+  - created
+  - ""
