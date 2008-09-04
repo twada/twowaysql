@@ -5,7 +5,7 @@ type: :task
 component: twowaysql
 release: 
 reporter: takuto <takuto.wada@gmail.com>
-status: :unstarted
+status: :in_progress
 disposition: 
 creation_time: 2008-09-04 17:19:57.462508 Z
 references: []
@@ -16,3 +16,7 @@ log_events:
   - takuto <takuto.wada@gmail.com>
   - created
   - ""
+- - 2008-09-04 21:28:42.162604 Z
+  - takuto <takuto.wada@gmail.com>
+  - changed status from unstarted to in_progress
+  - integrate using rake

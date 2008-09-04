@@ -5,7 +5,7 @@ type: :task
 component: twowaysql
 release: 0.2 release
 reporter: takuto <takuto.wada@gmail.com>
-status: :unstarted
+status: :in_progress
 disposition: 
 creation_time: 2008-09-04 17:02:51.175082 Z
 references: []
@@ -20,3 +20,7 @@ log_events:
     2. create twowaysql project
     3. some settings for upload
     4. any other task?
+- - 2008-09-04 21:20:14.555151 Z
+  - takuto <takuto.wada@gmail.com>
+  - changed status from unstarted to in_progress
+  - ""
