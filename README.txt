@@ -15,6 +15,55 @@ It is initially invented and implemented in Seasar project's S2Dao[http://s2dao.
 This package is a Ruby implementation of TwoWaySQL concept.
 
 
+
+== One minute example
+
+  # given SQL string with TwoWaySQL comments
+  sql = <<-EOS
+    SELECT * FROM emp
+    /*BEGIN*/WHERE
+      /*IF ctx[:job]*/ job = /*ctx[:job]*/'CLERK' /*END*/
+      /*IF ctx[:deptno_list]*/ AND deptno IN /*ctx[:deptno_list]*/(20, 30) /*END*/
+      /*IF ctx[:age]*/ AND age > /*ctx[:age]*/30 /*END*/
+    /*END*/
+    /*IF ctx[:order_by] */ ORDER BY /*$ctx[:order_by]*/id /*$ctx[:order]*/ASC /*END*/
+  EOS
+
+
+  # parse the SQL to create template object
+  template = TwoWaySQL::Template.parse(sql)
+
+
+  # merge data with template
+  data = {
+    :age => 35,
+    :deptno_list => [10,20,30],
+    :order_by => 'age',
+    :order => 'DESC'
+  }
+  merged = template.merge(data)
+
+
+  expected_sql = <<-EOS
+    SELECT * FROM emp
+     WHERE
+      
+      deptno IN (?, ?, ?)
+      AND age > ?
+
+     ORDER BY age DESC
+  EOS
+
+  merged.sql == expected_sql      #=> true
+  merged.bound_variables          #=> [10,20,30,35]
+
+
+  # use merged SQL and variables with any O-R Mapper you like (ex. Sequel)
+  rows = DB.fetch(merged.sql, *merged.bound_variables).all
+  . . .
+
+
+
 === Advantage
 TwoWaySQL provides better separation of host language and SQL.
 
@@ -22,8 +71,7 @@ With TwoWaySQL, you can
 * separate SQL from host language
 * bind variables to SQL using Substitution comments
 * modify SQL conditionally by using Directive comments
-
-Plus, you can run and preview TwoWaySQL-style SQL by tools like pgAdmin3, since the SQL is still valid SQL.
+* run and preview TwoWaySQL-style SQL by tools like pgAdmin3, since the SQL is still valid SQL.
 
 
 === What TwoWaySQL intended to do
@@ -81,15 +129,6 @@ TwoWaySQL::Template is the class you may only use. TwoWaySQL::Template acts as a
 * SQL String with placeholders (generally, '?' is used for placeholders)
 * Array of bound variables for placeholders
 
-===== usage
-
-  sql = "SELECT * FROM emp WHERE job = /*ctx[:job]*/'CLERK' AND deptno = /*ctx[:deptno]*/20"
-  template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
-
-  result = template.merge(:job => "HOGE", :deptno => 30)
-  result.sql                #=> "SELECT * FROM emp WHERE job = ? AND deptno = ?"
-  result.bound_variables    #=> ["HOGE", 30]
-
 
 
 === SQL comment
@@ -108,7 +147,7 @@ Bind variable comment syntax is as follows:
 
   /*variable_name*/Literal
 
-TwoWaySQL may use bind variable as follows. In this case, value of ctx[:empno] is automatically set.
+TwoWaySQL may use bind variable as follows. In this case, value of ctx[:empno] is automatically set. Data object that is passed to TwoWaySQL::Template#merge is evaled as name 'ctx'.
 
   SELECT * FROM emp WHERE empno = /*ctx[:empno]*/7788
 
