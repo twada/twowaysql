@@ -11,7 +11,7 @@ module TwoWaySQL
 
   class Parser < Racc::Parser
 
-module_eval <<'..end lib/twowaysql/parser.y modeval..idd394674cd0', 'lib/twowaysql/parser.y', 126
+module_eval <<'..end lib/twowaysql/parser.y modeval..id42b80b1728', 'lib/twowaysql/parser.y', 128
 
 require 'strscan'
 
@@ -30,13 +30,12 @@ def initialize(opts={})
 end
 
 BEGIN_SUBSTITUTION          = '(\/|\#)\*([^\*]+)\*\1'
-PAREN_EXAMPLE             = '\([^\)]+\)'
+PAREN_EXAMPLE               = '\([^\)]+\)'
 SUBSTITUTION_PATTERN        = /\A#{BEGIN_SUBSTITUTION}\s*/
 PAREN_SUBSTITUTION_PATTERN  = /\A#{BEGIN_SUBSTITUTION}\s*#{PAREN_EXAMPLE}/
 
 CONDITIONAL_PATTERN   = /\A(\/|\#)\*(IF)\s+([^\*]+)\s*\*\1/
 BEGIN_END_PATTERN     = /\A(\/|\#)\*(BEGIN|END)\s*\*\1/
-COMMENT_PATTERN       = /\A(\/|\#)\*\s+(.+)\s*\*\1/  ## start with spaces
 QUOTED_STRING_PATTERN = /\A(\'(?:[^\']+|\'\')*\')/   ## quoted string
 SPLIT_TOKEN_PATTERN   = /\A(\S+?)(?=\s*(?:(?:\/|\#)\*|-{2,}|\(|\)|\,))/  ## stop on delimiters --,/*,#*,',',(,)
 ELSE_PATTERN          = /\A\-{2,}\s*ELSE\s*/
@@ -48,6 +47,7 @@ QUESTION_PATTERN      = /\A\?/
 COMMA_PATTERN         = /\A\,/
 LPAREN_PATTERN        = /\A\(/
 RPAREN_PATTERN        = /\A\)/
+ACTUAL_COMMENT_PATTERN          = /\A(\/|\#)\*\s+(.+)\s*\*\1/  ## start with spaces
 SEMICOLON_AT_INPUT_END_PATTERN  = /\A\;\s*\Z/
 UNMATCHED_COMMENT_START_PATTERN = /\A(?:(?:\/|\#)\*)/
 
@@ -74,8 +74,8 @@ def parse( io )
         @q.push [ :RPAREN, ')' ]
       when s.scan(ELSE_PATTERN)
         @q.push [ :ELSE, nil ]
-      when s.scan(COMMENT_PATTERN)
-        @q.push [ :REAL_COMMENT, s[2] ] if @preserve_comment
+      when s.scan(ACTUAL_COMMENT_PATTERN)
+        @q.push [ :ACTUAL_COMMENT, s[2] ] if @preserve_comment
       when s.scan(BEGIN_END_PATTERN)
         @q.push [ s[2].intern, nil ]
       when s.scan(CONDITIONAL_PATTERN)
@@ -111,7 +111,7 @@ end
 def next_token
   @q.shift
 end
-..end lib/twowaysql/parser.y modeval..idd394674cd0
+..end lib/twowaysql/parser.y modeval..id42b80b1728
 
 ##### racc 1.4.5 generates ###
 
@@ -120,94 +120,95 @@ racc_reduce_table = [
  1, 20, :_reduce_1,
  0, 21, :_reduce_2,
  2, 21, :_reduce_3,
- 1, 23, :_reduce_none,
- 1, 23, :_reduce_none,
- 1, 23, :_reduce_none,
- 3, 26, :_reduce_7,
- 4, 27, :_reduce_8,
- 2, 28, :_reduce_9,
- 0, 28, :_reduce_10,
- 2, 24, :_reduce_11,
- 2, 25, :_reduce_12,
- 1, 22, :_reduce_13,
- 1, 22, :_reduce_14,
- 1, 22, :_reduce_15,
- 1, 22, :_reduce_16,
- 1, 22, :_reduce_17,
- 1, 22, :_reduce_18,
- 1, 22, :_reduce_19,
- 1, 22, :_reduce_20,
- 1, 22, :_reduce_21,
- 1, 22, :_reduce_22,
- 1, 22, :_reduce_23,
  1, 22, :_reduce_none,
  1, 22, :_reduce_none,
  1, 22, :_reduce_none,
- 2, 29, :_reduce_27,
- 3, 29, :_reduce_28,
- 2, 29, :_reduce_29,
- 3, 29, :_reduce_30,
- 1, 29, :_reduce_31 ]
+ 3, 25, :_reduce_7,
+ 4, 24, :_reduce_8,
+ 2, 27, :_reduce_9,
+ 0, 27, :_reduce_10,
+ 1, 26, :_reduce_none,
+ 1, 26, :_reduce_none,
+ 1, 26, :_reduce_none,
+ 2, 28, :_reduce_14,
+ 2, 29, :_reduce_15,
+ 1, 23, :_reduce_16,
+ 1, 23, :_reduce_17,
+ 1, 23, :_reduce_18,
+ 1, 23, :_reduce_19,
+ 1, 23, :_reduce_20,
+ 1, 23, :_reduce_21,
+ 1, 23, :_reduce_22,
+ 1, 23, :_reduce_23,
+ 1, 23, :_reduce_24,
+ 1, 23, :_reduce_25,
+ 1, 23, :_reduce_26,
+ 1, 23, :_reduce_none,
+ 2, 30, :_reduce_28,
+ 3, 30, :_reduce_29,
+ 2, 30, :_reduce_30,
+ 3, 30, :_reduce_31,
+ 1, 30, :_reduce_32 ]
 
-racc_reduce_n = 32
+racc_reduce_n = 33
 
-racc_shift_n = 43
+racc_shift_n = 44
 
 racc_action_table = [
-     8,    35,    12,    42,    16,    19,    20,    21,    22,     4,
-     6,     7,     9,    11,    14,    15,    17,     8,    23,    12,
-     3,    16,    19,    20,    21,    22,     4,     6,     7,     9,
-    11,    14,    15,    17,     8,   nil,    12,   nil,    16,    19,
-    20,    21,    22,     4,     6,     7,     9,    11,    14,    15,
-    17,     8,   nil,    12,   nil,    16,    19,    20,    21,    22,
-     4,     6,     7,     9,    11,    14,    15,    17,     8,    34,
-    12,   nil,    16,    19,    20,    21,    22,     4,     6,     7,
-     9,    11,    14,    15,    17,    31,    32,    33,    28,    29,
-    28,    29,    39,    40 ]
+     9,    36,    14,    43,    17,    19,    21,    22,    23,     4,
+     6,     8,    11,    13,    15,    16,    18,     9,    24,    14,
+     3,    17,    19,    21,    22,    23,     4,     6,     8,    11,
+    13,    15,    16,    18,     9,   nil,    14,   nil,    17,    19,
+    21,    22,    23,     4,     6,     8,    11,    13,    15,    16,
+    18,     9,   nil,    14,   nil,    17,    19,    21,    22,    23,
+     4,     6,     8,    11,    13,    15,    16,    18,     9,    35,
+    14,   nil,    17,    19,    21,    22,    23,     4,     6,     8,
+    11,    13,    15,    16,    18,    32,    33,    34,    27,    29,
+    27,    29,    40,    41 ]
 
 racc_action_check = [
-    38,    25,    38,    36,    38,    38,    38,    38,    38,    38,
-    38,    38,    38,    38,    38,    38,    38,     2,     3,     2,
+    39,    26,    39,    37,    39,    39,    39,    39,    39,    39,
+    39,    39,    39,    39,    39,    39,    39,     2,     3,     2,
      1,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-     2,     2,     2,     2,    37,   nil,    37,   nil,    37,    37,
-    37,    37,    37,    37,    37,    37,    37,    37,    37,    37,
-    37,    30,   nil,    30,   nil,    30,    30,    30,    30,    30,
-    30,    30,    30,    30,    30,    30,    30,    30,    24,    24,
-    24,   nil,    24,    24,    24,    24,    24,    24,    24,    24,
-    24,    24,    24,    24,    24,    15,    15,    15,    35,    35,
-    12,    12,    33,    33 ]
+     2,     2,     2,     2,    38,   nil,    38,   nil,    38,    38,
+    38,    38,    38,    38,    38,    38,    38,    38,    38,    38,
+    38,    31,   nil,    31,   nil,    31,    31,    31,    31,    31,
+    31,    31,    31,    31,    31,    31,    31,    31,    25,    25,
+    25,   nil,    25,    25,    25,    25,    25,    25,    25,    25,
+    25,    25,    25,    25,    25,    16,    16,    16,    36,    36,
+    14,    14,    34,    34 ]
 
 racc_action_pointer = [
    nil,    20,    15,    18,   nil,   nil,   nil,   nil,   nil,   nil,
-   nil,   nil,    84,   nil,   nil,    77,   nil,   nil,   nil,   nil,
-   nil,   nil,   nil,   nil,    66,    -4,   nil,   nil,   nil,   nil,
-    49,   nil,   nil,    84,   nil,    82,     0,    32,    -2,   nil,
-   nil,   nil,   nil ]
+   nil,   nil,   nil,   nil,    84,   nil,    77,   nil,   nil,   nil,
+   nil,   nil,   nil,   nil,   nil,    66,    -4,   nil,   nil,   nil,
+   nil,    49,   nil,   nil,    84,   nil,    82,     0,    32,    -2,
+   nil,   nil,   nil,   nil ]
 
 racc_action_default = [
-    -2,   -32,    -1,   -32,   -18,    -3,   -19,   -20,    -2,   -21,
-   -26,   -22,    -2,   -25,   -23,   -32,   -15,   -31,   -24,   -16,
-   -13,   -14,   -17,    43,   -32,   -10,    -4,    -5,    -2,    -2,
-    -6,   -29,   -27,   -32,    -7,    -2,   -32,   -11,   -12,   -30,
-   -28,    -9,    -8 ]
+    -2,   -33,    -1,   -33,   -21,    -3,   -22,    -4,   -23,    -2,
+    -5,   -24,    -6,   -25,    -2,   -26,   -33,   -18,   -32,   -19,
+   -27,   -16,   -17,   -20,    44,   -33,   -10,    -2,   -11,    -2,
+   -12,   -13,   -30,   -28,   -33,    -7,    -2,   -33,   -14,   -15,
+   -31,   -29,    -9,    -8 ]
 
 racc_goto_table = [
-     2,    25,     1,    36,   nil,   nil,   nil,   nil,    24,   nil,
+     2,    26,     1,    37,   nil,   nil,   nil,   nil,   nil,    25,
    nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,
-   nil,   nil,   nil,   nil,    41,   nil,   nil,   nil,    37,    38 ]
+   nil,   nil,   nil,    42,   nil,   nil,   nil,    38,   nil,    39 ]
 
 racc_goto_check = [
-     2,     4,     1,     9,   nil,   nil,   nil,   nil,     2,   nil,
+     2,     7,     1,     8,   nil,   nil,   nil,   nil,   nil,     2,
    nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,
-   nil,   nil,   nil,   nil,     4,   nil,   nil,   nil,     2,     2 ]
+   nil,   nil,   nil,     7,   nil,   nil,   nil,     2,   nil,     2 ]
 
 racc_goto_pointer = [
-   nil,     2,     0,   nil,   -11,   nil,   nil,   nil,   nil,   -22,
-   nil ]
+   nil,     2,     0,   nil,   nil,   nil,   nil,   -13,   -23,   nil,
+   nil,   nil ]
 
 racc_goto_default = [
-   nil,   nil,    30,     5,   nil,    26,    27,    10,    13,   nil,
-    18 ]
+   nil,   nil,    31,     5,     7,    10,    12,   nil,   nil,    28,
+    30,    20 ]
 
 racc_token_table = {
  false => 0,
@@ -225,7 +226,7 @@ racc_token_table = {
  :LPAREN => 12,
  :RPAREN => 13,
  :QUESTION => 14,
- :REAL_COMMENT => 15,
+ :ACTUAL_COMMENT => 15,
  :EOL => 16,
  :SUBSTITUTION => 17,
  :PAREN_SUBSTITUTION => 18 }
@@ -266,7 +267,7 @@ Racc_token_to_s_table = [
 'LPAREN',
 'RPAREN',
 'QUESTION',
-'REAL_COMMENT',
+'ACTUAL_COMMENT',
 'EOL',
 'SUBSTITUTION',
 'PAREN_SUBSTITUTION',
@@ -274,12 +275,13 @@ Racc_token_to_s_table = [
 'sql',
 'stmt_list',
 'stmt',
+'primary',
+'if_stmt',
+'begin_stmt',
 'sub_stmt',
+'else_stmt',
 'and_stmt',
 'or_stmt',
-'begin_stmt',
-'if_stmt',
-'else_stmt',
 'substitution']
 
 Racc_debug_parser = false
@@ -343,134 +345,136 @@ module_eval <<'.,.,', 'lib/twowaysql/parser.y', 40
   end
 .,.,
 
-module_eval <<'.,.,', 'lib/twowaysql/parser.y', 45
-  def _reduce_11( val, _values, result )
+ # reduce 11 omitted
+
+ # reduce 12 omitted
+
+ # reduce 13 omitted
+
+module_eval <<'.,.,', 'lib/twowaysql/parser.y', 49
+  def _reduce_14( val, _values, result )
                   result = SubStatementNode.new( val[0], val[1] )
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'lib/twowaysql/parser.y', 50
-  def _reduce_12( val, _values, result )
+module_eval <<'.,.,', 'lib/twowaysql/parser.y', 54
+  def _reduce_15( val, _values, result )
                   result = SubStatementNode.new( val[0], val[1] )
-   result
-  end
-.,.,
-
-module_eval <<'.,.,', 'lib/twowaysql/parser.y', 55
-  def _reduce_13( val, _values, result )
-                  result = LiteralNode.new( val[0] )
    result
   end
 .,.,
 
 module_eval <<'.,.,', 'lib/twowaysql/parser.y', 59
-  def _reduce_14( val, _values, result )
-                  result = LiteralNode.new( val[0] )
-   result
-  end
-.,.,
-
-module_eval <<'.,.,', 'lib/twowaysql/parser.y', 63
-  def _reduce_15( val, _values, result )
-                  result = LiteralNode.new( val[0] )
-   result
-  end
-.,.,
-
-module_eval <<'.,.,', 'lib/twowaysql/parser.y', 67
   def _reduce_16( val, _values, result )
                   result = LiteralNode.new( val[0] )
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'lib/twowaysql/parser.y', 71
+module_eval <<'.,.,', 'lib/twowaysql/parser.y', 63
   def _reduce_17( val, _values, result )
                   result = LiteralNode.new( val[0] )
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'lib/twowaysql/parser.y', 75
+module_eval <<'.,.,', 'lib/twowaysql/parser.y', 67
   def _reduce_18( val, _values, result )
                   result = LiteralNode.new( val[0] )
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'lib/twowaysql/parser.y', 79
+module_eval <<'.,.,', 'lib/twowaysql/parser.y', 71
   def _reduce_19( val, _values, result )
                   result = LiteralNode.new( val[0] )
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'lib/twowaysql/parser.y', 83
+module_eval <<'.,.,', 'lib/twowaysql/parser.y', 75
   def _reduce_20( val, _values, result )
                   result = LiteralNode.new( val[0] )
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'lib/twowaysql/parser.y', 88
+module_eval <<'.,.,', 'lib/twowaysql/parser.y', 79
   def _reduce_21( val, _values, result )
+                  result = LiteralNode.new( val[0] )
+   result
+  end
+.,.,
+
+module_eval <<'.,.,', 'lib/twowaysql/parser.y', 83
+  def _reduce_22( val, _values, result )
+                  result = LiteralNode.new( val[0] )
+   result
+  end
+.,.,
+
+module_eval <<'.,.,', 'lib/twowaysql/parser.y', 87
+  def _reduce_23( val, _values, result )
+                  result = LiteralNode.new( val[0] )
+   result
+  end
+.,.,
+
+module_eval <<'.,.,', 'lib/twowaysql/parser.y', 92
+  def _reduce_24( val, _values, result )
                   @num_questions += 1
                   result = QuestionNode.new( @num_questions )
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'lib/twowaysql/parser.y', 92
-  def _reduce_22( val, _values, result )
+module_eval <<'.,.,', 'lib/twowaysql/parser.y', 96
+  def _reduce_25( val, _values, result )
                   result = CommentNode.new( val[0] )
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'lib/twowaysql/parser.y', 96
-  def _reduce_23( val, _values, result )
+module_eval <<'.,.,', 'lib/twowaysql/parser.y', 100
+  def _reduce_26( val, _values, result )
                   result = EolNode.new
    result
   end
 .,.,
 
- # reduce 24 omitted
+ # reduce 27 omitted
 
- # reduce 25 omitted
-
- # reduce 26 omitted
-
-module_eval <<'.,.,', 'lib/twowaysql/parser.y', 104
-  def _reduce_27( val, _values, result )
-                  result = SubstitutionNode.new( val[0] )
-   result
-  end
-.,.,
-
-module_eval <<'.,.,', 'lib/twowaysql/parser.y', 108
+module_eval <<'.,.,', 'lib/twowaysql/parser.y', 106
   def _reduce_28( val, _values, result )
                   result = SubstitutionNode.new( val[0] )
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'lib/twowaysql/parser.y', 112
+module_eval <<'.,.,', 'lib/twowaysql/parser.y', 110
   def _reduce_29( val, _values, result )
                   result = SubstitutionNode.new( val[0] )
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'lib/twowaysql/parser.y', 116
+module_eval <<'.,.,', 'lib/twowaysql/parser.y', 114
   def _reduce_30( val, _values, result )
                   result = SubstitutionNode.new( val[0] )
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'lib/twowaysql/parser.y', 120
+module_eval <<'.,.,', 'lib/twowaysql/parser.y', 118
   def _reduce_31( val, _values, result )
+                  result = SubstitutionNode.new( val[0] )
+   result
+  end
+.,.,
+
+module_eval <<'.,.,', 'lib/twowaysql/parser.y', 122
+  def _reduce_32( val, _values, result )
                   result = ParenSubstitutionNode.new( val[0] )
    result
   end

@@ -16,9 +16,9 @@ stmt_list      :
                   result.push val[1]
                 }
 
-sub_stmt       : and_stmt
-               | or_stmt
-               | stmt_list
+stmt           : primary
+               | if_stmt
+               | begin_stmt
 
 begin_stmt     : BEGIN stmt_list END
                 {
@@ -39,6 +39,10 @@ else_stmt      : ELSE sub_stmt
                   result = nil
                 }
 
+sub_stmt       : and_stmt
+               | or_stmt
+               | stmt_list
+
 and_stmt       : AND stmt_list
                 {
                   result = SubStatementNode.new( val[0], val[1] )
@@ -49,7 +53,7 @@ or_stmt        : OR stmt_list
                   result = SubStatementNode.new( val[0], val[1] )
                 }
 
-stmt           : CHARS
+primary        : CHARS
                 {
                   result = LiteralNode.new( val[0] )
                 }
@@ -86,7 +90,7 @@ stmt           : CHARS
                   @num_questions += 1
                   result = QuestionNode.new( @num_questions )
                 }
-               | REAL_COMMENT
+               | ACTUAL_COMMENT
                 {
                   result = CommentNode.new( val[0] )
                 }
@@ -95,10 +99,8 @@ stmt           : CHARS
                   result = EolNode.new
                 }
                | substitution
-               | if_stmt
-               | begin_stmt
 
-substitution     : SUBSTITUTION QUOTED
+substitution   : SUBSTITUTION QUOTED
                 {
                   result = SubstitutionNode.new( val[0] )
                 }
@@ -141,13 +143,12 @@ def initialize(opts={})
 end
 
 BEGIN_SUBSTITUTION          = '(\/|\#)\*([^\*]+)\*\1'
-PAREN_EXAMPLE             = '\([^\)]+\)'
+PAREN_EXAMPLE               = '\([^\)]+\)'
 SUBSTITUTION_PATTERN        = /\A#{BEGIN_SUBSTITUTION}\s*/
 PAREN_SUBSTITUTION_PATTERN  = /\A#{BEGIN_SUBSTITUTION}\s*#{PAREN_EXAMPLE}/
 
 CONDITIONAL_PATTERN   = /\A(\/|\#)\*(IF)\s+([^\*]+)\s*\*\1/
 BEGIN_END_PATTERN     = /\A(\/|\#)\*(BEGIN|END)\s*\*\1/
-COMMENT_PATTERN       = /\A(\/|\#)\*\s+(.+)\s*\*\1/  ## start with spaces
 QUOTED_STRING_PATTERN = /\A(\'(?:[^\']+|\'\')*\')/   ## quoted string
 SPLIT_TOKEN_PATTERN   = /\A(\S+?)(?=\s*(?:(?:\/|\#)\*|-{2,}|\(|\)|\,))/  ## stop on delimiters --,/*,#*,',',(,)
 ELSE_PATTERN          = /\A\-{2,}\s*ELSE\s*/
@@ -159,6 +160,7 @@ QUESTION_PATTERN      = /\A\?/
 COMMA_PATTERN         = /\A\,/
 LPAREN_PATTERN        = /\A\(/
 RPAREN_PATTERN        = /\A\)/
+ACTUAL_COMMENT_PATTERN          = /\A(\/|\#)\*\s+(.+)\s*\*\1/  ## start with spaces
 SEMICOLON_AT_INPUT_END_PATTERN  = /\A\;\s*\Z/
 UNMATCHED_COMMENT_START_PATTERN = /\A(?:(?:\/|\#)\*)/
 
@@ -185,8 +187,8 @@ def parse( io )
         @q.push [ :RPAREN, ')' ]
       when s.scan(ELSE_PATTERN)
         @q.push [ :ELSE, nil ]
-      when s.scan(COMMENT_PATTERN)
-        @q.push [ :REAL_COMMENT, s[2] ] if @preserve_comment
+      when s.scan(ACTUAL_COMMENT_PATTERN)
+        @q.push [ :ACTUAL_COMMENT, s[2] ] if @preserve_comment
       when s.scan(BEGIN_END_PATTERN)
         @q.push [ s[2].intern, nil ]
       when s.scan(CONDITIONAL_PATTERN)
