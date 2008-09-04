@@ -6,6 +6,7 @@ http://github.com/twada/twowaysql/tree/master
 
 == DESCRIPTION:
 
+
 === What is TwoWaySQL
 
 'TwoWaySQL' is a concept, looks like a Template Engine for SQL.
@@ -13,6 +14,26 @@ http://github.com/twada/twowaysql/tree/master
 It is initially invented and implemented in Seasar project's S2Dao[http://s2dao.seasar.org/en/index.html].
 
 This package is a Ruby implementation of TwoWaySQL concept.
+
+
+=== Why TwoWaySQL
+
+Like any other technology, SQL is also in 80:20 world. 80% of SQL can be generated easily and automatically by O-R Mappers, 20% can not. 20% of your SQLs may large and complex, using CASE clause, self JOIN, UNION ALL, EXCEPT, ... these are the real strength of SQL and its set-based operations.
+
+We better use them, to get the most out of RDBMS power.
+
+TwoWaySQL encourages to write complex SQL manually. Just develop SQL using tools like pgAdmin3 in try and error style, then markup the SQL by TwoWaySQL. Usage and Features are in this doc.
+
+
+
+=== Advantage
+TwoWaySQL provides better separation of host language and SQL.
+
+With TwoWaySQL, you can
+* separate SQL (as file) from host language
+* bind variables to SQL using Substitution comments
+* modify SQL conditionally by using Directive comments
+* run and preview TwoWaySQL-style SQL by tools like pgAdmin3, since the SQL is still valid SQL.
 
 
 
@@ -61,17 +82,6 @@ This package is a Ruby implementation of TwoWaySQL concept.
   # use merged SQL and variables with any O-R Mapper you like (ex. Sequel)
   rows = DB.fetch(merged.sql, *merged.bound_variables).all
   . . .
-
-
-
-=== Advantage
-TwoWaySQL provides better separation of host language and SQL.
-
-With TwoWaySQL, you can
-* separate SQL from host language
-* bind variables to SQL using Substitution comments
-* modify SQL conditionally by using Directive comments
-* run and preview TwoWaySQL-style SQL by tools like pgAdmin3, since the SQL is still valid SQL.
 
 
 === What TwoWaySQL intended to do
