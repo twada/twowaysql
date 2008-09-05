@@ -20,7 +20,6 @@ h2. The basics
 
 
 
-
 h2. Demonstration of usage
 
 <pre>
@@ -74,10 +73,6 @@ h2. Demonstration of usage
 </pre>
 
 
-h2. Forum
-
-TODO - create a Forum - twowaysql
-
 
 h2. How to submit patches
 
@@ -101,12 +96,15 @@ h2. License
 
 This code is free to use under the terms of the ASL license. 
 
+
 h2. Links
 
 * "Web Site":http://twowaysql.rubyforge.org/
 * "Project Page":http://rubyforge.org/projects/twowaysql
 * "API Doc":http://twowaysql.rubyforge.org/rdoc/
 * "Issue Tracking":./issues/index.html
+* "Forum":http://rubyforge.org/forum/?group_id=6947
+
 
 h2. Author(s)
 
