@@ -11,7 +11,7 @@ module TwoWaySQL
 
   class Parser < Racc::Parser
 
-module_eval <<'..end lib/twowaysql/parser.y modeval..id42b80b1728', 'lib/twowaysql/parser.y', 128
+module_eval <<'..end lib/twowaysql/parser.y modeval..id79b0410d0d', 'lib/twowaysql/parser.y', 128
 
 require 'strscan'
 
@@ -54,7 +54,7 @@ UNMATCHED_COMMENT_START_PATTERN = /\A(?:(?:\/|\#)\*)/
 
 def parse( io )
   @q = []
-  io.each do |line|
+  io.each_line do |line|
     s = StringScanner.new(line.rstrip)
     until s.eos? do
       case
@@ -111,7 +111,7 @@ end
 def next_token
   @q.shift
 end
-..end lib/twowaysql/parser.y modeval..id42b80b1728
+..end lib/twowaysql/parser.y modeval..id79b0410d0d
 
 ##### racc 1.4.5 generates ###
 

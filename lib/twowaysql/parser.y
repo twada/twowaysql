@@ -167,7 +167,7 @@ UNMATCHED_COMMENT_START_PATTERN = /\A(?:(?:\/|\#)\*)/
 
 def parse( io )
   @q = []
-  io.each do |line|
+  io.each_line do |line|
     s = StringScanner.new(line.rstrip)
     until s.eos? do
       case
