@@ -1,4 +1,3 @@
-.gitignore
 History.txt
 License.txt
 Manifest.txt
@@ -32,12 +31,8 @@ spec/spec.opts
 spec/spec_helper.rb
 spec/twowaysql_spec.rb
 tasks/deployment.rake
+tasks/ditz.rake
 tasks/environment.rake
 tasks/racc.rake
 tasks/rspec.rake
 tasks/website.rake
-website/index.html
-website/index.txt
-website/javascripts/rounded_corners_lite.inc.js
-website/stylesheets/screen.css
-website/template.html.erb
