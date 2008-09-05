@@ -7,10 +7,14 @@ components:
 releases: 
 - !ditz.rubyforge.org,2008-03-06/release 
   name: 0.2 release
-  status: :unreleased
-  release_time: 
+  status: :released
+  release_time: 2008-09-05 08:08:30.793430 Z
   log_events: 
   - - 2008-09-03 08:30:15.096853 Z
     - takuto <takuto.wada@gmail.com>
     - created
     - first published version.
+  - - 2008-09-05 08:08:30.793446 Z
+    - takuto <takuto.wada@gmail.com>
+    - released
+    - 0.2 release done.

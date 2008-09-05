@@ -5,8 +5,8 @@ type: :task
 component: twowaysql
 release: 0.2 release
 reporter: takuto <takuto.wada@gmail.com>
-status: :in_progress
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2008-09-04 17:02:51.175082 Z
 references: []
 
@@ -24,3 +24,16 @@ log_events:
   - takuto <takuto.wada@gmail.com>
   - changed status from unstarted to in_progress
   - ""
+- - 2008-09-05 08:06:48.196336 Z
+  - takuto <takuto.wada@gmail.com>
+  - closed with disposition fixed
+  - |-
+    version 0.2.0 deploy done(gem, website, rdoc).
+    these sites are very helpful when wrestling with rubyforge
+    http://fromnorth.blogspot.com/2008/06/rubygem.html
+    http://blog.bogojoker.com/category/rr/
+    short summary of workaround
+    1. change language to English in RubyForge site's profile page
+    2. make sure ./rubyforge/auto-config.yml contains non-empty processor_ids. If empty, add the data manually.
+    then I can hit 'rake VERSION=x.y.z deploy', all done.
+    It's one button release. great.
