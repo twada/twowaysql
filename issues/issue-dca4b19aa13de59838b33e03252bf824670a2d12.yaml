@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: change idiom 'substitution' to 'interpolation'
+desc: "'interpolation' should be better. Thanks Leo."
+type: :task
+component: twowaysql
+release: release_0_3
+reporter: takuto <takuto.wada@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-09-05 12:57:18.093242 Z
+references: []
+
+id: dca4b19aa13de59838b33e03252bf824670a2d12
+log_events: 
+- - 2008-09-05 12:57:20.102850 Z
+  - takuto <takuto.wada@gmail.com>
+  - created
+  - ""
