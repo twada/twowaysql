@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Whitespace compaction mode
+desc: Whitespace compaction mode for log space saving
+type: :feature
+component: twowaysql
+release: 
+reporter: takuto <takuto.wada@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-09-05 11:32:38.661495 Z
+references: []
+
+id: 901f65630639507c8b05b466790e9f22256c6450
+log_events: 
+- - 2008-09-05 11:32:40.738455 Z
+  - takuto <takuto.wada@gmail.com>
+  - created
+  - ""
