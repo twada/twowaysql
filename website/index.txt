@@ -7,9 +7,7 @@ h2. What
 
 TwoWaySQL is a Template Engine for SQL.
 
-With TwoWaySQL, you can bind variables to SQL or modify SQL conditionally and run and preview TwoWaySQL-style SQL by tools like pgAdmin3, since the SQL is still valid. see more docs
-
-"see more docs":http://twowaysql.rubyforge.org/rdoc/
+With TwoWaySQL, you can bind variables to SQL or modify SQL conditionally and run and preview TwoWaySQL-style SQL by tools like pgAdmin3, since the SQL is still valid. "see more docs":http://twowaysql.rubyforge.org/rdoc/
 
 
 h2. Installing
