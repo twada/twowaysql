@@ -5,8 +5,8 @@ type: :task
 component: twowaysql
 release: 0.2 release
 reporter: takuto <takuto.wada@gmail.com>
-status: :in_progress
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2008-09-03 08:43:57.377882 Z
 references: []
 
@@ -20,3 +20,7 @@ log_events:
   - takuto <takuto.wada@gmail.com>
   - changed status from unstarted to in_progress
   - start
+- - 2008-09-05 07:35:16.577247 Z
+  - takuto <takuto.wada@gmail.com>
+  - closed with disposition fixed
+  - docs not completed for forwardable methods. better reorganized?
