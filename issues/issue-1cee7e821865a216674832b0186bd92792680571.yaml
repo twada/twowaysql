@@ -1,0 +1,22 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: make Ruby1.9 ready
+desc: make sure to work under Ruby1.9
+type: :feature
+component: twowaysql
+release: release_0_3
+reporter: takuto <takuto.wada@gmail.com>
+status: :in_progress
+disposition: 
+creation_time: 2008-09-05 14:32:11.017805 Z
+references: []
+
+id: 1cee7e821865a216674832b0186bd92792680571
+log_events: 
+- - 2008-09-05 14:33:13.624689 Z
+  - takuto <takuto.wada@gmail.com>
+  - created
+  - ""
+- - 2008-09-05 14:34:03.805045 Z
+  - takuto <takuto.wada@gmail.com>
+  - changed status from unstarted to in_progress
+  - ""

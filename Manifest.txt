@@ -5,11 +5,14 @@ README.txt
 Rakefile
 config/hoe.rb
 config/requirements.rb
+issues/issue-1cee7e821865a216674832b0186bd92792680571.yaml
 issues/issue-25efcfc383f3b0f6c0e2730ae7c2975bb2b3de26.yaml
 issues/issue-39023ea09e17e2d64bcef03aa59cdfe38b78ad5b.yaml
 issues/issue-4bc308d55ae91f266e656162a4147d356de1166c.yaml
 issues/issue-897995fa10377eabdf597e8e7692f17087c76923.yaml
+issues/issue-901f65630639507c8b05b466790e9f22256c6450.yaml
 issues/issue-bd38c1cdc965d73dd629a81db2de1bcdcf4b10b8.yaml
+issues/issue-dca4b19aa13de59838b33e03252bf824670a2d12.yaml
 issues/issue-f2b773020b54f839c03d899b38b5113c8fd991df.yaml
 issues/issue-f39b907d01d7fa93df8c7a9de2e1b5e27727ee0a.yaml
 issues/issue-f64d73ed4f9854f1ded77e6496dbf59cfb3770a7.yaml
