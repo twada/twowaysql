@@ -1,11 +1,11 @@
 --- !ditz.rubyforge.org,2008-03-06/issue 
-title: Handle Embedded variable comment at Scanner/Grammer level
-desc: Handle Embedded variable comment at Scanner/Grammer level. Currently it is handled at Node object level, so Scanner does not know the Substitution comment is Bind variable comment or Embedded variable comment. However Node should not be responsible for that, Scanner/Grammer should do.
+title: Handle Embedded variable comment at Scanner/Grammar level
+desc: Handle Embedded variable comment at Scanner/Grammar level. Currently it is handled at Node object level, so Scanner does not know the Substitution comment is Bind variable comment or Embedded variable comment. However Node should not be responsible for that, Scanner/Grammar should do.
 type: :task
 component: twowaysql
 release: 
 reporter: takuto <takuto.wada@gmail.com>
-status: :unstarted
+status: :in_progress
 disposition: 
 creation_time: 2008-09-04 19:53:35.026331 Z
 references: []
@@ -16,3 +16,7 @@ log_events:
   - takuto <takuto.wada@gmail.com>
   - created
   - ""
+- - 2008-09-05 12:33:44.914741 Z
+  - takuto <takuto.wada@gmail.com>
+  - changed status from unstarted to in_progress
+  - start

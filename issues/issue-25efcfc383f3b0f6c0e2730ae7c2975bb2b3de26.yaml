@@ -1,6 +1,6 @@
 --- !ditz.rubyforge.org,2008-03-06/issue 
 title: better whitespace handling
-desc: better whitespace handling on Scanner/Grammer.
+desc: better whitespace handling on Scanner/Grammar.
 type: :feature
 component: twowaysql
 release: 
