@@ -98,27 +98,37 @@ primary        : CHARS
                 {
                   result = EolNode.new
                 }
-               | substitution
+               | bind_var
+               | embed_var
 
-substitution   : SUBSTITUTION QUOTED
+bind_var       : BIND_VARIABLE QUOTED
                 {
-                  result = SubstitutionNode.new( val[0] )
+                  result = BindVariableNode.new( val[0] )
                 }
-               | SUBSTITUTION SPACES QUOTED
+               | BIND_VARIABLE SPACES QUOTED
                 {
-                  result = SubstitutionNode.new( val[0] )
+                  result = BindVariableNode.new( val[0] )
                 }
-               | SUBSTITUTION CHARS
+               | BIND_VARIABLE CHARS
                 {
-                  result = SubstitutionNode.new( val[0] )
+                  result = BindVariableNode.new( val[0] )
                 }
-               | SUBSTITUTION SPACES CHARS
+               | BIND_VARIABLE SPACES CHARS
                 {
-                  result = SubstitutionNode.new( val[0] )
+                  result = BindVariableNode.new( val[0] )
                 }
-               | PAREN_SUBSTITUTION
+               | PAREN_BIND_VARIABLE
                 {
-                  result = ParenSubstitutionNode.new( val[0] )
+                  result = ParenBindVariableNode.new( val[0] )
+                }
+
+embed_var      : EMBED_VARIABLE CHARS
+                {
+                  result = EmbedVariableNode.new( val[0] )
+                }
+               | EMBED_VARIABLE SPACES CHARS
+                {
+                  result = EmbedVariableNode.new( val[0] )
                 }
 
 end
@@ -142,10 +152,12 @@ def initialize(opts={})
   @num_questions = 0
 end
 
-BEGIN_SUBSTITUTION          = '(\/|\#)\*([^\*]+)\*\1'
-PAREN_EXAMPLE               = '\([^\)]+\)'
-SUBSTITUTION_PATTERN        = /\A#{BEGIN_SUBSTITUTION}\s*/
-PAREN_SUBSTITUTION_PATTERN  = /\A#{BEGIN_SUBSTITUTION}\s*#{PAREN_EXAMPLE}/
+
+PAREN_EXAMPLE                = '\([^\)]+\)'
+BEGIN_BIND_VARIABLE          = '(\/|\#)\*([^\*]+)\*\1'
+BIND_VARIABLE_PATTERN        = /\A#{BEGIN_BIND_VARIABLE}\s*/
+PAREN_BIND_VARIABLE_PATTERN  = /\A#{BEGIN_BIND_VARIABLE}\s*#{PAREN_EXAMPLE}/
+EMBED_VARIABLE_PATTERN       = /\A(\/|\#)\*\$([^\*]+)\*\1\s*/
 
 CONDITIONAL_PATTERN   = /\A(\/|\#)\*(IF)\s+([^\*]+)\s*\*\1/
 BEGIN_END_PATTERN     = /\A(\/|\#)\*(BEGIN|END)\s*\*\1/
@@ -193,10 +205,12 @@ def parse( io )
         @q.push [ s[2].intern, nil ]
       when s.scan(CONDITIONAL_PATTERN)
         @q.push [ s[2].intern, s[3] ]
-      when s.scan(PAREN_SUBSTITUTION_PATTERN)
-        @q.push [ :PAREN_SUBSTITUTION, s[2] ]
-      when s.scan(SUBSTITUTION_PATTERN)
-        @q.push [ :SUBSTITUTION, s[2] ]
+      when s.scan(EMBED_VARIABLE_PATTERN)
+        @q.push [ :EMBED_VARIABLE, s[2] ]
+      when s.scan(PAREN_BIND_VARIABLE_PATTERN)
+        @q.push [ :PAREN_BIND_VARIABLE, s[2] ]
+      when s.scan(BIND_VARIABLE_PATTERN)
+        @q.push [ :BIND_VARIABLE, s[2] ]
       when s.scan(QUOTED_STRING_PATTERN)
         @q.push [ :QUOTED, s[1] ]
       when s.scan(SPLIT_TOKEN_PATTERN)

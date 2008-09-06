@@ -11,7 +11,7 @@ module TwoWaySQL
 
   class Parser < Racc::Parser
 
-module_eval <<'..end lib/twowaysql/parser.y modeval..id79b0410d0d', 'lib/twowaysql/parser.y', 128
+module_eval <<'..end lib/twowaysql/parser.y modeval..id5bd1c17097', 'lib/twowaysql/parser.y', 138
 
 require 'strscan'
 
@@ -29,10 +29,12 @@ def initialize(opts={})
   @num_questions = 0
 end
 
-BEGIN_SUBSTITUTION          = '(\/|\#)\*([^\*]+)\*\1'
-PAREN_EXAMPLE               = '\([^\)]+\)'
-SUBSTITUTION_PATTERN        = /\A#{BEGIN_SUBSTITUTION}\s*/
-PAREN_SUBSTITUTION_PATTERN  = /\A#{BEGIN_SUBSTITUTION}\s*#{PAREN_EXAMPLE}/
+
+PAREN_EXAMPLE                = '\([^\)]+\)'
+BEGIN_BIND_VARIABLE          = '(\/|\#)\*([^\*]+)\*\1'
+BIND_VARIABLE_PATTERN        = /\A#{BEGIN_BIND_VARIABLE}\s*/
+PAREN_BIND_VARIABLE_PATTERN  = /\A#{BEGIN_BIND_VARIABLE}\s*#{PAREN_EXAMPLE}/
+EMBED_VARIABLE_PATTERN       = /\A(\/|\#)\*\$([^\*]+)\*\1\s*/
 
 CONDITIONAL_PATTERN   = /\A(\/|\#)\*(IF)\s+([^\*]+)\s*\*\1/
 BEGIN_END_PATTERN     = /\A(\/|\#)\*(BEGIN|END)\s*\*\1/
@@ -80,10 +82,12 @@ def parse( io )
         @q.push [ s[2].intern, nil ]
       when s.scan(CONDITIONAL_PATTERN)
         @q.push [ s[2].intern, s[3] ]
-      when s.scan(PAREN_SUBSTITUTION_PATTERN)
-        @q.push [ :PAREN_SUBSTITUTION, s[2] ]
-      when s.scan(SUBSTITUTION_PATTERN)
-        @q.push [ :SUBSTITUTION, s[2] ]
+      when s.scan(EMBED_VARIABLE_PATTERN)
+        @q.push [ :EMBED_VARIABLE, s[2] ]
+      when s.scan(PAREN_BIND_VARIABLE_PATTERN)
+        @q.push [ :PAREN_BIND_VARIABLE, s[2] ]
+      when s.scan(BIND_VARIABLE_PATTERN)
+        @q.push [ :BIND_VARIABLE, s[2] ]
       when s.scan(QUOTED_STRING_PATTERN)
         @q.push [ :QUOTED, s[1] ]
       when s.scan(SPLIT_TOKEN_PATTERN)
@@ -111,104 +115,109 @@ end
 def next_token
   @q.shift
 end
-..end lib/twowaysql/parser.y modeval..id79b0410d0d
+..end lib/twowaysql/parser.y modeval..id5bd1c17097
 
 ##### racc 1.4.5 generates ###
 
 racc_reduce_table = [
  0, 0, :racc_error,
- 1, 20, :_reduce_1,
- 0, 21, :_reduce_2,
- 2, 21, :_reduce_3,
- 1, 22, :_reduce_none,
- 1, 22, :_reduce_none,
- 1, 22, :_reduce_none,
- 3, 25, :_reduce_7,
- 4, 24, :_reduce_8,
- 2, 27, :_reduce_9,
- 0, 27, :_reduce_10,
- 1, 26, :_reduce_none,
- 1, 26, :_reduce_none,
- 1, 26, :_reduce_none,
- 2, 28, :_reduce_14,
- 2, 29, :_reduce_15,
- 1, 23, :_reduce_16,
- 1, 23, :_reduce_17,
- 1, 23, :_reduce_18,
- 1, 23, :_reduce_19,
- 1, 23, :_reduce_20,
- 1, 23, :_reduce_21,
- 1, 23, :_reduce_22,
- 1, 23, :_reduce_23,
- 1, 23, :_reduce_24,
- 1, 23, :_reduce_25,
- 1, 23, :_reduce_26,
+ 1, 21, :_reduce_1,
+ 0, 22, :_reduce_2,
+ 2, 22, :_reduce_3,
  1, 23, :_reduce_none,
- 2, 30, :_reduce_28,
- 3, 30, :_reduce_29,
- 2, 30, :_reduce_30,
- 3, 30, :_reduce_31,
- 1, 30, :_reduce_32 ]
+ 1, 23, :_reduce_none,
+ 1, 23, :_reduce_none,
+ 3, 26, :_reduce_7,
+ 4, 25, :_reduce_8,
+ 2, 28, :_reduce_9,
+ 0, 28, :_reduce_10,
+ 1, 27, :_reduce_none,
+ 1, 27, :_reduce_none,
+ 1, 27, :_reduce_none,
+ 2, 29, :_reduce_14,
+ 2, 30, :_reduce_15,
+ 1, 24, :_reduce_16,
+ 1, 24, :_reduce_17,
+ 1, 24, :_reduce_18,
+ 1, 24, :_reduce_19,
+ 1, 24, :_reduce_20,
+ 1, 24, :_reduce_21,
+ 1, 24, :_reduce_22,
+ 1, 24, :_reduce_23,
+ 1, 24, :_reduce_24,
+ 1, 24, :_reduce_25,
+ 1, 24, :_reduce_26,
+ 1, 24, :_reduce_none,
+ 1, 24, :_reduce_none,
+ 2, 31, :_reduce_29,
+ 3, 31, :_reduce_30,
+ 2, 31, :_reduce_31,
+ 3, 31, :_reduce_32,
+ 1, 31, :_reduce_33,
+ 2, 32, :_reduce_34,
+ 3, 32, :_reduce_35 ]
 
-racc_reduce_n = 33
+racc_reduce_n = 36
 
-racc_shift_n = 44
+racc_shift_n = 49
 
 racc_action_table = [
-     9,    36,    14,    43,    17,    19,    21,    22,    23,     4,
-     6,     8,    11,    13,    15,    16,    18,     9,    24,    14,
-     3,    17,    19,    21,    22,    23,     4,     6,     8,    11,
-    13,    15,    16,    18,     9,   nil,    14,   nil,    17,    19,
-    21,    22,    23,     4,     6,     8,    11,    13,    15,    16,
-    18,     9,   nil,    14,   nil,    17,    19,    21,    22,    23,
-     4,     6,     8,    11,    13,    15,    16,    18,     9,    35,
-    14,   nil,    17,    19,    21,    22,    23,     4,     6,     8,
-    11,    13,    15,    16,    18,    32,    33,    34,    27,    29,
-    27,    29,    40,    41 ]
+     7,    36,    12,    37,    16,    18,    20,    22,    24,     3,
+     4,     6,     9,    11,    14,    15,    17,    19,     7,    46,
+    12,    40,    16,    18,    20,    22,    24,     3,     4,     6,
+     9,    11,    14,    15,    17,    19,     7,    48,    12,    38,
+    16,    18,    20,    22,    24,     3,     4,     6,     9,    11,
+    14,    15,    17,    19,     7,    39,    12,    25,    16,    18,
+    20,    22,    24,     3,     4,     6,     9,    11,    14,    15,
+    17,    19,     7,   nil,    12,   nil,    16,    18,    20,    22,
+    24,     3,     4,     6,     9,    11,    14,    15,    17,    19,
+    33,    34,    35,    29,    30,    29,    30,    44,    45 ]
 
 racc_action_check = [
-    39,    26,    39,    37,    39,    39,    39,    39,    39,    39,
-    39,    39,    39,    39,    39,    39,    39,     2,     3,     2,
-     1,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-     2,     2,     2,     2,    38,   nil,    38,   nil,    38,    38,
-    38,    38,    38,    38,    38,    38,    38,    38,    38,    38,
-    38,    31,   nil,    31,   nil,    31,    31,    31,    31,    31,
-    31,    31,    31,    31,    31,    31,    31,    31,    25,    25,
-    25,   nil,    25,    25,    25,    25,    25,    25,    25,    25,
-    25,    25,    25,    25,    25,    16,    16,    16,    36,    36,
-    14,    14,    34,    34 ]
+     1,    19,     1,    19,     1,     1,     1,     1,     1,     1,
+     1,     1,     1,     1,     1,     1,     1,     1,    43,    37,
+    43,    28,    43,    43,    43,    43,    43,    43,    43,    43,
+    43,    43,    43,    43,    43,    43,    42,    41,    42,    25,
+    42,    42,    42,    42,    42,    42,    42,    42,    42,    42,
+    42,    42,    42,    42,    26,    26,    26,     2,    26,    26,
+    26,    26,    26,    26,    26,    26,    26,    26,    26,    26,
+    26,    26,    27,   nil,    27,   nil,    27,    27,    27,    27,
+    27,    27,    27,    27,    27,    27,    27,    27,    27,    27,
+    15,    15,    15,    12,    12,    40,    40,    35,    35 ]
 
 racc_action_pointer = [
-   nil,    20,    15,    18,   nil,   nil,   nil,   nil,   nil,   nil,
-   nil,   nil,   nil,   nil,    84,   nil,    77,   nil,   nil,   nil,
-   nil,   nil,   nil,   nil,   nil,    66,    -4,   nil,   nil,   nil,
-   nil,    49,   nil,   nil,    84,   nil,    82,     0,    32,    -2,
-   nil,   nil,   nil,   nil ]
+   nil,    -2,    57,   nil,   nil,   nil,   nil,   nil,   nil,   nil,
+   nil,   nil,    87,   nil,   nil,    82,   nil,   nil,   nil,    -7,
+   nil,   nil,   nil,   nil,   nil,    39,    52,    70,    16,   nil,
+   nil,   nil,   nil,   nil,   nil,    89,   nil,    11,   nil,   nil,
+    89,    34,    34,    16,   nil,   nil,   nil,   nil,   nil ]
 
 racc_action_default = [
-    -2,   -33,    -1,   -33,   -21,    -3,   -22,    -4,   -23,    -2,
-    -5,   -24,    -6,   -25,    -2,   -26,   -33,   -18,   -32,   -19,
-   -27,   -16,   -17,   -20,    44,   -33,   -10,    -2,   -11,    -2,
-   -12,   -13,   -30,   -28,   -33,    -7,    -2,   -33,   -14,   -15,
-   -31,   -29,    -9,    -8 ]
+    -2,    -1,   -36,   -21,   -22,    -3,   -23,    -2,    -4,   -24,
+    -5,   -25,    -2,    -6,   -26,   -36,   -18,   -33,   -19,   -36,
+   -16,   -27,   -17,   -28,   -20,   -36,   -36,   -13,   -10,    -2,
+    -2,   -11,   -12,   -31,   -29,   -36,   -34,   -36,    49,    -7,
+    -2,   -36,   -14,   -15,   -32,   -30,   -35,    -9,    -8 ]
 
 racc_goto_table = [
-     2,    26,     1,    37,   nil,   nil,   nil,   nil,   nil,    25,
+     1,     2,    41,    28,   nil,   nil,   nil,    26,   nil,   nil,
    nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,
-   nil,   nil,   nil,    42,   nil,   nil,   nil,    38,   nil,    39 ]
+   nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,    42,
+    43,    47 ]
 
 racc_goto_check = [
-     2,     7,     1,     8,   nil,   nil,   nil,   nil,   nil,     2,
+     2,     1,     8,     7,   nil,   nil,   nil,     2,   nil,   nil,
    nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,
-   nil,   nil,   nil,     7,   nil,   nil,   nil,     2,   nil,     2 ]
+   nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,     2,
+     2,     7 ]
 
 racc_goto_pointer = [
-   nil,     2,     0,   nil,   nil,   nil,   nil,   -13,   -23,   nil,
-   nil,   nil ]
+   nil,     1,     0,   nil,   nil,   nil,   nil,    -9,   -26,   nil,
+   nil,   nil,   nil ]
 
 racc_goto_default = [
-   nil,   nil,    31,     5,     7,    10,    12,   nil,   nil,    28,
-    30,    20 ]
+   nil,   nil,    27,     5,     8,    10,    13,   nil,   nil,    31,
+    32,    21,    23 ]
 
 racc_token_table = {
  false => 0,
@@ -228,12 +237,13 @@ racc_token_table = {
  :QUESTION => 14,
  :ACTUAL_COMMENT => 15,
  :EOL => 16,
- :SUBSTITUTION => 17,
- :PAREN_SUBSTITUTION => 18 }
+ :BIND_VARIABLE => 17,
+ :PAREN_BIND_VARIABLE => 18,
+ :EMBED_VARIABLE => 19 }
 
 racc_use_result_var = true
 
-racc_nt_base = 19
+racc_nt_base = 20
 
 Racc_arg = [
  racc_action_table,
@@ -269,8 +279,9 @@ Racc_token_to_s_table = [
 'QUESTION',
 'ACTUAL_COMMENT',
 'EOL',
-'SUBSTITUTION',
-'PAREN_SUBSTITUTION',
+'BIND_VARIABLE',
+'PAREN_BIND_VARIABLE',
+'EMBED_VARIABLE',
 '$start',
 'sql',
 'stmt_list',
@@ -282,7 +293,8 @@ Racc_token_to_s_table = [
 'else_stmt',
 'and_stmt',
 'or_stmt',
-'substitution']
+'bind_var',
+'embed_var']
 
 Racc_debug_parser = false
 
@@ -445,37 +457,53 @@ module_eval <<'.,.,', 'lib/twowaysql/parser.y', 100
 
  # reduce 27 omitted
 
-module_eval <<'.,.,', 'lib/twowaysql/parser.y', 106
-  def _reduce_28( val, _values, result )
-                  result = SubstitutionNode.new( val[0] )
-   result
-  end
-.,.,
+ # reduce 28 omitted
 
-module_eval <<'.,.,', 'lib/twowaysql/parser.y', 110
+module_eval <<'.,.,', 'lib/twowaysql/parser.y', 107
   def _reduce_29( val, _values, result )
-                  result = SubstitutionNode.new( val[0] )
+                  result = BindVariableNode.new( val[0] )
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'lib/twowaysql/parser.y', 114
+module_eval <<'.,.,', 'lib/twowaysql/parser.y', 111
   def _reduce_30( val, _values, result )
-                  result = SubstitutionNode.new( val[0] )
+                  result = BindVariableNode.new( val[0] )
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'lib/twowaysql/parser.y', 118
+module_eval <<'.,.,', 'lib/twowaysql/parser.y', 115
   def _reduce_31( val, _values, result )
-                  result = SubstitutionNode.new( val[0] )
+                  result = BindVariableNode.new( val[0] )
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'lib/twowaysql/parser.y', 122
+module_eval <<'.,.,', 'lib/twowaysql/parser.y', 119
   def _reduce_32( val, _values, result )
-                  result = ParenSubstitutionNode.new( val[0] )
+                  result = BindVariableNode.new( val[0] )
+   result
+  end
+.,.,
+
+module_eval <<'.,.,', 'lib/twowaysql/parser.y', 123
+  def _reduce_33( val, _values, result )
+                  result = ParenBindVariableNode.new( val[0] )
+   result
+  end
+.,.,
+
+module_eval <<'.,.,', 'lib/twowaysql/parser.y', 128
+  def _reduce_34( val, _values, result )
+                  result = EmbedVariableNode.new( val[0] )
+   result
+  end
+.,.,
+
+module_eval <<'.,.,', 'lib/twowaysql/parser.y', 132
+  def _reduce_35( val, _values, result )
+                  result = EmbedVariableNode.new( val[0] )
    result
   end
 .,.,

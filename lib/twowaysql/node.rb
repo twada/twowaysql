@@ -157,23 +157,12 @@ module TwoWaySQL
   end
 
 
-  class SubstitutionNode < Node
+  class BindVariableNode < Node
     def initialize(exp)
       @exp = exp
     end
     def accept(ctx)
-      if @exp.start_with?('$')
-        embed_value(ctx)
-      else
-        substitute(ctx)
-      end
-    end
-    def substitute(ctx)
       ctx.add_value(do_eval(ctx, @exp))
-    end
-    def embed_value(ctx)
-      result = do_eval(ctx, @exp[1..-1])
-      ctx.add_sql(result) unless result.nil?
     end
   end
 
@@ -188,7 +177,7 @@ module TwoWaySQL
   end
 
 
-  class ParenSubstitutionNode < Node
+  class ParenBindVariableNode < Node
     def initialize(exp)
       @exp = exp
     end
@@ -206,6 +195,17 @@ module TwoWaySQL
       ctx.add_sql("(")
       ctx.add_values(ary)
       ctx.add_sql(")")
+    end
+  end
+
+
+  class EmbedVariableNode < Node
+    def initialize(exp)
+      @exp = exp
+    end
+    def accept(ctx)
+      result = do_eval(ctx, @exp)
+      ctx.add_sql(result) unless result.nil?
     end
   end
 
