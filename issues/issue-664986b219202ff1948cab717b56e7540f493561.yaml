@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: line number support on parse error
+desc: show line number of SQL when parse error has occurred.
+type: :feature
+component: twowaysql
+release: 
+reporter: takuto <takuto.wada@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-09-06 07:38:16.872853 Z
+references: []
+
+id: 664986b219202ff1948cab717b56e7540f493561
+log_events: 
+- - 2008-09-06 07:39:56.519949 Z
+  - takuto <takuto.wada@gmail.com>
+  - created
+  - work with multiline parsing?
