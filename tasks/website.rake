@@ -13,5 +13,10 @@ task :website_upload do
   sh %{rsync -aCv #{local_dir}/ #{host}:#{remote_dir}}
 end
 
+desc 'generate Ditz html report'
+task :ditz_report do
+  `ditz -i issues html website/issues`
+end
+
 desc 'Generate and upload website files'
-task :website => [:website_generate, :website_upload, :publish_docs]
+task :website => [:website_generate, :ditz_report, :website_upload, :publish_docs]
