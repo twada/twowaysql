@@ -164,8 +164,8 @@ BEGIN_END_PATTERN     = /\A(\/|\#)\*(BEGIN|END)\s*\*\1/
 STRING_LITERAL_PATTERN = /\A(\'(?:[^\']+|\'\')*\')/   ## quoted string
 SPLIT_TOKEN_PATTERN   = /\A(\S+?)(?=\s*(?:(?:\/|\#)\*|-{2,}|\(|\)|\,))/  ## stop on delimiters --,/*,#*,',',(,)
 ELSE_PATTERN          = /\A\-{2,}\s*ELSE\s*/
-AND_PATTERN           = /\A(\s*AND\s+)/
-OR_PATTERN            = /\A(\s*OR\s+)/
+AND_PATTERN           = /\A(\s*AND\s+)/i
+OR_PATTERN            = /\A(\s*OR\s+)/i
 LITERAL_PATTERN       = /\A([^;\s]+)/
 SPACES_PATTERN        = /\A(\s+)/
 QUESTION_PATTERN      = /\A\?/

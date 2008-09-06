@@ -11,7 +11,7 @@ module TwoWaySQL
 
   class Parser < Racc::Parser
 
-module_eval <<'..end lib/twowaysql/parser.y modeval..idd8b23525ba', 'lib/twowaysql/parser.y', 138
+module_eval <<'..end lib/twowaysql/parser.y modeval..id33db4a3791', 'lib/twowaysql/parser.y', 138
 
 require 'strscan'
 
@@ -41,8 +41,8 @@ BEGIN_END_PATTERN     = /\A(\/|\#)\*(BEGIN|END)\s*\*\1/
 STRING_LITERAL_PATTERN = /\A(\'(?:[^\']+|\'\')*\')/   ## quoted string
 SPLIT_TOKEN_PATTERN   = /\A(\S+?)(?=\s*(?:(?:\/|\#)\*|-{2,}|\(|\)|\,))/  ## stop on delimiters --,/*,#*,',',(,)
 ELSE_PATTERN          = /\A\-{2,}\s*ELSE\s*/
-AND_PATTERN           = /\A(\s*AND\s+)/
-OR_PATTERN            = /\A(\s*OR\s+)/
+AND_PATTERN           = /\A(\s*AND\s+)/i
+OR_PATTERN            = /\A(\s*OR\s+)/i
 LITERAL_PATTERN       = /\A([^;\s]+)/
 SPACES_PATTERN        = /\A(\s+)/
 QUESTION_PATTERN      = /\A\?/
@@ -115,7 +115,7 @@ end
 def next_token
   @q.shift
 end
-..end lib/twowaysql/parser.y modeval..idd8b23525ba
+..end lib/twowaysql/parser.y modeval..id33db4a3791
 
 ##### racc 1.4.5 generates ###
 

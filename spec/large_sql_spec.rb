@@ -21,7 +21,7 @@ FROM
     ON i.id = h.item_id
 
 /*BEGIN*/WHERE
-  /*IF ctx[:name] */AND i.name ILIKE /*ctx[:name]*/'hoge%'/*END*/
+  /*IF ctx[:name] */i.name ILIKE /*ctx[:name]*/'hoge%'/*END*/
   /*IF ctx[:display_name] */AND d.display_name ILIKE /*ctx[:display_name]*/'hoge%'/*END*/
   /*IF ctx[:status] */AND h.status IN /*ctx[:status]*/(3, 4, 9)/*END*/
   /*IF ctx[:ignore_status] */AND h.status NOT IN /*ctx[:ignore_status]*/(4, 9)/*END*/
@@ -136,6 +136,40 @@ EOS
       it "bound_variables" do
         @result.bound_variables.should == [3, 3, 50, 31, 32, 33, 34, 2]
       end
+    end
+  end
+
+
+
+  describe "bugfix: case insensitive match for SQL reserved words" do
+    before do
+      sql = <<-EOS
+select
+  *
+from
+  hoge
+/*BEGIN*/where
+  /*IF ctx[:name] */name like /*ctx[:name]*/'hoge%'/*END*/
+  /*IF ctx[:id_list] */and id in /*ctx[:id_list]*/(3, 4, 9)/*END*/
+/*END*/
+EOS
+      template = TwoWaySQL::Template.parse(sql)
+      @result = template.merge(:id_list => [10, 11])
+    end
+
+    it "sql" do
+      expected = <<-EOS
+select
+  *
+from
+  hoge
+where
+  
+  id in (?, ?)
+
+EOS
+      @result.sql.should == expected
+      @result.bound_variables.should == [10, 11]
     end
   end
 
