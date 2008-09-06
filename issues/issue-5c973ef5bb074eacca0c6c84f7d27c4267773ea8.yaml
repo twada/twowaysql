@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: case insensitive match for SQL reserved words
+desc: case insensitive match for SQL reserved words
+type: :bugfix
+component: twowaysql
+release: release_0_3
+reporter: takuto <takuto.wada@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-09-06 08:22:09.096464 Z
+references: []
+
+id: 5c973ef5bb074eacca0c6c84f7d27c4267773ea8
+log_events: 
+- - 2008-09-06 08:22:13.438780 Z
+  - takuto <takuto.wada@gmail.com>
+  - created
+  - ""
