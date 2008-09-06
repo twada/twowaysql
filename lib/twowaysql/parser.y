@@ -53,11 +53,11 @@ or_stmt        : OR stmt_list
                   result = SubStatementNode.new( val[0], val[1] )
                 }
 
-primary        : CHARS
+primary        : IDENT
                 {
                   result = LiteralNode.new( val[0] )
                 }
-               | QUOTED
+               | STRING_LITERAL
                 {
                   result = LiteralNode.new( val[0] )
                 }
@@ -101,19 +101,19 @@ primary        : CHARS
                | bind_var
                | embed_var
 
-bind_var       : BIND_VARIABLE QUOTED
+bind_var       : BIND_VARIABLE STRING_LITERAL
                 {
                   result = BindVariableNode.new( val[0] )
                 }
-               | BIND_VARIABLE SPACES QUOTED
+               | BIND_VARIABLE SPACES STRING_LITERAL
                 {
                   result = BindVariableNode.new( val[0] )
                 }
-               | BIND_VARIABLE CHARS
+               | BIND_VARIABLE IDENT
                 {
                   result = BindVariableNode.new( val[0] )
                 }
-               | BIND_VARIABLE SPACES CHARS
+               | BIND_VARIABLE SPACES IDENT
                 {
                   result = BindVariableNode.new( val[0] )
                 }
@@ -122,11 +122,11 @@ bind_var       : BIND_VARIABLE QUOTED
                   result = ParenBindVariableNode.new( val[0] )
                 }
 
-embed_var      : EMBED_VARIABLE CHARS
+embed_var      : EMBED_VARIABLE IDENT
                 {
                   result = EmbedVariableNode.new( val[0] )
                 }
-               | EMBED_VARIABLE SPACES CHARS
+               | EMBED_VARIABLE SPACES IDENT
                 {
                   result = EmbedVariableNode.new( val[0] )
                 }
@@ -161,7 +161,7 @@ EMBED_VARIABLE_PATTERN       = /\A(\/|\#)\*\$([^\*]+)\*\1\s*/
 
 CONDITIONAL_PATTERN   = /\A(\/|\#)\*(IF)\s+([^\*]+)\s*\*\1/
 BEGIN_END_PATTERN     = /\A(\/|\#)\*(BEGIN|END)\s*\*\1/
-QUOTED_STRING_PATTERN = /\A(\'(?:[^\']+|\'\')*\')/   ## quoted string
+STRING_LITERAL_PATTERN = /\A(\'(?:[^\']+|\'\')*\')/   ## quoted string
 SPLIT_TOKEN_PATTERN   = /\A(\S+?)(?=\s*(?:(?:\/|\#)\*|-{2,}|\(|\)|\,))/  ## stop on delimiters --,/*,#*,',',(,)
 ELSE_PATTERN          = /\A\-{2,}\s*ELSE\s*/
 AND_PATTERN           = /\A(\s*AND\s+)/
@@ -211,14 +211,14 @@ def parse( io )
         @q.push [ :PAREN_BIND_VARIABLE, s[2] ]
       when s.scan(BIND_VARIABLE_PATTERN)
         @q.push [ :BIND_VARIABLE, s[2] ]
-      when s.scan(QUOTED_STRING_PATTERN)
-        @q.push [ :QUOTED, s[1] ]
+      when s.scan(STRING_LITERAL_PATTERN)
+        @q.push [ :STRING_LITERAL, s[1] ]
       when s.scan(SPLIT_TOKEN_PATTERN)
-        @q.push [ :CHARS, s[1] ]
+        @q.push [ :IDENT, s[1] ]
       when s.scan(UNMATCHED_COMMENT_START_PATTERN)   ## unmatched comment start, '/*','#*'
         raise Racc::ParseError, "## unmatched comment. cannot parse [#{s.rest}]"
       when s.scan(LITERAL_PATTERN)   ## other string token
-        @q.push [ :CHARS, s[1] ]
+        @q.push [ :IDENT, s[1] ]
       when s.scan(SEMICOLON_AT_INPUT_END_PATTERN)
         #drop semicolon at input end
       else

@@ -11,7 +11,7 @@ module TwoWaySQL
 
   class Parser < Racc::Parser
 
-module_eval <<'..end lib/twowaysql/parser.y modeval..id5bd1c17097', 'lib/twowaysql/parser.y', 138
+module_eval <<'..end lib/twowaysql/parser.y modeval..idd8b23525ba', 'lib/twowaysql/parser.y', 138
 
 require 'strscan'
 
@@ -38,7 +38,7 @@ EMBED_VARIABLE_PATTERN       = /\A(\/|\#)\*\$([^\*]+)\*\1\s*/
 
 CONDITIONAL_PATTERN   = /\A(\/|\#)\*(IF)\s+([^\*]+)\s*\*\1/
 BEGIN_END_PATTERN     = /\A(\/|\#)\*(BEGIN|END)\s*\*\1/
-QUOTED_STRING_PATTERN = /\A(\'(?:[^\']+|\'\')*\')/   ## quoted string
+STRING_LITERAL_PATTERN = /\A(\'(?:[^\']+|\'\')*\')/   ## quoted string
 SPLIT_TOKEN_PATTERN   = /\A(\S+?)(?=\s*(?:(?:\/|\#)\*|-{2,}|\(|\)|\,))/  ## stop on delimiters --,/*,#*,',',(,)
 ELSE_PATTERN          = /\A\-{2,}\s*ELSE\s*/
 AND_PATTERN           = /\A(\s*AND\s+)/
@@ -88,14 +88,14 @@ def parse( io )
         @q.push [ :PAREN_BIND_VARIABLE, s[2] ]
       when s.scan(BIND_VARIABLE_PATTERN)
         @q.push [ :BIND_VARIABLE, s[2] ]
-      when s.scan(QUOTED_STRING_PATTERN)
-        @q.push [ :QUOTED, s[1] ]
+      when s.scan(STRING_LITERAL_PATTERN)
+        @q.push [ :STRING_LITERAL, s[1] ]
       when s.scan(SPLIT_TOKEN_PATTERN)
-        @q.push [ :CHARS, s[1] ]
+        @q.push [ :IDENT, s[1] ]
       when s.scan(UNMATCHED_COMMENT_START_PATTERN)   ## unmatched comment start, '/*','#*'
         raise Racc::ParseError, "## unmatched comment. cannot parse [#{s.rest}]"
       when s.scan(LITERAL_PATTERN)   ## other string token
-        @q.push [ :CHARS, s[1] ]
+        @q.push [ :IDENT, s[1] ]
       when s.scan(SEMICOLON_AT_INPUT_END_PATTERN)
         #drop semicolon at input end
       else
@@ -115,7 +115,7 @@ end
 def next_token
   @q.shift
 end
-..end lib/twowaysql/parser.y modeval..id5bd1c17097
+..end lib/twowaysql/parser.y modeval..idd8b23525ba
 
 ##### racc 1.4.5 generates ###
 
@@ -228,8 +228,8 @@ racc_token_table = {
  :ELSE => 5,
  :AND => 6,
  :OR => 7,
- :CHARS => 8,
- :QUOTED => 9,
+ :IDENT => 8,
+ :STRING_LITERAL => 9,
  :SPACES => 10,
  :COMMA => 11,
  :LPAREN => 12,
@@ -270,8 +270,8 @@ Racc_token_to_s_table = [
 'ELSE',
 'AND',
 'OR',
-'CHARS',
-'QUOTED',
+'IDENT',
+'STRING_LITERAL',
 'SPACES',
 'COMMA',
 'LPAREN',
