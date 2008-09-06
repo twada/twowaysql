@@ -38,7 +38,7 @@ TwoWaySQL provides better separation of host language and SQL.
 
 With TwoWaySQL, you can
 * separate SQL (as file) from host language
-* bind variables to SQL using Substitution comments
+* bind variables to SQL using Interpolation comments
 * modify SQL conditionally by using Directive comments
 * run and preview TwoWaySQL-style SQL by tools like pgAdmin3, since the SQL is still valid SQL.
 
@@ -110,7 +110,7 @@ TwoWaySQL is not
 
 == FEATURES/PROBLEMS:
 
-* Substitution comments
+* Interpolation comments
   * Bind variable comment
   * Embedded variable comment
 
