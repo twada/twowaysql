@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: integrate ditz to 'push-button release'
+desc: integrate 'ditz release' and 'ditz changelog' into rake task
+type: :task
+component: twowaysql
+release: 
+reporter: takuto <takuto.wada@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-09-07 17:34:42.830046 Z
+references: []
+
+id: 6daccddf089d11d42bf016897da98f70cf5ab46c
+log_events: 
+- - 2008-09-07 17:34:44.130887 Z
+  - takuto <takuto.wada@gmail.com>
+  - created
+  - ""
