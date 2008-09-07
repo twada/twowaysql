@@ -35,7 +35,7 @@ h3. simple case
   merged = template.merge(:job => 'MANAGER')
 
   p merged.sql      #=> "SELECT * FROM emp WHERE job = ?"
-  p merged.bound_variables          #=> [10,20,30,35]
+  p merged.bound_variables          #=> ['MANAGER']
 </code>
 </pre>
 

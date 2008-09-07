@@ -77,7 +77,7 @@
   merged = template.merge(:job =&gt; 'MANAGER')
 
   p merged.sql      #=&gt; "SELECT * FROM emp WHERE job = ?" 
-  p merged.bound_variables          #=&gt; [10,20,30,35]
+  p merged.bound_variables          #=&gt; ['MANAGER']
 </code>
 </pre>
 
