@@ -16,6 +16,7 @@ h2. Installing
 
 h2. The basics
 
+"see docs":http://twowaysql.rubyforge.org/rdoc/
 
 
 h2. Demonstration of usage
@@ -70,6 +71,7 @@ h2. Demonstration of usage
 </code>
 </pre>
 
+"more examples":http://twowaysql.rubyforge.org/rdoc/
 
 
 h2. How to submit patches
@@ -97,7 +99,6 @@ This code is free to use under the terms of the ASL license.
 
 h2. Links
 
-* "Web Site":http://twowaysql.rubyforge.org/
 * "Project Page":http://rubyforge.org/projects/twowaysql
 * "API Doc":http://twowaysql.rubyforge.org/rdoc/
 * "Issue Tracking":./issues/index.html

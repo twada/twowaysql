@@ -1,5 +1,5 @@
 desc 'Generate website files'
-task :website_generate => :ruby_env do
+task :website_generate => [:ruby_env,:ditz_report] do
   (Dir['website/**/*.txt'] - Dir['website/version*.txt']).each do |txt|
     sh %{ #{RUBY_APP} script/txt2html #{txt} > #{txt.gsub(/txt$/,'html')} }
   end
@@ -13,10 +13,5 @@ task :website_upload do
   sh %{rsync -aCv #{local_dir}/ #{host}:#{remote_dir}}
 end
 
-desc 'generate Ditz html report'
-task :ditz_report do
-  `ditz -i issues html website/issues`
-end
-
 desc 'Generate and upload website files'
-task :website => [:website_generate, :ditz_report, :website_upload, :publish_docs]
+task :website => [:website_generate, :website_upload, :publish_docs]
