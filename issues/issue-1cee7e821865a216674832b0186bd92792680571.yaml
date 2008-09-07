@@ -3,7 +3,7 @@ title: make Ruby1.9 ready
 desc: make sure to work under Ruby1.9
 type: :feature
 component: twowaysql
-release: release_0_3
+release: release_0_2_1
 reporter: takuto <takuto.wada@gmail.com>
 status: :closed
 disposition: :fixed
@@ -24,3 +24,7 @@ log_events:
   - takuto <takuto.wada@gmail.com>
   - closed with disposition fixed
   - done.
+- - 2008-09-07 16:16:17.406228 Z
+  - takuto <takuto.wada@gmail.com>
+  - assigned to release release_0_2_1 from release_0_3
+  - ""

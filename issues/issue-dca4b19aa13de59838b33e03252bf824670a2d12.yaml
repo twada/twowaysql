@@ -3,7 +3,7 @@ title: change idiom 'substitution' to 'interpolation'
 desc: "'interpolation' should be better. Thanks Leo."
 type: :task
 component: twowaysql
-release: release_0_3
+release: release_0_2_1
 reporter: takuto <takuto.wada@gmail.com>
 status: :closed
 disposition: :fixed
@@ -23,4 +23,8 @@ log_events:
 - - 2008-09-06 07:21:02.436063 Z
   - takuto <takuto.wada@gmail.com>
   - closed with disposition fixed
+  - ""
+- - 2008-09-07 16:16:00.691175 Z
+  - takuto <takuto.wada@gmail.com>
+  - assigned to release release_0_2_1 from release_0_3
   - ""

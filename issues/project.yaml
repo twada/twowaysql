@@ -27,3 +27,12 @@ releases:
     - takuto <takuto.wada@gmail.com>
     - created
     - release 0.3
+- !ditz.rubyforge.org,2008-03-06/release 
+  name: release_0_2_1
+  status: :unreleased
+  release_time: 
+  log_events: 
+  - - 2008-09-07 16:13:59.207476 Z
+    - takuto <takuto.wada@gmail.com>
+    - created
+    - release 0.2.1

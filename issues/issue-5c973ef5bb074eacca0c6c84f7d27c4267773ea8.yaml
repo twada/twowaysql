@@ -3,7 +3,7 @@ title: case insensitive match for SQL reserved words
 desc: case insensitive match for SQL reserved words
 type: :bugfix
 component: twowaysql
-release: release_0_3
+release: release_0_2_1
 reporter: takuto <takuto.wada@gmail.com>
 status: :closed
 disposition: :fixed
@@ -23,4 +23,8 @@ log_events:
 - - 2008-09-06 18:48:46.516332 Z
   - takuto <takuto.wada@gmail.com>
   - closed with disposition fixed
+  - ""
+- - 2008-09-07 16:16:22.125681 Z
+  - takuto <takuto.wada@gmail.com>
+  - assigned to release release_0_2_1 from release_0_3
   - ""

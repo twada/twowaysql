@@ -3,7 +3,7 @@ title: integrate ditz html into site
 desc: Integrate ditz html output into site. Ditz site(http://ditz.rubyforge.org/ditz) may help.
 type: :task
 component: twowaysql
-release: 
+release: release_0_2_1
 reporter: takuto <takuto.wada@gmail.com>
 status: :closed
 disposition: :fixed
@@ -24,3 +24,11 @@ log_events:
   - takuto <takuto.wada@gmail.com>
   - closed with disposition fixed
   - done.
+- - 2008-09-07 16:12:29.395340 Z
+  - takuto <takuto.wada@gmail.com>
+  - assigned to release release_0_3 from unassigned
+  - ""
+- - 2008-09-07 16:15:39.449630 Z
+  - takuto <takuto.wada@gmail.com>
+  - assigned to release release_0_2_1 from release_0_3
+  - ""

@@ -3,7 +3,7 @@ title: Handle Embedded variable comment at Scanner/Grammar level
 desc: Handle Embedded variable comment at Scanner/Grammar level. Currently it is handled at Node object level, so Scanner does not know the Substitution comment is Bind variable comment or Embedded variable comment. However Node should not be responsible for that, Scanner/Grammar should do.
 type: :task
 component: twowaysql
-release: 
+release: release_0_2_1
 reporter: takuto <takuto.wada@gmail.com>
 status: :closed
 disposition: :fixed
@@ -23,4 +23,12 @@ log_events:
 - - 2008-09-06 04:23:57.911458 Z
   - takuto <takuto.wada@gmail.com>
   - closed with disposition fixed
+  - ""
+- - 2008-09-07 16:12:40.550815 Z
+  - takuto <takuto.wada@gmail.com>
+  - assigned to release release_0_3 from unassigned
+  - ""
+- - 2008-09-07 16:15:51.826887 Z
+  - takuto <takuto.wada@gmail.com>
+  - assigned to release release_0_2_1 from release_0_3
   - ""
