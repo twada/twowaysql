@@ -38,6 +38,7 @@ namespace :manifest do
                         /^doc/,
                         /^website/,
                         /^\.git/,
+                        /.*\.output/
                        ]
 
     files = Dir.glob(glob_pattern).delete_if do |fname|

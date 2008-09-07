@@ -3,7 +3,7 @@ title: line number support on parse error
 desc: show line number of SQL when parse error has occurred.
 type: :feature
 component: twowaysql
-release: 
+release: release_0_3
 reporter: takuto <takuto.wada@gmail.com>
 status: :unstarted
 disposition: 
@@ -16,3 +16,7 @@ log_events:
   - takuto <takuto.wada@gmail.com>
   - created
   - work with multiline parsing?
+- - 2008-09-07 14:11:28.508490 Z
+  - takuto <takuto.wada@gmail.com>
+  - assigned to release release_0_3 from unassigned
+  - assign to release_0_3

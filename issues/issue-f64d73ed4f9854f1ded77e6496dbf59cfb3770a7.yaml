@@ -3,7 +3,7 @@ title: preserve actual comment content
 desc: preserve actual comment content
 type: :feature
 component: twowaysql
-release: 
+release: release_0_3
 reporter: takuto <takuto.wada@gmail.com>
 status: :unstarted
 disposition: 
@@ -16,3 +16,7 @@ log_events:
   - takuto <takuto.wada@gmail.com>
   - created
   - preserve actual comment content if :preserve_comment is on.
+- - 2008-09-07 14:11:49.991298 Z
+  - takuto <takuto.wada@gmail.com>
+  - assigned to release release_0_3 from unassigned
+  - assign to release_0_3
