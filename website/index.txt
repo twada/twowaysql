@@ -21,6 +21,27 @@ h2. The basics
 
 h2. Demonstration of usage
 
+h3. simple case
+
+<pre>
+<code>
+  # given SQL string with TwoWaySQL comments
+  sql = "SELECT * FROM emp WHERE job = /*ctx[:job]*/'CLERK'"
+
+  # parse the SQL to create template object
+  template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+
+  # merge data with template
+  merged = template.merge(:job => 'MANAGER')
+
+  p merged.sql      #=> "SELECT * FROM emp WHERE job = ?"
+  p merged.bound_variables          #=> [10,20,30,35]
+</code>
+</pre>
+
+
+h3. complex case
+
 <pre>
 <code>
   # given SQL string with TwoWaySQL comments
