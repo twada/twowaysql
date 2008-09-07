@@ -1,3 +1,11 @@
-== 0.2.0 2008-09-05
-
+== 0.2.0 / 2008-09-05
 * Initial release
+* RubyForge settings
+* rdoc for published classes and methods
+
+== 0.2.1 / 2008-09-07
+* bugfix: case insensitive match for SQL reserved words
+* make Ruby1.9 ready
+* integrate ditz html into site
+* change idiom 'substitution' to 'interpolation'
+* Handle Embedded variable comment at Scanner/Grammar level
