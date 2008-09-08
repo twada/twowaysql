@@ -165,7 +165,7 @@ from
   hoge
 where
   
-  id in (?, ?)
+   id in (?, ?)
 
 EOS
       @result.sql.should == expected

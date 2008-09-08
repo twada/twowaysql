@@ -220,10 +220,29 @@ module TwoWaySQL
   end
 
 
-  class EolNode < Node
+  class WhiteSpaceNode < Node
+    def initialize(val, compact_mode)
+      @val = val
+      @compact_mode = compact_mode
+    end
     def accept(ctx)
-      ctx.add_sql("\n")
+      if @compact_mode
+        ctx.add_sql(" ")
+      else
+        ctx.add_sql(@val)
+      end
     end
   end
+
+
+  class EolNode < Node
+    def initialize(compact_mode)
+      @compact_mode = compact_mode
+    end
+    def accept(ctx)
+      ctx.add_sql("\n") unless @compact_mode
+    end
+  end
+
 
 end

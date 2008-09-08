@@ -71,7 +71,7 @@ primary        : IDENT
                 }
                | SPACES
                 {
-                  result = LiteralNode.new( val[0] )
+                  result = WhiteSpaceNode.new( val[0], @compact_mode )
                 }
                | COMMA
                 {
@@ -96,7 +96,7 @@ primary        : IDENT
                 }
                | EOL
                 {
-                  result = EolNode.new
+                  result = EolNode.new( @compact_mode )
                 }
                | bind_var
                | embed_var
@@ -141,11 +141,13 @@ require 'strscan'
 def initialize(opts={})
   opts = {
     :debug => true,
+    :compact_mode => false,
     :preserve_space => true,
     :preserve_comment => true,
     :preserve_eol => true
   }.merge(opts)
   @yydebug = opts[:debug]
+  @compact_mode = opts[:compact_mode]
   @preserve_space = opts[:preserve_space]
   @preserve_comment = opts[:preserve_comment]
   @preserve_eol = opts[:preserve_eol]
@@ -164,22 +166,22 @@ BEGIN_END_PATTERN     = /\A(\/|\#)\*(BEGIN|END)\s*\*\1/
 STRING_LITERAL_PATTERN = /\A(\'(?:[^\']+|\'\')*\')/   ## quoted string
 SPLIT_TOKEN_PATTERN   = /\A(\S+?)(?=\s*(?:(?:\/|\#)\*|-{2,}|\(|\)|\,))/  ## stop on delimiters --,/*,#*,',',(,)
 ELSE_PATTERN          = /\A\-{2,}\s*ELSE\s*/
-AND_PATTERN           = /\A(\s*AND\s+)/i
-OR_PATTERN            = /\A(\s*OR\s+)/i
+AND_PATTERN           = /\A(\ *AND)\b/i
+OR_PATTERN            = /\A(\ *OR)\b/i
 LITERAL_PATTERN       = /\A([^;\s]+)/
 SPACES_PATTERN        = /\A(\s+)/
 QUESTION_PATTERN      = /\A\?/
 COMMA_PATTERN         = /\A\,/
 LPAREN_PATTERN        = /\A\(/
 RPAREN_PATTERN        = /\A\)/
-ACTUAL_COMMENT_PATTERN          = /\A(\/|\#)\*\s+(.+)\s*\*\1/  ## start with spaces
+ACTUAL_COMMENT_PATTERN          = /\A(\/|\#)\*\s{1,}(.*?)\*\1/m  ## start with spaces
 SEMICOLON_AT_INPUT_END_PATTERN  = /\A\;\s*\Z/
 UNMATCHED_COMMENT_START_PATTERN = /\A(?:(?:\/|\#)\*)/
 
 
 def parse( io )
   @q = []
-  io.each_line do |line|
+  io.each_line(nil) do |line|
     s = StringScanner.new(line.rstrip)
     until s.eos? do
       case
@@ -226,9 +228,9 @@ def parse( io )
       end
     end
       
-    @q.push [ :EOL, nil ] if @preserve_eol
   end
     
+  @q.push [ :EOL, nil ] if @preserve_eol
   @q.push [ false, nil ]
     
   ## cal racc's private parse method

@@ -315,8 +315,8 @@ describe TwoWaySQL::Template do
       @result = @template.merge(@ctx)
     end
 
-    it "parsed SQL should 'SELECT * FROM emp WHERE deptno = 10'" do
-      @result.sql.should == "SELECT * FROM emp WHERE deptno = 10"
+    it "parsed SQL should 'SELECT * FROM emp WHERE  deptno = 10'" do
+      @result.sql.should == "SELECT * FROM emp WHERE  deptno = 10"
     end
   end
 
@@ -327,8 +327,8 @@ describe TwoWaySQL::Template do
       @result = @template.merge(@ctx)
     end
 
-    it "parsed SQL should 'SELECT * FROM emp WHERE deptno = 10'" do
-      @result.sql.should == "SELECT * FROM emp WHERE deptno = 10"
+    it "parsed SQL should 'SELECT * FROM emp WHERE  deptno = 10'" do
+      @result.sql.should == "SELECT * FROM emp WHERE  deptno = 10"
     end
   end
 
@@ -384,8 +384,8 @@ describe TwoWaySQL::Template do
         @ctx[:deptno] = 20
         @result = @template.merge(@ctx)
       end
-      it "parsed SQL should 'SELECT * FROM emp WHERE deptno = ?'" do
-        @result.sql.should == 'SELECT * FROM emp WHERE deptno = ?'
+      it "parsed SQL should 'SELECT * FROM emp WHERE  deptno = ?'" do
+        @result.sql.should == 'SELECT * FROM emp WHERE  deptno = ?'
       end
       it "should have bound variables in Array [20]" do
         @result.bound_variables.should == [20]
@@ -732,5 +732,86 @@ describe TwoWaySQL::Template do
       @result.bound_variables.should == [7788]
     end
   end
+
+
+
+  describe "space compaction mode" do
+    describe "compaction of space node" do
+      before do
+        sql = <<-EOS
+SELECT
+  *
+FROM
+  emp
+WHERE
+  job    =   /*ctx[:job]*/'CLERK'
+  AND   deptno   =   /*ctx[:deptno]*/10
+EOS
+        @template = TwoWaySQL::Template.parse(sql, :compact_mode => true)
+        @ctx[:job] = 'MANAGER'
+        @ctx[:deptno] = 30
+        @result = @template.merge(@ctx)
+      end
+
+      it  do
+        @result.sql.should == "SELECT * FROM emp WHERE job = ? AND deptno = ?"
+        @result.bound_variables.should == ["MANAGER", 30]
+      end
+    end
+
+    describe "treat line end as one space" do
+      before do
+        sql = <<-EOS
+SELECT
+*
+FROM
+emp
+WHERE
+job    =   /*ctx[:job]*/'CLERK'
+AND   deptno   =   /*ctx[:deptno]*/10
+EOS
+        @template = TwoWaySQL::Template.parse(sql, :compact_mode => true)
+        @ctx[:job] = 'MANAGER'
+        @ctx[:deptno] = 30
+        @result = @template.merge(@ctx)
+      end
+
+      it  do
+        @result.sql.should == "SELECT * FROM emp WHERE job = ? AND deptno = ?"
+        @result.bound_variables.should == ["MANAGER", 30]
+      end
+    end
+
+  end
+
+
+  describe "multiline actual comment" do
+    before do
+      sql = <<-EOS
+SELECT
+  *
+FROM
+  emp
+  /* 
+     This is
+     multiline comment
+  */
+WHERE
+  job    =   /*ctx[:job]*/'CLERK'
+  AND   deptno   =   /*ctx[:deptno]*/10
+EOS
+      @template = TwoWaySQL::Template.parse(sql, :compact_mode => true)
+      @ctx[:job] = 'MANAGER'
+      @ctx[:deptno] = 30
+      @result = @template.merge(@ctx)
+    end
+
+    it "handle multiline comment then ignore it if @preserve_comment is falsy" do
+      @result.sql.should == "SELECT * FROM emp  WHERE job = ? AND deptno = ?"
+      @result.bound_variables.should == ["MANAGER", 30]
+    end
+
+  end
+
 
 end
