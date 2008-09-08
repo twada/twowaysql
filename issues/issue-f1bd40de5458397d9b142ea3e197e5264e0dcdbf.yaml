@@ -5,8 +5,8 @@ type: :feature
 component: twowaysql
 release: release_0_3
 reporter: takuto <takuto.wada@gmail.com>
-status: :in_progress
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2008-09-08 18:50:03.580663 Z
 references: []
 
@@ -19,4 +19,8 @@ log_events:
 - - 2008-09-08 18:50:28.843212 Z
   - takuto <takuto.wada@gmail.com>
   - changed status from unstarted to in_progress
+  - ""
+- - 2008-09-08 19:11:02.345285 Z
+  - takuto <takuto.wada@gmail.com>
+  - closed with disposition fixed
   - ""

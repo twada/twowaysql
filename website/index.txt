@@ -29,7 +29,7 @@ h3. simple case
   sql = "SELECT * FROM emp WHERE job = /*ctx[:job]*/'CLERK'"
 
   # parse the SQL to create template object
-  template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+  template = TwoWaySQL::Template.parse(sql)
 
   # merge data with template
   merged = template.merge(:job => 'MANAGER')

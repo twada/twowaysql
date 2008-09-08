@@ -12,7 +12,7 @@ describe TwoWaySQL::Template do
   describe "when parse SQL without comment nodes, e.g. 'SELECT * FROM emp'" do
     before do
       sql = "SELECT * FROM emp"
-      @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+      @template = TwoWaySQL::Template.parse(sql)
       @result = @template.merge(@ctx)
     end
 
@@ -30,7 +30,7 @@ describe TwoWaySQL::Template do
   describe "when parsed from 'SELECT * FROM emp WHERE job = /*ctx[:job]*/'CLERK' AND deptno = /*ctx[:deptno]*/20'" do
     before do
       sql = "SELECT * FROM emp WHERE job = /*ctx[:job]*/'CLERK' AND deptno = /*ctx[:deptno]*/20"
-      @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+      @template = TwoWaySQL::Template.parse(sql)
     end
 
     describe "pass Context with Symbol keys like ctx[:job] = 'HOGE' and ctx[:deptno] = 30" do
@@ -55,7 +55,7 @@ describe TwoWaySQL::Template do
   describe "when parsed from 'SELECT * FROM emp WHERE job = /*ctx['job']*/'CLERK' AND deptno = /*ctx['deptno']*/20'" do
     before do
       sql = "SELECT * FROM emp WHERE job = /*ctx['job']*/'CLERK' AND deptno = /*ctx['deptno']*/20"
-      @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+      @template = TwoWaySQL::Template.parse(sql)
     end
 
     describe "pass Context with String keys like ctx['job'] = 'HOGE' and ctx['deptno'] = 30" do
@@ -80,7 +80,7 @@ describe TwoWaySQL::Template do
   describe "when parsed from 'SELECT * FROM emp WHERE job = #*ctx[:job]*#'CLERK' AND deptno = #*ctx[:deptno]*#20'" do
     before do
       sql = "SELECT * FROM emp WHERE job = #*ctx[:job]*#'CLERK' AND deptno = #*ctx[:deptno]*#20"
-      @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+      @template = TwoWaySQL::Template.parse(sql)
       
       @ctx[:job] = "HOGE"
       @ctx[:deptno] = 30
@@ -107,7 +107,7 @@ describe TwoWaySQL::Template do
     describe "if preserve_comment => false" do
       before do
         sql = "SELECT * FROM emp WHERE job = /*  ctx[:job]*/'CLERK'"
-        @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false, :preserve_comment => false)
+        @template = TwoWaySQL::Template.parse(sql, :preserve_comment => false)
         @ctx[:job] = "HOGE"
         @result = @template.merge(@ctx)
       end
@@ -124,7 +124,7 @@ describe TwoWaySQL::Template do
     describe "if preserve_comment => true" do
       before do
         sql = "SELECT * FROM emp WHERE job = /*  ctx[:job]*/'CLERK'"
-        @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false, :preserve_comment => true)
+        @template = TwoWaySQL::Template.parse(sql, :preserve_comment => true)
         @ctx[:job] = "HOGE"
         @result = @template.merge(@ctx)
       end
@@ -145,7 +145,7 @@ describe TwoWaySQL::Template do
   describe "when parsed from 'SELECT * FROM emp WHERE empno = /*ctx[:empno]*/1 AND 1 = 1'" do
     before do
       sql = "SELECT * FROM emp WHERE empno = /*ctx[:empno]*/1 AND 1 = 1"
-      @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+      @template = TwoWaySQL::Template.parse(sql)
       
       @ctx[:empno] = 7788
       @result = @template.merge(@ctx)
@@ -165,7 +165,7 @@ describe TwoWaySQL::Template do
   describe "when parsed from 'SELECT * FROM emp/*IF ctx[:job] */ WHERE job = /*ctx[:job]*/'CLERK'/*END*/'" do
     before do
       sql = "SELECT * FROM emp/*IF ctx[:job] */ WHERE job = /*ctx[:job]*/'CLERK'/*END*/"
-      @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+      @template = TwoWaySQL::Template.parse(sql)
     end
 
     describe "and when :job param exists" do
@@ -199,7 +199,7 @@ describe TwoWaySQL::Template do
   describe "when parsed from SQL with 'nested if' like '/*IF ctx[:aaa]*/aaa/*IF ctx[:bbb]*/bbb/*END*//*END*/'" do
     before do
       sql = "/*IF ctx[:aaa]*/aaa/*IF ctx[:bbb]*/bbb/*END*//*END*/"
-      @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+      @template = TwoWaySQL::Template.parse(sql)
     end
 
     describe "and when inner is true but outer is false" do
@@ -249,7 +249,7 @@ describe TwoWaySQL::Template do
   describe "when parsed from 'SELECT * FROM emp WHERE /*IF ctx[:job]*/job = /*ctx[:job]*/'CLERK'-- ELSE job is null/*END*/'" do
     before do
       sql = "SELECT * FROM emp WHERE /*IF ctx[:job]*/job = /*ctx[:job]*/'CLERK'-- ELSE job is null/*END*/"
-      @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+      @template = TwoWaySQL::Template.parse(sql)
     end
 
     describe "and when :job param exists" do
@@ -283,7 +283,7 @@ describe TwoWaySQL::Template do
   describe "when parsed from '/*IF false*/aaa--ELSE bbb = /*ctx[:bbb]*/123/*END*/'" do
     before do
       sql = "/*IF false*/aaa--ELSE bbb = /*ctx[:bbb]*/123/*END*/"
-      @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+      @template = TwoWaySQL::Template.parse(sql)
     end
 
     describe "and when :bbb param exists" do
@@ -317,7 +317,7 @@ describe TwoWaySQL::Template do
   describe "when parsed from '/*IF false*/aaa--ELSE bbb/*IF false*/ccc--ELSE ddd/*END*//*END*/'" do
     before do
       sql = "/*IF false*/aaa--ELSE bbb/*IF false*/ccc--ELSE ddd/*END*//*END*/"
-      @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+      @template = TwoWaySQL::Template.parse(sql)
       @result = @template.merge(@ctx)
     end
 
@@ -331,7 +331,7 @@ describe TwoWaySQL::Template do
   describe "when parsed from 'SELECT * FROM emp/*BEGIN*/ WHERE /*IF false*/aaa-- ELSE AND deptno = 10/*END*//*END*/'" do
     before do
       sql = "SELECT * FROM emp/*BEGIN*/ WHERE /*IF false*/aaa-- ELSE AND deptno = 10/*END*//*END*/"
-      @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+      @template = TwoWaySQL::Template.parse(sql)
       @result = @template.merge(@ctx)
     end
 
@@ -343,7 +343,7 @@ describe TwoWaySQL::Template do
   describe "when parsed from 'SELECT * FROM emp/*BEGIN*/ WHERE /*IF false*/aaa--- ELSE AND deptno = 10/*END*//*END*/'" do
     before do
       sql = "SELECT * FROM emp/*BEGIN*/ WHERE /*IF false*/aaa--- ELSE AND deptno = 10/*END*//*END*/"
-      @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+      @template = TwoWaySQL::Template.parse(sql)
       @result = @template.merge(@ctx)
     end
 
@@ -357,7 +357,7 @@ describe TwoWaySQL::Template do
   describe "when parsed from 'SELECT * FROM emp/*BEGIN*/ WHERE /*IF ctx[:job]*/job = /*ctx[:job]*/'CLERK'/*END*//*IF ctx[:deptno]*/ AND deptno = /*ctx[:deptno]*/20/*END*//*END*/'" do
     before do
       sql = "SELECT * FROM emp/*BEGIN*/ WHERE /*IF ctx[:job]*/job = /*ctx[:job]*/'CLERK'/*END*//*IF ctx[:deptno]*/ AND deptno = /*ctx[:deptno]*/20/*END*//*END*/"
-      @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+      @template = TwoWaySQL::Template.parse(sql)
     end
 
     describe "and when context is empty (no param exists)" do
@@ -418,7 +418,7 @@ describe TwoWaySQL::Template do
   describe "when parsed from '/*BEGIN*/WHERE /*IF true*/aaa BETWEEN /*ctx[:bbb]*/111 AND /*ctx[:ccc]*/123/*END*//*END*/'" do
     before do
       sql = "/*BEGIN*/WHERE /*IF true*/aaa BETWEEN /*ctx[:bbb]*/111 AND /*ctx[:ccc]*/123/*END*//*END*/"
-      @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+      @template = TwoWaySQL::Template.parse(sql)
     end
 
     describe "and when :job and :deptno param exists" do
@@ -454,7 +454,7 @@ describe TwoWaySQL::Template do
   describe "when parsed from 'SELECT * FROM emp WHERE deptno IN /*ctx[:deptnoList]*/(10, 20) ORDER BY ename'" do
     before do
       sql = "SELECT * FROM emp WHERE deptno IN /*ctx[:deptnoList]*/(10, 20) ORDER BY ename"
-      @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+      @template = TwoWaySQL::Template.parse(sql)
     end
 
     describe "and when :deptnoList param is [30,40,50]" do
@@ -515,7 +515,7 @@ describe TwoWaySQL::Template do
   describe "when parsed from 'SELECT * FROM emp WHERE ename IN /*ctx[:enames]*/('SCOTT','MARY') AND job IN /*ctx[:jobs]*/('ANALYST', 'FREE')'" do
     before do
       sql = "SELECT * FROM emp WHERE ename IN /*ctx[:enames]*/('SCOTT','MARY') AND job IN /*ctx[:jobs]*/('ANALYST', 'FREE')"
-      @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+      @template = TwoWaySQL::Template.parse(sql)
     end
 
     describe "and when :enames param is ['DAVE', 'MARY', 'SCOTT'] and :jobs param is ['MANAGER', 'ANALYST']" do
@@ -538,7 +538,7 @@ describe TwoWaySQL::Template do
   describe "when parsed from 'INSERT INTO ITEM (ID, NUM) VALUES (/*ctx[:id]*/1, /*ctx[:num]*/20)'" do
     before do
       sql = "INSERT INTO ITEM (ID, NUM) VALUES (/*ctx[:id]*/1, /*ctx[:num]*/20)"
-      @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+      @template = TwoWaySQL::Template.parse(sql)
     end
 
     describe "and when :id param is 0 and :num param is 1" do
@@ -561,7 +561,7 @@ describe TwoWaySQL::Template do
   describe "when parsed from SQL with embedded variable comment '/*$ctx[:aaa]*/foo'" do
     before do
       sql = "/*$ctx[:aaa]*/foo"
-      @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+      @template = TwoWaySQL::Template.parse(sql)
     end
 
     describe "and :aaa param is 'hoge'" do
@@ -580,7 +580,7 @@ describe TwoWaySQL::Template do
   describe "when parsed from SQL with embedded variable comment 'BETWEEN sal ? AND ?'" do
     before do
       sql = "BETWEEN sal ? AND ?"
-      @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+      @template = TwoWaySQL::Template.parse(sql)
     end
 
     describe "and ctx[1] = 0 and ctx[2] = 1000 (note: key starts with 1, not 0.)" do
@@ -624,7 +624,7 @@ describe TwoWaySQL::Template do
     describe "that ends with semicolon like 'SELECT * FROM emp;'" do
       before do
         sql = "SELECT * FROM emp;"
-        @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+        @template = TwoWaySQL::Template.parse(sql)
         @result = @template.merge(@ctx)
       end
       it "should strip semicolon at input end" do
@@ -635,7 +635,7 @@ describe TwoWaySQL::Template do
     describe "that ends with semicolon and tab like 'SELECT * FROM emp;\t'" do
       before do
         sql = "SELECT * FROM emp;\t"
-        @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+        @template = TwoWaySQL::Template.parse(sql)
         @result = @template.merge(@ctx)
       end
       it "should strip semicolon and tab at input end" do
@@ -646,7 +646,7 @@ describe TwoWaySQL::Template do
     describe "that ends with semicolon and spaces like 'SELECT * FROM emp; '" do
       before do
         sql = "SELECT * FROM emp; "
-        @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+        @template = TwoWaySQL::Template.parse(sql)
         @result = @template.merge(@ctx)
       end
       it "should strip semicolon and spaces at input end" do
@@ -661,7 +661,7 @@ describe TwoWaySQL::Template do
     describe " '<>' " do
       before do
         sql = "SELECT * FROM emp WHERE job <> /*ctx[:job]*/'CLERK'"
-        @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+        @template = TwoWaySQL::Template.parse(sql)
         @ctx[:job] = "HOGE"
         @result = @template.merge(@ctx)
       end
@@ -679,7 +679,7 @@ describe TwoWaySQL::Template do
     describe "minus, such as -5 " do
       before do
         sql = "SELECT * FROM statistics WHERE degree = /*ctx[:degree]*/-5"
-        @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+        @template = TwoWaySQL::Template.parse(sql)
         @ctx[:degree] = -10
         @result = @template.merge(@ctx)
       end
@@ -697,7 +697,7 @@ describe TwoWaySQL::Template do
     describe "quote escape, such as 'Let''s' " do
       before do
         sql = "SELECT * FROM comments WHERE message = /*ctx[:message]*/'Let''s GO'"
-        @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+        @template = TwoWaySQL::Template.parse(sql)
         @ctx[:message] = "Hang'in there"
         @result = @template.merge(@ctx)
       end
@@ -718,7 +718,7 @@ describe TwoWaySQL::Template do
   describe "when parsed from 'SELECT * FROM emp -- comments here'" do
     before do
       sql = "SELECT * FROM emp -- comments here"
-      @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+      @template = TwoWaySQL::Template.parse(sql)
     end
 
     describe "and when 'job' param does not exist" do
@@ -738,7 +738,7 @@ describe TwoWaySQL::Template do
   describe "when parsed from 'SELECT * FROM emp WHERE empno = /*ctx[:empno]*/5.0 AND 1 = 1'" do
     before do
       sql = "SELECT * FROM emp WHERE empno = /*ctx[:empno]*/5.0 AND 1 = 1"
-      @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+      @template = TwoWaySQL::Template.parse(sql)
       
       @ctx[:empno] = 7788
       @result = @template.merge(@ctx)
@@ -767,7 +767,7 @@ WHERE
   job    =   /*ctx[:job]*/'CLERK'
   AND   deptno   =   /*ctx[:deptno]*/10
 EOS
-        @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false, :preserve_space => false)
+        @template = TwoWaySQL::Template.parse(sql, :preserve_space => false)
         @ctx[:job] = 'MANAGER'
         @ctx[:deptno] = 30
         @result = @template.merge(@ctx)
@@ -790,7 +790,7 @@ WHERE
 job    =   /*ctx[:job]*/'CLERK'
 AND   deptno   =   /*ctx[:deptno]*/10
 EOS
-        @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false, :preserve_space => false)
+        @template = TwoWaySQL::Template.parse(sql, :preserve_space => false)
         @ctx[:job] = 'MANAGER'
         @ctx[:deptno] = 30
         @result = @template.merge(@ctx)
@@ -802,7 +802,7 @@ EOS
       end
     end
 
-    describe ":preserve_eol => false, :preserve_space => false, :preserve_comment => false" do
+    describe ":preserve_space => false, :preserve_comment => false" do
       before do
         sql = <<-EOS
 SELECT
@@ -817,7 +817,7 @@ WHERE
   job    =   /*ctx[:job]*/'CLERK'
   AND   deptno   =   /*ctx[:deptno]*/10
 EOS
-        @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false, :preserve_space => false, :preserve_comment => false)
+        @template = TwoWaySQL::Template.parse(sql, :preserve_space => false, :preserve_comment => false)
         @ctx[:job] = 'MANAGER'
         @ctx[:deptno] = 30
         @result = @template.merge(@ctx)

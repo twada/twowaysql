@@ -174,7 +174,7 @@ TwoWaySQL may use bind variable as follows. In this case, value of ctx[:empno] i
 ===== usage
 
   sql = "SELECT * FROM emp WHERE job = /*ctx[:job]*/'CLERK' AND deptno = /*ctx[:deptno]*/20"
-  template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+  template = TwoWaySQL::Template.parse(sql)
 
   merged = template.merge(:job => "HOGE", :deptno => 30)
   merged.sql                #=> "SELECT * FROM emp WHERE job = ? AND deptno = ?"
@@ -197,7 +197,7 @@ acceptable argument for IN clause is an array-like object. Say, Object that resp
 ===== usage
 
   sql = "SELECT * FROM emp WHERE deptno IN /*ctx[:deptnoList]*/(10, 20) ORDER BY ename"
-  template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+  template = TwoWaySQL::Template.parse(sql)
 
   merged = template.merge(:deptnoList => [30,40,50])
   merged.sql                #=> "SELECT * FROM emp WHERE deptno IN (?, ?, ?) ORDER BY ename"
@@ -232,7 +232,7 @@ As you noticed. Embedded variable comment has risk for SQL Injection. Please not
 ===== usage
 
   sql = "SELECT * FROM emp ORDER BY /*$ctx[:order_by]*/ename /*$ctx[:order]*/ASC"
-  template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+  template = TwoWaySQL::Template.parse(sql)
 
   merged = template.merge(:order_by => 'id, :order => 'DESC')
   merged.sql                #=> "SELECT * FROM emp ORDER BY id DESC"
@@ -256,7 +256,7 @@ When the condition returns a truthy value, TwoWaySQL treats statements in "/*IF*
 ==== usage
 
   sql = "SELECT * FROM emp/*IF ctx[:job] */ WHERE job = /*ctx[:job]*/'CLERK'/*END*/"
-  template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+  template = TwoWaySQL::Template.parse(sql)
 
 
   # active case
@@ -286,7 +286,7 @@ In this case, when the eval(ctx[:foo]) returns an falsy value, string "hoge IS N
 ==== ELSE comment sample
 
   sql = "SELECT * FROM emp WHERE /*IF ctx[:job]*/job = /*ctx[:job]*/'CLERK'-- ELSE job IS NULL/*END*/"
-  template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+  template = TwoWaySQL::Template.parse(sql)
 
   # active case
   merged = template.merge(:job => 'MANAGER')
@@ -327,7 +327,7 @@ In the above example,
 ==== usage
 
   sql = "SELECT * FROM emp/*BEGIN*/ WHERE /*IF ctx[:job]*/job = /*ctx[:job]*/'CLERK'/*END*//*IF ctx[:deptno]*/ AND deptno = /*ctx[:deptno]*/20/*END*//*END*/"
-  template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+  template = TwoWaySQL::Template.parse(sql)
 
   # when data is empty (no param exists)
   ctx = {}
