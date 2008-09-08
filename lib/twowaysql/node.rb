@@ -236,11 +236,4 @@ module TwoWaySQL
   end
 
 
-  class EolNode < Node
-    def accept(ctx)
-      ctx.add_sql("\n")
-    end
-  end
-
-
 end

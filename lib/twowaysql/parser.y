@@ -94,10 +94,6 @@ primary        : IDENT
                 {
                   result = ActualCommentNode.new( val[0][0] , val[0][1] )
                 }
-               | EOL
-                {
-                  result = EolNode.new
-                }
                | bind_var
                | embed_var
 
@@ -142,13 +138,11 @@ def initialize(opts={})
   opts = {
     :debug => false,
     :preserve_space => true,
-    :preserve_comment => true,
-    :preserve_eol => true
+    :preserve_comment => true
   }.merge(opts)
   @yydebug = opts[:debug]
   @preserve_space = opts[:preserve_space]
   @preserve_comment = opts[:preserve_comment]
-  @preserve_eol = opts[:preserve_eol]
   @num_questions = 0
 end
 
@@ -179,8 +173,8 @@ UNMATCHED_COMMENT_START_PATTERN = /\A(?:(?:\/|\#)\*)/
 
 def parse( io )
   @q = []
-  io.each_line(nil) do |line|
-    s = StringScanner.new(line.rstrip)
+  io.each_line(nil) do |whole|
+    s = StringScanner.new(whole)
     until s.eos? do
       case
       when s.scan(AND_PATTERN)
@@ -228,7 +222,6 @@ def parse( io )
       
   end
     
-  @q.push [ :EOL, nil ] if @preserve_eol
   @q.push [ false, nil ]
     
   ## cal racc's private parse method

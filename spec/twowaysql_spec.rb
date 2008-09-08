@@ -774,7 +774,7 @@ EOS
       end
 
       it  do
-        @result.sql.should == "SELECT * FROM emp WHERE job = ? AND deptno = ?"
+        @result.sql.should == "SELECT * FROM emp WHERE job = ? AND deptno = ? "
         @result.bound_variables.should == ["MANAGER", 30]
       end
     end
@@ -797,7 +797,7 @@ EOS
       end
 
       it  do
-        @result.sql.should == "SELECT * FROM emp WHERE job = ? AND deptno = ?"
+        @result.sql.should == "SELECT * FROM emp WHERE job = ? AND deptno = ? "
         @result.bound_variables.should == ["MANAGER", 30]
       end
     end
@@ -824,7 +824,7 @@ EOS
       end
 
       it "handle multiline comment then ignore it if @preserve_comment is falsy" do
-        @result.sql.should == "SELECT * FROM emp  WHERE job = ? AND deptno = ?"
+        @result.sql.should == "SELECT * FROM emp  WHERE job = ? AND deptno = ? "
         @result.bound_variables.should == ["MANAGER", 30]
       end
     end
