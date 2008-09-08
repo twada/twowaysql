@@ -102,22 +102,42 @@ describe TwoWaySQL::Template do
 
 
 
-  describe "when parsed from SQL file with one or more white speces in comment, like 'SELECT * FROM emp WHERE job = /* ctx[:job]*/'CLERK''" do
-    before do
-      sql = "SELECT * FROM emp WHERE job = /* ctx[:job]*/'CLERK'"
-      @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false)
+  describe "when parsed from SQL file with one or more white speces in comment, like 'SELECT * FROM emp WHERE job = /*  ctx[:job]*/'CLERK''" do
 
-      @ctx[:job] = "HOGE"
-      @result = @template.merge(@ctx)
-    end
+    describe "if preserve_comment => false" do
+      before do
+        sql = "SELECT * FROM emp WHERE job = /*  ctx[:job]*/'CLERK'"
+        @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false, :preserve_comment => false)
+        @ctx[:job] = "HOGE"
+        @result = @template.merge(@ctx)
+      end
     
-    it "should treat comment node which starts with one or more speces like /* ctx[:job]*/'CLERK' as real comment node, therefore it does *NOT* replace comment node with question mark. so SQL will 'SELECT * FROM emp WHERE job = 'CLERK''" do
-      @result.sql.should == "SELECT * FROM emp WHERE job = 'CLERK'"
+      it "should treat comment node which starts with one or more speces like /*  ctx[:job]*/'CLERK' as actual comment node, therefore it does *NOT* replace comment node with question mark. so SQL will 'SELECT * FROM emp WHERE job = 'CLERK''" do
+        @result.sql.should == "SELECT * FROM emp WHERE job = 'CLERK'"
+      end
+
+      it "should have no variable nodes, so return empty Array as bound variables" do
+        @result.bound_variables.should be_empty
+      end
     end
 
-    it "should have no variable nodes, so return empty Array as bound variables" do
-      @result.bound_variables.should be_empty
+    describe "if preserve_comment => true" do
+      before do
+        sql = "SELECT * FROM emp WHERE job = /*  ctx[:job]*/'CLERK'"
+        @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false, :preserve_comment => true)
+        @ctx[:job] = "HOGE"
+        @result = @template.merge(@ctx)
+      end
+    
+      it "SQL will 'SELECT * FROM emp WHERE job = /*  ctx[:job]*/'CLERK''" do
+        @result.sql.should == "SELECT * FROM emp WHERE job = /*  ctx[:job]*/'CLERK'"
+      end
+
+      it "should have no variable nodes, so return empty Array as bound variables" do
+        @result.bound_variables.should be_empty
+      end
     end
+
   end
 
 
@@ -782,12 +802,9 @@ EOS
       end
     end
 
-  end
-
-
-  describe "multiline actual comment" do
-    before do
-      sql = <<-EOS
+    describe ":compact_mode => true, :preserve_comment => false" do
+      before do
+        sql = <<-EOS
 SELECT
   *
 FROM
@@ -800,17 +817,100 @@ WHERE
   job    =   /*ctx[:job]*/'CLERK'
   AND   deptno   =   /*ctx[:deptno]*/10
 EOS
-      @template = TwoWaySQL::Template.parse(sql, :compact_mode => true)
-      @ctx[:job] = 'MANAGER'
-      @ctx[:deptno] = 30
-      @result = @template.merge(@ctx)
+        @template = TwoWaySQL::Template.parse(sql, :compact_mode => true, :preserve_comment => false)
+        @ctx[:job] = 'MANAGER'
+        @ctx[:deptno] = 30
+        @result = @template.merge(@ctx)
+      end
+
+      it "handle multiline comment then ignore it if @preserve_comment is falsy" do
+        @result.sql.should == "SELECT * FROM emp  WHERE job = ? AND deptno = ?"
+        @result.bound_variables.should == ["MANAGER", 30]
+      end
     end
 
-    it "handle multiline comment then ignore it if @preserve_comment is falsy" do
-      @result.sql.should == "SELECT * FROM emp  WHERE job = ? AND deptno = ?"
-      @result.bound_variables.should == ["MANAGER", 30]
+  end
+
+
+
+  describe "multiline actual comment" do
+
+    describe ":preserve_comment => false" do
+      before do
+        sql = <<-EOS
+SELECT
+  *
+FROM
+  emp
+  /* 
+     This is
+     multiline comment
+  */
+WHERE
+  job    =   /*ctx[:job]*/'CLERK'
+  AND   deptno   =   /*ctx[:deptno]*/10
+EOS
+        @template = TwoWaySQL::Template.parse(sql, :compact_mode => false, :preserve_comment => false)
+        @ctx[:job] = 'MANAGER'
+        @ctx[:deptno] = 30
+        @result = @template.merge(@ctx)
+      end
+
+      it "handle multiline comment then remove it if @preserve_comment is falsy" do
+        expected = <<-EOS
+SELECT
+  *
+FROM
+  emp
+  
+WHERE
+  job    =   ?
+  AND   deptno   =   ?
+EOS
+        @result.sql.should == expected
+        @result.bound_variables.should == ["MANAGER", 30]
+      end
     end
 
+    describe ":preserve_comment => true" do
+      before do
+        sql = <<-EOS
+SELECT
+  *
+FROM
+  emp
+  /* 
+     This is
+     multiline comment
+  */
+WHERE
+  job    =   /*ctx[:job]*/'CLERK'
+  AND   deptno   =   /*ctx[:deptno]*/10
+EOS
+        @template = TwoWaySQL::Template.parse(sql, :compact_mode => false, :preserve_comment => true)
+        @ctx[:job] = 'MANAGER'
+        @ctx[:deptno] = 30
+        @result = @template.merge(@ctx)
+      end
+
+      it "handle multiline comment then preserve it if @preserve_comment is truthy" do
+        expected = <<-EOS
+SELECT
+  *
+FROM
+  emp
+  /* 
+     This is
+     multiline comment
+  */
+WHERE
+  job    =   ?
+  AND   deptno   =   ?
+EOS
+        @result.sql.should == expected
+        @result.bound_variables.should == ["MANAGER", 30]
+      end
+    end
   end
 
 

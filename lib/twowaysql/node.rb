@@ -210,12 +210,13 @@ module TwoWaySQL
   end
 
 
-  class CommentNode < Node
-    def initialize(val)
-      @val = val
+  class ActualCommentNode < Node
+    def initialize(delim, content)
+      @delim = delim
+      @content = content
     end
     def accept(ctx)
-      # nothing to do
+      ctx.add_sql("#{@delim}*#{@content}*#{@delim}")
     end
   end
 

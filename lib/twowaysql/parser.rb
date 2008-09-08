@@ -11,7 +11,7 @@ module TwoWaySQL
 
   class Parser < Racc::Parser
 
-module_eval <<'..end lib/twowaysql/parser.y modeval..id21bc12a8dc', 'lib/twowaysql/parser.y', 138
+module_eval <<'..end lib/twowaysql/parser.y modeval..ide1282c94c2', 'lib/twowaysql/parser.y', 138
 
 require 'strscan'
 
@@ -51,7 +51,7 @@ QUESTION_PATTERN      = /\A\?/
 COMMA_PATTERN         = /\A\,/
 LPAREN_PATTERN        = /\A\(/
 RPAREN_PATTERN        = /\A\)/
-ACTUAL_COMMENT_PATTERN          = /\A(\/|\#)\*\s{1,}(.*?)\*\1/m  ## start with spaces
+ACTUAL_COMMENT_PATTERN          = /\A(\/|\#)\*(\s{1,}(?:.*?))\*\1/m  ## start with spaces
 SEMICOLON_AT_INPUT_END_PATTERN  = /\A\;\s*\Z/
 UNMATCHED_COMMENT_START_PATTERN = /\A(?:(?:\/|\#)\*)/
 
@@ -79,7 +79,7 @@ def parse( io )
       when s.scan(ELSE_PATTERN)
         @q.push [ :ELSE, nil ]
       when s.scan(ACTUAL_COMMENT_PATTERN)
-        @q.push [ :ACTUAL_COMMENT, s[2] ] if @preserve_comment
+        @q.push [ :ACTUAL_COMMENT, [s[1], s[2]] ] if @preserve_comment
       when s.scan(BEGIN_END_PATTERN)
         @q.push [ s[2].intern, nil ]
       when s.scan(CONDITIONAL_PATTERN)
@@ -117,7 +117,7 @@ end
 def next_token
   @q.shift
 end
-..end lib/twowaysql/parser.y modeval..id21bc12a8dc
+..end lib/twowaysql/parser.y modeval..ide1282c94c2
 
 ##### racc 1.4.5 generates ###
 
@@ -445,7 +445,7 @@ module_eval <<'.,.,', 'lib/twowaysql/parser.y', 92
 
 module_eval <<'.,.,', 'lib/twowaysql/parser.y', 96
   def _reduce_25( val, _values, result )
-                  result = CommentNode.new( val[0] )
+                  result = ActualCommentNode.new( val[0][0] , val[0][1] )
    result
   end
 .,.,

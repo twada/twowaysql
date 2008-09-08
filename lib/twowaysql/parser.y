@@ -92,7 +92,7 @@ primary        : IDENT
                 }
                | ACTUAL_COMMENT
                 {
-                  result = CommentNode.new( val[0] )
+                  result = ActualCommentNode.new( val[0][0] , val[0][1] )
                 }
                | EOL
                 {
@@ -174,7 +174,7 @@ QUESTION_PATTERN      = /\A\?/
 COMMA_PATTERN         = /\A\,/
 LPAREN_PATTERN        = /\A\(/
 RPAREN_PATTERN        = /\A\)/
-ACTUAL_COMMENT_PATTERN          = /\A(\/|\#)\*\s{1,}(.*?)\*\1/m  ## start with spaces
+ACTUAL_COMMENT_PATTERN          = /\A(\/|\#)\*(\s{1,}(?:.*?))\*\1/m  ## start with spaces
 SEMICOLON_AT_INPUT_END_PATTERN  = /\A\;\s*\Z/
 UNMATCHED_COMMENT_START_PATTERN = /\A(?:(?:\/|\#)\*)/
 
@@ -202,7 +202,7 @@ def parse( io )
       when s.scan(ELSE_PATTERN)
         @q.push [ :ELSE, nil ]
       when s.scan(ACTUAL_COMMENT_PATTERN)
-        @q.push [ :ACTUAL_COMMENT, s[2] ] if @preserve_comment
+        @q.push [ :ACTUAL_COMMENT, [s[1], s[2]] ] if @preserve_comment
       when s.scan(BEGIN_END_PATTERN)
         @q.push [ s[2].intern, nil ]
       when s.scan(CONDITIONAL_PATTERN)
