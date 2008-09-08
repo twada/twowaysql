@@ -3,9 +3,9 @@ title: Whitespace compaction mode
 desc: Whitespace compaction mode for log space saving
 type: :feature
 component: twowaysql
-release: 
+release: release_0_3
 reporter: takuto <takuto.wada@gmail.com>
-status: :unstarted
+status: :in_progress
 disposition: 
 creation_time: 2008-09-05 11:32:38.661495 Z
 references: []
@@ -15,4 +15,12 @@ log_events:
 - - 2008-09-05 11:32:40.738455 Z
   - takuto <takuto.wada@gmail.com>
   - created
+  - ""
+- - 2008-09-08 08:56:36.791742 Z
+  - takuto <takuto.wada@gmail.com>
+  - assigned to release release_0_3 from unassigned
+  - ""
+- - 2008-09-08 08:57:29.584166 Z
+  - takuto <takuto.wada@gmail.com>
+  - changed status from unstarted to in_progress
   - ""

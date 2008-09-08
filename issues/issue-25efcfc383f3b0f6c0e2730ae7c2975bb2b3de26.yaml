@@ -3,9 +3,9 @@ title: better whitespace handling
 desc: better whitespace handling on Scanner/Grammar.
 type: :feature
 component: twowaysql
-release: 
+release: release_0_3
 reporter: takuto <takuto.wada@gmail.com>
-status: :unstarted
+status: :in_progress
 disposition: 
 creation_time: 2008-09-03 09:00:15.483485 Z
 references: []
@@ -16,3 +16,11 @@ log_events:
   - takuto <takuto.wada@gmail.com>
   - created
   - fix some dirty rules for whitespaces, if possible.
+- - 2008-09-08 08:56:27.771360 Z
+  - takuto <takuto.wada@gmail.com>
+  - assigned to release release_0_3 from unassigned
+  - ""
+- - 2008-09-08 08:57:22.550994 Z
+  - takuto <takuto.wada@gmail.com>
+  - changed status from unstarted to in_progress
+  - ""

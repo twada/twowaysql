@@ -3,9 +3,9 @@ title: change line-based scanning to whole string based scanning
 desc: try whole string based scanning to handle multiline comments and directives
 type: :task
 component: twowaysql
-release: 
+release: release_0_3
 reporter: takuto <takuto.wada@gmail.com>
-status: :unstarted
+status: :in_progress
 disposition: 
 creation_time: 2008-09-03 09:04:04.695887 Z
 references: []
@@ -16,3 +16,11 @@ log_events:
   - takuto <takuto.wada@gmail.com>
   - created
   - this is a trial. not necessary for current specs.
+- - 2008-09-08 08:56:33.359947 Z
+  - takuto <takuto.wada@gmail.com>
+  - assigned to release release_0_3 from unassigned
+  - ""
+- - 2008-09-08 08:57:26.255202 Z
+  - takuto <takuto.wada@gmail.com>
+  - changed status from unstarted to in_progress
+  - ""
