@@ -138,7 +138,7 @@ def initialize(opts={})
   opts = {
     :debug => false,
     :preserve_space => true,
-    :preserve_comment => true
+    :preserve_comment => false
   }.merge(opts)
   @yydebug = opts[:debug]
   @preserve_space = opts[:preserve_space]

@@ -104,10 +104,10 @@ describe TwoWaySQL::Template do
 
   describe "when parsed from SQL file with one or more white speces in comment, like 'SELECT * FROM emp WHERE job = /*  ctx[:job]*/'CLERK''" do
 
-    describe "if preserve_comment => false" do
+    describe "default is :peserve_comment => true" do
       before do
         sql = "SELECT * FROM emp WHERE job = /*  ctx[:job]*/'CLERK'"
-        @template = TwoWaySQL::Template.parse(sql, :preserve_comment => false)
+        @template = TwoWaySQL::Template.parse(sql)
         @ctx[:job] = "HOGE"
         @result = @template.merge(@ctx)
       end
