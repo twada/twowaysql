@@ -1,0 +1,22 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: remove preserve_eol flag
+desc: remove preserve_eol flag. both for one-liner and multi-line SQL.
+type: :feature
+component: twowaysql
+release: release_0_3
+reporter: takuto <takuto.wada@gmail.com>
+status: :in_progress
+disposition: 
+creation_time: 2008-09-08 18:50:03.580663 Z
+references: []
+
+id: f1bd40de5458397d9b142ea3e197e5264e0dcdbf
+log_events: 
+- - 2008-09-08 18:50:05.346009 Z
+  - takuto <takuto.wada@gmail.com>
+  - created
+  - ""
+- - 2008-09-08 18:50:28.843212 Z
+  - takuto <takuto.wada@gmail.com>
+  - changed status from unstarted to in_progress
+  - ""
