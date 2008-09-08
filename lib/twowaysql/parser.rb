@@ -11,7 +11,7 @@ module TwoWaySQL
 
   class Parser < Racc::Parser
 
-module_eval <<'..end lib/twowaysql/parser.y modeval..idb72b1bee8e', 'lib/twowaysql/parser.y', 134
+module_eval <<'..end lib/twowaysql/parser.y modeval..id64e15ce352', 'lib/twowaysql/parser.y', 134
 
 require 'strscan'
 
@@ -38,7 +38,7 @@ CONDITIONAL_PATTERN   = /\A(\/|\#)\*(IF)\s+([^\*]+)\s*\*\1/
 BEGIN_END_PATTERN     = /\A(\/|\#)\*(BEGIN|END)\s*\*\1/
 STRING_LITERAL_PATTERN = /\A(\'(?:[^\']+|\'\')*\')/   ## quoted string
 SPLIT_TOKEN_PATTERN   = /\A(\S+?)(?=\s*(?:(?:\/|\#)\*|-{2,}|\(|\)|\,))/  ## stop on delimiters --,/*,#*,',',(,)
-ELSE_PATTERN          = /\A\-{2,}\s*ELSE\s*/
+ELSE_PATTERN          = /\A\-{2,}\s*ELSE\s*/ #TODO: remove trailing spaces for S2Dao compatibility, but this spec sometimes causes SQL bugs...
 AND_PATTERN           = /\A(\ *AND)\b/i
 OR_PATTERN            = /\A(\ *OR)\b/i
 LITERAL_PATTERN       = /\A([^;\s]+)/
@@ -112,7 +112,7 @@ end
 def next_token
   @q.shift
 end
-..end lib/twowaysql/parser.y modeval..idb72b1bee8e
+..end lib/twowaysql/parser.y modeval..id64e15ce352
 
 ##### racc 1.4.5 generates ###
 

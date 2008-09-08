@@ -157,7 +157,7 @@ CONDITIONAL_PATTERN   = /\A(\/|\#)\*(IF)\s+([^\*]+)\s*\*\1/
 BEGIN_END_PATTERN     = /\A(\/|\#)\*(BEGIN|END)\s*\*\1/
 STRING_LITERAL_PATTERN = /\A(\'(?:[^\']+|\'\')*\')/   ## quoted string
 SPLIT_TOKEN_PATTERN   = /\A(\S+?)(?=\s*(?:(?:\/|\#)\*|-{2,}|\(|\)|\,))/  ## stop on delimiters --,/*,#*,',',(,)
-ELSE_PATTERN          = /\A\-{2,}\s*ELSE\s*/
+ELSE_PATTERN          = /\A\-{2,}\s*ELSE\s*/ #TODO: remove trailing spaces for S2Dao compatibility, but this spec sometimes causes SQL bugs...
 AND_PATTERN           = /\A(\ *AND)\b/i
 OR_PATTERN            = /\A(\ *OR)\b/i
 LITERAL_PATTERN       = /\A([^;\s]+)/
