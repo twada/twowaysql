@@ -153,11 +153,26 @@ from
   /*IF ctx[:id_list] */and id in /*ctx[:id_list]*/(3, 4, 9)/*END*/
 /*END*/
 EOS
-      template = TwoWaySQL::Template.parse(sql)
-      @result = template.merge(:id_list => [10, 11])
+      @template = TwoWaySQL::Template.parse(sql)
     end
 
-    it "sql" do
+    it "if both line is true" do
+      expected = <<-EOS
+select
+  *
+from
+  hoge
+where
+  name like ?
+  and id in (?, ?)
+
+EOS
+      @result = @template.merge(:name => 'foo%', :id_list => [10, 11])
+      @result.sql.should == expected
+      @result.bound_variables.should == ['foo%', 10, 11]
+    end
+
+    it "if second line is true" do
       expected = <<-EOS
 select
   *
@@ -168,9 +183,11 @@ where
    id in (?, ?)
 
 EOS
+      @result = @template.merge(:id_list => [10, 11])
       @result.sql.should == expected
       @result.bound_variables.should == [10, 11]
     end
+
   end
 
 end
