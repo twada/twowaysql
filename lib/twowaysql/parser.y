@@ -140,7 +140,7 @@ require 'strscan'
 
 def initialize(opts={})
   opts = {
-    :debug => true,
+    :debug => false,
     :compact_mode => false,
     :preserve_space => true,
     :preserve_comment => true,

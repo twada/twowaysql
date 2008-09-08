@@ -11,13 +11,13 @@ module TwoWaySQL
 
   class Parser < Racc::Parser
 
-module_eval <<'..end lib/twowaysql/parser.y modeval..ide1282c94c2', 'lib/twowaysql/parser.y', 138
+module_eval <<'..end lib/twowaysql/parser.y modeval..ida5ad694175', 'lib/twowaysql/parser.y', 138
 
 require 'strscan'
 
 def initialize(opts={})
   opts = {
-    :debug => true,
+    :debug => false,
     :compact_mode => false,
     :preserve_space => true,
     :preserve_comment => true,
@@ -117,7 +117,7 @@ end
 def next_token
   @q.shift
 end
-..end lib/twowaysql/parser.y modeval..ide1282c94c2
+..end lib/twowaysql/parser.y modeval..ida5ad694175
 
 ##### racc 1.4.5 generates ###
 
