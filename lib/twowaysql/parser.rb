@@ -11,20 +11,18 @@ module TwoWaySQL
 
   class Parser < Racc::Parser
 
-module_eval <<'..end lib/twowaysql/parser.y modeval..ida5ad694175', 'lib/twowaysql/parser.y', 138
+module_eval <<'..end lib/twowaysql/parser.y modeval..id50aa606df9', 'lib/twowaysql/parser.y', 138
 
 require 'strscan'
 
 def initialize(opts={})
   opts = {
     :debug => false,
-    :compact_mode => false,
     :preserve_space => true,
     :preserve_comment => true,
     :preserve_eol => true
   }.merge(opts)
   @yydebug = opts[:debug]
-  @compact_mode = opts[:compact_mode]
   @preserve_space = opts[:preserve_space]
   @preserve_comment = opts[:preserve_comment]
   @preserve_eol = opts[:preserve_eol]
@@ -67,7 +65,7 @@ def parse( io )
       when s.scan(OR_PATTERN)
         @q.push [ :OR, s[1] ]
       when s.scan(SPACES_PATTERN)
-        @q.push [ :SPACES, s[1] ] if @preserve_space
+        @q.push [ :SPACES, s[1] ]
       when s.scan(QUESTION_PATTERN)
         @q.push [ :QUESTION, nil ]
       when s.scan(COMMA_PATTERN)
@@ -117,7 +115,7 @@ end
 def next_token
   @q.shift
 end
-..end lib/twowaysql/parser.y modeval..ida5ad694175
+..end lib/twowaysql/parser.y modeval..id50aa606df9
 
 ##### racc 1.4.5 generates ###
 
@@ -409,7 +407,7 @@ module_eval <<'.,.,', 'lib/twowaysql/parser.y', 71
 
 module_eval <<'.,.,', 'lib/twowaysql/parser.y', 75
   def _reduce_20( val, _values, result )
-                  result = WhiteSpaceNode.new( val[0], @compact_mode )
+                  result = WhiteSpaceNode.new( val[0], @preserve_space )
    result
   end
 .,.,
@@ -452,7 +450,7 @@ module_eval <<'.,.,', 'lib/twowaysql/parser.y', 96
 
 module_eval <<'.,.,', 'lib/twowaysql/parser.y', 100
   def _reduce_26( val, _values, result )
-                  result = EolNode.new( @compact_mode )
+                  result = EolNode.new
    result
   end
 .,.,

@@ -767,7 +767,7 @@ WHERE
   job    =   /*ctx[:job]*/'CLERK'
   AND   deptno   =   /*ctx[:deptno]*/10
 EOS
-        @template = TwoWaySQL::Template.parse(sql, :compact_mode => true)
+        @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false, :preserve_space => false)
         @ctx[:job] = 'MANAGER'
         @ctx[:deptno] = 30
         @result = @template.merge(@ctx)
@@ -790,7 +790,7 @@ WHERE
 job    =   /*ctx[:job]*/'CLERK'
 AND   deptno   =   /*ctx[:deptno]*/10
 EOS
-        @template = TwoWaySQL::Template.parse(sql, :compact_mode => true)
+        @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false, :preserve_space => false)
         @ctx[:job] = 'MANAGER'
         @ctx[:deptno] = 30
         @result = @template.merge(@ctx)
@@ -802,7 +802,7 @@ EOS
       end
     end
 
-    describe ":compact_mode => true, :preserve_comment => false" do
+    describe ":preserve_eol => false, :preserve_space => false, :preserve_comment => false" do
       before do
         sql = <<-EOS
 SELECT
@@ -817,7 +817,7 @@ WHERE
   job    =   /*ctx[:job]*/'CLERK'
   AND   deptno   =   /*ctx[:deptno]*/10
 EOS
-        @template = TwoWaySQL::Template.parse(sql, :compact_mode => true, :preserve_comment => false)
+        @template = TwoWaySQL::Template.parse(sql, :preserve_eol => false, :preserve_space => false, :preserve_comment => false)
         @ctx[:job] = 'MANAGER'
         @ctx[:deptno] = 30
         @result = @template.merge(@ctx)
@@ -850,7 +850,7 @@ WHERE
   job    =   /*ctx[:job]*/'CLERK'
   AND   deptno   =   /*ctx[:deptno]*/10
 EOS
-        @template = TwoWaySQL::Template.parse(sql, :compact_mode => false, :preserve_comment => false)
+        @template = TwoWaySQL::Template.parse(sql, :preserve_comment => false)
         @ctx[:job] = 'MANAGER'
         @ctx[:deptno] = 30
         @result = @template.merge(@ctx)
@@ -887,7 +887,7 @@ WHERE
   job    =   /*ctx[:job]*/'CLERK'
   AND   deptno   =   /*ctx[:deptno]*/10
 EOS
-        @template = TwoWaySQL::Template.parse(sql, :compact_mode => false, :preserve_comment => true)
+        @template = TwoWaySQL::Template.parse(sql, :preserve_comment => true)
         @ctx[:job] = 'MANAGER'
         @ctx[:deptno] = 30
         @result = @template.merge(@ctx)

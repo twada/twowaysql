@@ -71,7 +71,7 @@ primary        : IDENT
                 }
                | SPACES
                 {
-                  result = WhiteSpaceNode.new( val[0], @compact_mode )
+                  result = WhiteSpaceNode.new( val[0], @preserve_space )
                 }
                | COMMA
                 {
@@ -96,7 +96,7 @@ primary        : IDENT
                 }
                | EOL
                 {
-                  result = EolNode.new( @compact_mode )
+                  result = EolNode.new
                 }
                | bind_var
                | embed_var
@@ -141,13 +141,11 @@ require 'strscan'
 def initialize(opts={})
   opts = {
     :debug => false,
-    :compact_mode => false,
     :preserve_space => true,
     :preserve_comment => true,
     :preserve_eol => true
   }.merge(opts)
   @yydebug = opts[:debug]
-  @compact_mode = opts[:compact_mode]
   @preserve_space = opts[:preserve_space]
   @preserve_comment = opts[:preserve_comment]
   @preserve_eol = opts[:preserve_eol]
@@ -190,7 +188,7 @@ def parse( io )
       when s.scan(OR_PATTERN)
         @q.push [ :OR, s[1] ]
       when s.scan(SPACES_PATTERN)
-        @q.push [ :SPACES, s[1] ] if @preserve_space
+        @q.push [ :SPACES, s[1] ]
       when s.scan(QUESTION_PATTERN)
         @q.push [ :QUESTION, nil ]
       when s.scan(COMMA_PATTERN)

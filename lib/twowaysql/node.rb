@@ -222,26 +222,23 @@ module TwoWaySQL
 
 
   class WhiteSpaceNode < Node
-    def initialize(val, compact_mode)
+    def initialize(val, preserve)
       @val = val
-      @compact_mode = compact_mode
+      @preserve = preserve
     end
     def accept(ctx)
-      if @compact_mode
-        ctx.add_sql(" ")
-      else
+      if @preserve
         ctx.add_sql(@val)
+      else
+        ctx.add_sql(" ")
       end
     end
   end
 
 
   class EolNode < Node
-    def initialize(compact_mode)
-      @compact_mode = compact_mode
-    end
     def accept(ctx)
-      ctx.add_sql("\n") unless @compact_mode
+      ctx.add_sql("\n")
     end
   end
 
