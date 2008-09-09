@@ -11,7 +11,7 @@ module TwoWaySQL
 
   class Parser < Racc::Parser
 
-module_eval <<'..end lib/twowaysql/parser.y modeval..id8e278eb0da', 'lib/twowaysql/parser.y', 134
+module_eval <<'..end lib/twowaysql/parser.y modeval..idd0cee34b5c', 'lib/twowaysql/parser.y', 134
 
 require 'strscan'
 
@@ -34,22 +34,24 @@ BIND_VARIABLE_PATTERN        = /\A#{BEGIN_BIND_VARIABLE}\s*/
 PAREN_BIND_VARIABLE_PATTERN  = /\A#{BEGIN_BIND_VARIABLE}\s*#{PAREN_EXAMPLE}/
 EMBED_VARIABLE_PATTERN       = /\A(\/|\#)\*\$([^\*]+)\*\1\s*/
 
-CONDITIONAL_PATTERN   = /\A(\/|\#)\*(IF)\s+([^\*]+)\s*\*\1/
-BEGIN_END_PATTERN     = /\A(\/|\#)\*(BEGIN|END)\s*\*\1/
-STRING_LITERAL_PATTERN = /\A(\'(?:[^\']+|\'\')*\')/   ## quoted string
-SPLIT_TOKEN_PATTERN   = /\A(\S+?)(?=\s*(?:(?:\/|\#)\*|-{2,}|\(|\)|\,))/  ## stop on delimiters --,/*,#*,',',(,)
-ELSE_PATTERN          = /\A\-{2,}\s*ELSE\s*/ #TODO: remove trailing spaces for S2Dao compatibility, but this spec sometimes causes SQL bugs...
-AND_PATTERN           = /\A(\ *AND)\b/i
-OR_PATTERN            = /\A(\ *OR)\b/i
-LITERAL_PATTERN       = /\A([^;\s]+)/
-SPACES_PATTERN        = /\A(\s+)/
-QUESTION_PATTERN      = /\A\?/
-COMMA_PATTERN         = /\A\,/
-LPAREN_PATTERN        = /\A\(/
-RPAREN_PATTERN        = /\A\)/
+CONDITIONAL_PATTERN     = /\A(\/|\#)\*(IF)\s+([^\*]+)\s*\*\1/
+BEGIN_END_PATTERN       = /\A(\/|\#)\*(BEGIN|END)\s*\*\1/
+STRING_LITERAL_PATTERN  = /\A(\'(?:[^\']+|\'\')*\')/   ## quoted string
+SPLIT_TOKEN_PATTERN     = /\A(\S+?)(?=\s*(?:(?:\/|\#)\*|-{2,}|\(|\)|\,))/  ## stop on delimiters --,/*,#*,',',(,)
+LITERAL_PATTERN         = /\A([^;\s]+)/
+SPACES_PATTERN          = /\A(\s+)/
+QUESTION_PATTERN        = /\A\?/
+COMMA_PATTERN           = /\A\,/
+LPAREN_PATTERN          = /\A\(/
+RPAREN_PATTERN          = /\A\)/
 ACTUAL_COMMENT_PATTERN          = /\A(\/|\#)\*(\s{1,}(?:.*?))\*\1/m  ## start with spaces
 SEMICOLON_AT_INPUT_END_PATTERN  = /\A\;\s*\Z/
 UNMATCHED_COMMENT_START_PATTERN = /\A(?:(?:\/|\#)\*)/
+
+#TODO: remove trailing spaces for S2Dao compatibility, but this spec sometimes causes SQL bugs...
+ELSE_PATTERN            = /\A\-{2,}\s*ELSE\s*/
+AND_PATTERN             = /\A(\ *AND)\b/i
+OR_PATTERN              = /\A(\ *OR)\b/i
 
 
 def parse( io )
@@ -112,7 +114,7 @@ end
 def next_token
   @q.shift
 end
-..end lib/twowaysql/parser.y modeval..id8e278eb0da
+..end lib/twowaysql/parser.y modeval..idd0cee34b5c
 
 ##### racc 1.4.5 generates ###
 
