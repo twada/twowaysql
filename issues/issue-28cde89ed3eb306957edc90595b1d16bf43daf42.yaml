@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: write docs for space compaction mode
+desc: write docs for space compaction mode
+type: :task
+component: twowaysql
+release: release_0_3
+reporter: takuto <takuto.wada@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-09-09 05:40:16.864740 Z
+references: []
+
+id: 28cde89ed3eb306957edc90595b1d16bf43daf42
+log_events: 
+- - 2008-09-09 05:40:18.449669 Z
+  - takuto <takuto.wada@gmail.com>
+  - created
+  - ""

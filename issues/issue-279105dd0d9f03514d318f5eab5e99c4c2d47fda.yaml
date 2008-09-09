@@ -1,0 +1,21 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: deal with trailing space of ELSE
+desc: |-
+  deal with trailing space of ELSE. e.g.
+  ... --ELSE age IS NULL  #=> 'age IS NULL'
+  ... --ELSE AND age IS NULL  #=> 'AND age IS NULL' or ' age IS NULL' 
+type: :task
+component: twowaysql
+release: 
+reporter: takuto <takuto.wada@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-09-09 05:43:46.691586 Z
+references: []
+
+id: 279105dd0d9f03514d318f5eab5e99c4c2d47fda
+log_events: 
+- - 2008-09-09 05:43:48.017710 Z
+  - takuto <takuto.wada@gmail.com>
+  - created
+  - ""

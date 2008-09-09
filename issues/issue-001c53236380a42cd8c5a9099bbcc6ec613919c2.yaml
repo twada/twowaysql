@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: integrate RSpec report into website
+desc: integrate RSpec report into website
+type: :task
+component: twowaysql
+release: 
+reporter: takuto <takuto.wada@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-09-09 05:46:28.201883 Z
+references: []
+
+id: 001c53236380a42cd8c5a9099bbcc6ec613919c2
+log_events: 
+- - 2008-09-09 05:46:29.606754 Z
+  - takuto <takuto.wada@gmail.com>
+  - created
+  - ""
