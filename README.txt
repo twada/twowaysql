@@ -121,10 +121,9 @@ TwoWaySQL is not
 
 * actual SQL comment
 
-
-=== Known limitations
-
-* currently, ruby version of TwoWaySQL cannot parse multi-line comments.
+* parse options
+  * preserve_space
+  * preserve_comment
 
 
 
@@ -143,7 +142,7 @@ TwoWaySQL::Template is the class you may only use. TwoWaySQL::Template acts as a
 ==== Input
 * TwoWaySQL-style SQL(string,file or anything like IO) to TwoWaySQL::Template.parse to create template object (note: template object is stateless and reentrant, so you can cache it)
   * (Optionally) TwoWaySQL::Template.parse accepts Hash of parse options as second argument
-* data object(Hash-like object) to the TwoWaySQL::Template#merge then TwoWaySQL will evaluate the data as 'ctx'.
+* data object to the TwoWaySQL::Template#merge then TwoWaySQL will evaluate the data as name 'ctx'.
 
 ==== Output
 * SQL String with placeholders (generally, '?' is used for placeholders)
@@ -350,6 +349,79 @@ In the above example,
 
 
 
+=== Parse Options
+
+TwoWaySQL::Template.parse takes parse options as optional second argument. Acceptable parse options are kind_of Hash with available keys. Unknown options are just ignored.
+
+* available parse option keys
+  * :preserve_space (default is true)
+  * :preserve_comment (default is false)
+  * :debug (internal use only)
+
+
+==== :preserve_space (default is true)
+
+Default is true. When true, parser preserves original whitespaces. When false, parser translates consecutive whitespaces to single whitespace. This flag is useful for log space saving.
+
+
+    sql = <<-EOS
+  SELECT
+    *
+  FROM
+    emp
+  WHERE
+    job    =   /*ctx[:job]*/'CLERK'
+    AND   deptno   =   /*ctx[:deptno]*/10
+  EOS
+    template = TwoWaySQL::Template.parse(sql, :preserve_space => false)
+    
+    result = template.merge(:job => 'MANAGER', :deptno => 30)
+    
+    result.sql                 #=> "SELECT * FROM emp WHERE job = ? AND deptno = ? "
+    result.bound_variables     #=> ["MANAGER", 30]
+
+
+==== :preserve_comment (default is false)
+
+Default is false. When true, parser preserves original actual comments. When false, parser skips actual comment, therefore parsed SQL does not contain actual comments.
+
+    sql = <<-EOS
+  SELECT
+    *
+  FROM
+    emp
+    /* 
+       This is a
+       multiline comment
+    */
+  WHERE
+    job    =   /*ctx[:job]*/'CLERK'
+    AND   deptno   =   /*ctx[:deptno]*/10
+  EOS
+    template = TwoWaySQL::Template.parse(sql, :preserve_comment => true)
+    
+    result = template.merge(:job => 'MANAGER', :deptno => 30)
+    
+    expected = <<-EOS
+  SELECT
+    *
+  FROM
+    emp
+    /* 
+       This is a
+       multiline comment
+    */
+  WHERE
+    job    =   ?
+    AND   deptno   =   ?
+  EOS
+    result.sql == expected     #=> true
+    result.bound_variables     #=> ["MANAGER", 30]
+
+
+
+
+
 == REQUIREMENTS:
 
 * racc/parser (basically bundled with ruby)
@@ -357,7 +429,7 @@ In the above example,
 
 == INSTALL:
 
-* sudo gem install twowaysql
+* (sudo) gem install twowaysql
 
 
 == AUTHOR:
