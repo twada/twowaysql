@@ -1,5 +1,3 @@
-require 'forwardable'
-
 module TwoWaySQL
 
   # TwoWaySQL::Template represents template object, acts as a Facade for this package.
@@ -64,12 +62,36 @@ module TwoWaySQL
 
   # TwoWaySQL::Result represents merge result of template and data.
   # it contains SQL string with placeholders, and bound variables associated with placeholders.
+  #
+  # === Usage
+  #
+  #   merged = template.merge(:job => "HOGE", :deptno => 30)
+  #   merged.sql                #=> "SELECT * FROM emp WHERE job = ? AND deptno = ?"
+  #   merged.bound_variables    #=> ["HOGE", 30]
+  #
   class Result
-    extend Forwardable
     def initialize(context)
       @context = context
     end
-    def_delegators :@context, :sql, :bound_variables
+
+    # return merge result SQL with placeholders (question mark).
+    #
+    # === Return
+    # merge result SQL with placeholders
+    #
+    def sql
+      @context.sql
+    end
+
+    # return array of variables which indices are corresponding to placeholders.
+    #
+    # === Return
+    # merge result SQL with placeholders
+    #
+    def bound_variables
+      @context.bound_variables
+    end
+    alias vars bound_variables
   end
 
 end
