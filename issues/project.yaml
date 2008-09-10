@@ -20,13 +20,17 @@ releases:
     - 0.2 release done.
 - !ditz.rubyforge.org,2008-03-06/release 
   name: release_0_3
-  status: :unreleased
-  release_time: 
+  status: :released
+  release_time: 2008-09-10 06:33:15.041316 Z
   log_events: 
   - - 2008-09-05 11:23:24.696817 Z
     - takuto <takuto.wada@gmail.com>
     - created
     - release 0.3
+  - - 2008-09-10 06:33:15.041327 Z
+    - takuto <takuto.wada@gmail.com>
+    - released
+    - ""
 - !ditz.rubyforge.org,2008-03-06/release 
   name: release_0_2_1
   status: :released

@@ -1,3 +1,11 @@
+== release_0_3 / 2008-09-10
+* better whitespace handling
+* Whitespace compaction mode
+* remove preserve_eol flag
+* preserve actual comment content
+* write docs for space compaction mode
+* change line-based scanning to whole string based scanning
+
 == 0.2.1 / 2008-09-07
 * bugfix: case insensitive match for SQL reserved words
 * make Ruby1.9 ready
