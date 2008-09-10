@@ -190,4 +190,50 @@ EOS
 
   end
 
+
+
+
+  describe "examples in website" do
+    it do
+  # given SQL string with TwoWaySQL comments
+  sql = <<-EOS
+    SELECT * FROM emp
+    /*BEGIN*/WHERE
+      /*IF ctx[:job]*/ job = /*ctx[:job]*/'CLERK' /*END*/
+      /*IF ctx[:deptno_list]*/ AND deptno IN /*ctx[:deptno_list]*/(20, 30) /*END*/
+      /*IF ctx[:age]*/ AND age > /*ctx[:age]*/30 /*END*/
+    /*END*/
+    /*IF ctx[:order_by] */ ORDER BY /*$ctx[:order_by]*/id /*$ctx[:order]*/ASC /*END*/
+  EOS
+
+
+  # parse the SQL to create template object
+  template = TwoWaySQL::Template.parse(sql)
+
+
+  # merge data with template
+  data = {
+    :age => 35,
+    :deptno_list => [10,20,30],
+    :order_by => 'age',
+    :order => 'DESC'
+  }
+  merged = template.merge(data)
+
+
+  expected_sql = <<-EOS
+    SELECT * FROM emp
+    WHERE
+      
+       deptno IN (?, ?, ?) 
+       AND age > ? 
+    
+     ORDER BY age DESC 
+  EOS
+
+  merged.sql.should == expected_sql      #=> true
+  merged.bound_variables.should == [10,20,30,35]
+    end
+  end
+
 end

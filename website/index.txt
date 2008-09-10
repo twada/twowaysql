@@ -12,7 +12,7 @@ With TwoWaySQL, you can bind variables to SQL or modify SQL conditionally and ru
 
 h2. Installing
 
-<pre syntax="ruby">sudo gem install twowaysql</pre>
+<pre syntax="ruby">(sudo) gem install twowaysql</pre>
 
 h2. The basics
 
@@ -72,12 +72,12 @@ h3. complex case
 
   expected_sql = <<-EOS
     SELECT * FROM emp
-     WHERE
+    WHERE
       
-      deptno IN (?, ?, ?)
-      AND age > ?
-
-     ORDER BY age DESC
+       deptno IN (?, ?, ?) 
+       AND age > ? 
+    
+     ORDER BY age DESC 
   EOS
 
   merged.sql == expected_sql      #=> true

@@ -50,7 +50,7 @@
 	<h2>Installing</h2>
 
 
-	<p><pre class='syntax'><span class="ident">sudo</span> <span class="ident">gem</span> <span class="ident">install</span> <span class="ident">twowaysql</span></pre></p>
+	<p><pre class='syntax'><span class="punct">(</span><span class="ident">sudo</span><span class="punct">)</span> <span class="ident">gem</span> <span class="ident">install</span> <span class="ident">twowaysql</span></pre></p>
 
 
 	<h2>The basics</h2>
@@ -71,7 +71,7 @@
   sql = "SELECT * FROM emp WHERE job = /*ctx[:job]*/'CLERK'" 
 
   # parse the SQL to create template object
-  template = TwoWaySQL::Template.parse(sql, :preserve_eol =&gt; false)
+  template = TwoWaySQL::Template.parse(sql)
 
   # merge data with template
   merged = template.merge(:job =&gt; 'MANAGER')
@@ -111,12 +111,12 @@
 
   expected_sql = &lt;&lt;-EOS
     SELECT * FROM emp
-     WHERE
+    WHERE
 
-      deptno IN (?, ?, ?)
-      AND age &gt; ?
+       deptno IN (?, ?, ?) 
+       AND age &gt; ? 
 
-     ORDER BY age DESC
+     ORDER BY age DESC 
   EOS
 
   merged.sql == expected_sql      #=&gt; true
@@ -180,7 +180,7 @@ rake install_gem</pre>
 	<li>Takuto Wada (takuto.wada at gmail dot com)</li>
 	</ul>
     <p class="coda">
-      Takuto Wada, 8th September 2008<br>
+      Takuto Wada, 10th September 2008<br>
       Theme extended from <a href="http://rb2js.rubyforge.org/">Paul Battley</a>
     </p>
 </div>
