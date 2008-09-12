@@ -2,3 +2,4 @@ pkg/*
 doc/*
 website/issues/*
 lib/twowaysql/parser.output
+.ditz-config
