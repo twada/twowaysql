@@ -375,10 +375,10 @@ Default is true. When true, parser preserves original whitespaces. When false, p
   EOS
     template = TwoWaySQL::Template.parse(sql, :preserve_space => false)
     
-    result = template.merge(:job => 'MANAGER', :deptno => 30)
+    merged = template.merge(:job => 'MANAGER', :deptno => 30)
     
-    result.sql                 #=> "SELECT * FROM emp WHERE job = ? AND deptno = ? "
-    result.bound_variables     #=> ["MANAGER", 30]
+    merged.sql                 #=> "SELECT * FROM emp WHERE job = ? AND deptno = ? "
+    merged.bound_variables     #=> ["MANAGER", 30]
 
 
 ==== :preserve_comment (default is false)
@@ -400,7 +400,7 @@ Default is false. When true, parser preserves original actual comments. When fal
   EOS
     template = TwoWaySQL::Template.parse(sql, :preserve_comment => true)
     
-    result = template.merge(:job => 'MANAGER', :deptno => 30)
+    merged = template.merge(:job => 'MANAGER', :deptno => 30)
     
     expected = <<-EOS
   SELECT
@@ -415,8 +415,8 @@ Default is false. When true, parser preserves original actual comments. When fal
     job    =   ?
     AND   deptno   =   ?
   EOS
-    result.sql == expected     #=> true
-    result.bound_variables     #=> ["MANAGER", 30]
+    merged.sql == expected     #=> true
+    merged.bound_variables     #=> ["MANAGER", 30]
 
 
 
