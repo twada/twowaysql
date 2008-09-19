@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Change ambiguous class name TwoWaySQL::Result to TwoWaySQL::MergeResult
+desc: it is merge result, not a result of db execution.
+type: :task
+component: twowaysql
+release: release_0_4
+reporter: takuto <takuto.wada@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-09-19 18:14:34.843930 Z
+references: []
+
+id: a185b4247f64c1104bc49ebf823b57b5de3d06f8
+log_events: 
+- - 2008-09-19 18:14:36.258181 Z
+  - takuto <takuto.wada@gmail.com>
+  - created
+  - ""
