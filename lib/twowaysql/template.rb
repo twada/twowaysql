@@ -44,12 +44,12 @@ module TwoWaySQL
     #
     # === Return
     #
-    # TwoWaySQL::Result object that represents merge result
+    # TwoWaySQL::MergeResult object that represents merge result
     #
     def merge(data)
       c = Context.new(data)
       @root.accept(c)
-      Result.new(c)
+      MergeResult.new(c)
     end
     alias mungle merge
 
@@ -60,7 +60,7 @@ module TwoWaySQL
   end
 
 
-  # TwoWaySQL::Result represents merge result of template and data.
+  # TwoWaySQL::MergeResult represents merge result of template and data.
   # it contains SQL string with placeholders, and bound variables associated with placeholders.
   #
   # === Usage
@@ -69,7 +69,7 @@ module TwoWaySQL
   #   merged.sql                #=> "SELECT * FROM emp WHERE job = ? AND deptno = ?"
   #   merged.bound_variables    #=> ["HOGE", 30]
   #
-  class Result
+  class MergeResult
     def initialize(context)
       @context = context
     end
