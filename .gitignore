@@ -1,5 +1,6 @@
 pkg/*
 doc/*
+coverage/*
 website/issues/*
 lib/twowaysql/parser.output
 .ditz-config
