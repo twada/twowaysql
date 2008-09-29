@@ -236,4 +236,48 @@ EOS
     end
   end
 
+
+
+
+  describe "multi-line SQL syntax error" do
+
+    before do
+      @sql = <<-EOS
+SELECT DISTINCT
+  i.id AS item_id
+  ,d.display_name AS display_name
+  ,h.status AS status_id
+  ,i.unique_name AS unique_name
+  ,i.created_on
+FROM
+  some_schema.item i
+  INNER JOIN some_schema.item_detail d
+    ON i.id = d.item_id
+  INNER JOIN some_schema.item_history h
+    ON i.id = h.item_id
+
+/*BEGIN*/WHERE
+  /*IF ctx[:name] */i.name ILIKE /*ctx[:name]*/'hoge%'
+  /*IF ctx[:display_name] */AND d.display_name ILIKE /*ctx[:display_name]*/'hoge%'/*END*/
+  /*IF ctx[:status] */AND h.status IN /*ctx[:status]*/(3, 4, 9)/*END*/
+  /*IF ctx[:ignore_status] */AND h.status NOT IN /*ctx[:ignore_status]*/(4, 9)/*END*/
+/*END*/
+
+/*IF ctx[:order_by] */ ORDER BY /*$ctx[:order_by]*/i.id /*$ctx[:order]*/ASC /*END*/
+/*IF ctx[:limit] */ LIMIT /*ctx[:limit]*/10/*END*/
+/*IF ctx[:offset] */ OFFSET /*ctx[:offset]*/0/*END*/
+EOS
+    end
+
+    it "indicate line number" do
+      pending("not implemented yet")
+      begin
+        TwoWaySQL::Template.parse(@sql)
+      rescue Racc::ParseError => e
+        e.to_s.should match(/line:\[15\]/)
+      end
+    end
+  end
+
+
 end

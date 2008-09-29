@@ -11,7 +11,7 @@ module TwoWaySQL
 
   class Parser < Racc::Parser
 
-module_eval <<'..end lib/twowaysql/parser.y modeval..iddfb0e44df1', 'lib/twowaysql/parser.y', 134
+module_eval <<'..end lib/twowaysql/parser.y modeval..id9ad2e45861', 'lib/twowaysql/parser.y', 134
 
 require 'strscan'
 
@@ -108,25 +108,30 @@ def scan_str
     when @s.scan(SPLIT_TOKEN_PATTERN)
       @q.push [ :IDENT, @s[1] ]
     when @s.scan(UNMATCHED_COMMENT_START_PATTERN)   ## unmatched comment start, '/*','#*'
-      raise Racc::ParseError, "## unmatched comment. line:[#{line_no}], rest:[#{@s.rest}]"
+      raise Racc::ParseError, "## unmatched comment. line:[#{line_no(@s.pos)}], rest:[#{@s.rest}]"
     when @s.scan(LITERAL_PATTERN)   ## other string token
       @q.push [ :IDENT, @s[1] ]
     when @s.scan(SEMICOLON_AT_INPUT_END_PATTERN)
       #drop semicolon at input end
     else
-      raise Racc::ParseError, "## cannot parse. line:[#{line_no}], rest:[#{@s.rest}]"
+      raise Racc::ParseError, "## cannot parse. line:[#{line_no(@s.pos)}], rest:[#{@s.rest}]"
     end
   end
 end
 
 
-def line_no
+def on_error(t, v, vstack)
+  raise Racc::ParseError, "## cannot parse. line:[#{line_no(@s.pos)}], rest:[#{@s.rest}]"
+end
+
+
+def line_no(pos)
   lines = 0
-  scanned = @s.string[0..(@s.pos)]
+  scanned = @s.string[0..(pos)]
   scanned.each_line { lines += 1 }
   lines
 end
-..end lib/twowaysql/parser.y modeval..iddfb0e44df1
+..end lib/twowaysql/parser.y modeval..id9ad2e45861
 
 ##### racc 1.4.5 generates ###
 
