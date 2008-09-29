@@ -1,3 +1,9 @@
+== release_0_4 / 2008-09-29
+* line number support on parse error
+* integrate coverage report into website
+* integrate ditz to 'push-button release'
+* Change ambiguous class name TwoWaySQL::Result to TwoWaySQL::MergeResult
+
 == release_0_3 / 2008-09-10
 * better whitespace handling
 * Whitespace compaction mode
