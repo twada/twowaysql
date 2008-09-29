@@ -5,8 +5,8 @@ type: :feature
 component: twowaysql
 release: release_0_4
 reporter: takuto <takuto.wada@gmail.com>
-status: :in_progress
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2008-09-06 07:38:16.872853 Z
 references: []
 
@@ -28,3 +28,7 @@ log_events:
   - takuto <takuto.wada@gmail.com>
   - changed status from unstarted to in_progress
   - ""
+- - 2008-09-29 16:07:05.605087 Z
+  - takuto <takuto.wada@gmail.com>
+  - closed with disposition fixed
+  - simple implementation. now scanner passes token position with token itself.
