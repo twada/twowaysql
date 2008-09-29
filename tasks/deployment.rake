@@ -36,6 +36,7 @@ namespace :manifest do
     exclude_patterns = [
                         /^pkg/,
                         /^doc/,
+                        /^coverage/,
                         /^website/,
                         /^\.git/,
                         /.*\.output/
