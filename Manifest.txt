@@ -1,5 +1,6 @@
 History.txt
 License.txt
+Manifest.skip
 Manifest.txt
 README.txt
 Rakefile
@@ -32,10 +33,6 @@ lib/twowaysql/parser.rb
 lib/twowaysql/parser.y
 lib/twowaysql/template.rb
 lib/twowaysql/version.rb
-script/console
-script/destroy
-script/generate
-script/txt2html
 setup.rb
 spec/large_sql_spec.rb
 spec/learning_regex_spec.rb

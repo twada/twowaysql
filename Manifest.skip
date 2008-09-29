@@ -1,6 +1,7 @@
 ^pkg
 ^doc
 ^coverage
+^script
 ^website
 ^\.git
 .*\.output
