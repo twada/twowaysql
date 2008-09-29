@@ -1,5 +1,5 @@
 desc 'Release the website and new gem version'
-task :deploy => [:check_version, :website, :release] do
+task :deploy => [:check_version, :ditz_release, :website, :release] do
   puts "Remember to create SVN tag:"
   puts "svn copy svn+ssh://#{rubyforge_username}@rubyforge.org/var/svn/#{PATH}/trunk " +
     "svn+ssh://#{rubyforge_username}@rubyforge.org/var/svn/#{PATH}/tags/REL-#{VERS} "
