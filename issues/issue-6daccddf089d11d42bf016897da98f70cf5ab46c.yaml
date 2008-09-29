@@ -3,7 +3,7 @@ title: integrate ditz to 'push-button release'
 desc: integrate 'ditz release' and 'ditz changelog' into rake task
 type: :task
 component: twowaysql
-release: 
+release: release_0_4
 reporter: takuto <takuto.wada@gmail.com>
 status: :unstarted
 disposition: 
@@ -15,4 +15,8 @@ log_events:
 - - 2008-09-07 17:34:44.130887 Z
   - takuto <takuto.wada@gmail.com>
   - created
+  - ""
+- - 2008-09-29 18:11:54.103095 Z
+  - takuto <takuto.wada@gmail.com>
+  - assigned to release release_0_4 from unassigned
   - ""
