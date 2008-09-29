@@ -84,9 +84,10 @@ module TwoWaySQL
     end
 
     # return array of variables which indices are corresponding to placeholders.
+    # alias 'vars' is available for short-hand.
     #
     # === Return
-    # merge result SQL with placeholders
+    # array of bound variables
     #
     def bound_variables
       @context.bound_variables
