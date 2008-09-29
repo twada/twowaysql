@@ -239,10 +239,58 @@ EOS
 
 
 
-  describe "multi-line SQL syntax error" do
+  describe "guess line number on multi-line SQL syntax error" do
 
-    before do
-      @sql = <<-EOS
+    it "non-nested unmatched IF-END" do
+      sql = <<-EOS
+SELECT
+  i.id AS item_id
+  ,d.display_name AS display_name
+
+FROM
+  some_schema.item i
+  INNER JOIN some_schema.item_detail d
+    ON i.id = d.item_id
+
+/*IF ctx[:order_by] */ ORDER BY /*$ctx[:order_by]*/i.id /*$ctx[:order]*/ASC   /* no END comment */
+/*IF ctx[:limit] */ LIMIT /*ctx[:limit]*/10/*END*/
+/*IF ctx[:offset] */ OFFSET /*ctx[:offset]*/0/*END*/
+EOS
+      begin
+        TwoWaySQL::Template.parse(sql)
+      rescue Racc::ParseError => e
+        e.to_s.should match(/line:\[10\]/)
+      end
+    end
+
+
+    it "no-END on input end" do
+      sql = <<-EOS
+SELECT
+  i.id AS item_id
+  ,d.display_name AS display_name
+
+FROM
+  some_schema.item i
+  INNER JOIN some_schema.item_detail d
+    ON i.id = d.item_id
+
+/*IF ctx[:order_by] */ ORDER BY /*$ctx[:order_by]*/i.id /*$ctx[:order]*/ASC/*END*/
+/*IF ctx[:limit] */ LIMIT /*ctx[:limit]*/10/*END*/
+/*IF ctx[:offset] */ OFFSET /*ctx[:offset]*/0
+EOS
+      begin
+        TwoWaySQL::Template.parse(sql)
+      rescue Racc::ParseError => e
+        e.to_s.should match(/line:\[12\]/)
+        e.to_s.should match(/OFFSET \/\*ctx\[:offset\]\*\/0/)
+        
+      end
+    end
+
+
+    it "unmatched BEGIN-END" do
+      sql = <<-EOS
 SELECT DISTINCT
   i.id AS item_id
   ,d.display_name AS display_name
@@ -256,10 +304,10 @@ FROM
   INNER JOIN some_schema.item_history h
     ON i.id = h.item_id
 
-/*BEGIN*/WHERE
-  /*IF ctx[:name] */i.name ILIKE /*ctx[:name]*/'hoge%'
+/*BEGIN*/WHERE  /* line:14 */
+  /*IF ctx[:name] */i.name ILIKE /*ctx[:name]*/'hoge%'/*END*/
   /*IF ctx[:display_name] */AND d.display_name ILIKE /*ctx[:display_name]*/'hoge%'/*END*/
-  /*IF ctx[:status] */AND h.status IN /*ctx[:status]*/(3, 4, 9)/*END*/
+  /*IF ctx[:status] */AND h.status IN /*ctx[:status]*/(3, 4, 9)  /* no-END at line:17 */
   /*IF ctx[:ignore_status] */AND h.status NOT IN /*ctx[:ignore_status]*/(4, 9)/*END*/
 /*END*/
 
@@ -267,16 +315,14 @@ FROM
 /*IF ctx[:limit] */ LIMIT /*ctx[:limit]*/10/*END*/
 /*IF ctx[:offset] */ OFFSET /*ctx[:offset]*/0/*END*/
 EOS
-    end
-
-    it "indicate line number" do
-      pending("not implemented yet")
       begin
-        TwoWaySQL::Template.parse(@sql)
+        TwoWaySQL::Template.parse(sql)
       rescue Racc::ParseError => e
-        e.to_s.should match(/line:\[15\]/)
+        # unmatched END is at line 17 but value stack indicates open BEGIN statement
+        e.to_s.should match(/line:\[14\]/)
       end
     end
+
   end
 
 

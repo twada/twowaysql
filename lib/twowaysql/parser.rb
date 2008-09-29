@@ -11,7 +11,7 @@ module TwoWaySQL
 
   class Parser < Racc::Parser
 
-module_eval <<'..end lib/twowaysql/parser.y modeval..id9ad2e45861', 'lib/twowaysql/parser.y', 134
+module_eval <<'..end lib/twowaysql/parser.y modeval..id30c07c2d1a', 'lib/twowaysql/parser.y', 134
 
 require 'strscan'
 
@@ -60,7 +60,9 @@ def parse( io )
     @s = StringScanner.new(whole)
   end
   scan_str
-  @q.push [ false, nil ]
+
+  # @q.push [ false, nil ]
+  @q.push [ false, [@s.pos, nil] ]
     
   ## cal racc's private parse method
   do_parse
@@ -76,52 +78,60 @@ def scan_str
   until @s.eos? do
     case
     when @s.scan(AND_PATTERN)
-      @q.push [ :AND, @s[1] ]
+      @q.push [ :AND, [@s.pos, @s[1]] ]
     when @s.scan(OR_PATTERN)
-      @q.push [ :OR, @s[1] ]
+      @q.push [ :OR, [@s.pos, @s[1]] ]
     when @s.scan(SPACES_PATTERN)
-      @q.push [ :SPACES, @s[1] ]
+      @q.push [ :SPACES, [@s.pos, @s[1]] ]
     when @s.scan(QUESTION_PATTERN)
-      @q.push [ :QUESTION, nil ]
+      @q.push [ :QUESTION, [@s.pos, nil] ]
     when @s.scan(COMMA_PATTERN)
-      @q.push [ :COMMA, ',' ]
+      @q.push [ :COMMA, [@s.pos, ','] ]
     when @s.scan(LPAREN_PATTERN)
-      @q.push [ :LPAREN, '(' ]
+      @q.push [ :LPAREN, [@s.pos, '('] ]
     when @s.scan(RPAREN_PATTERN)
-      @q.push [ :RPAREN, ')' ]
+      @q.push [ :RPAREN, [@s.pos, ')'] ]
     when @s.scan(ELSE_PATTERN)
-      @q.push [ :ELSE, nil ]
+      @q.push [ :ELSE, [@s.pos, nil] ]
     when @s.scan(ACTUAL_COMMENT_PATTERN)
-      @q.push [ :ACTUAL_COMMENT, [@s[1], @s[2]] ] if @preserve_comment
+      @q.push [ :ACTUAL_COMMENT, [@s.pos, @s[1], @s[2]] ] if @preserve_comment
     when @s.scan(BEGIN_END_PATTERN)
-      @q.push [ @s[2].intern, nil ]
+      @q.push [ @s[2].intern, [@s.pos, nil] ]
     when @s.scan(CONDITIONAL_PATTERN)
-      @q.push [ @s[2].intern, @s[3] ]
+      @q.push [ @s[2].intern, [@s.pos, @s[3]] ]
     when @s.scan(EMBED_VARIABLE_PATTERN)
-      @q.push [ :EMBED_VARIABLE, @s[2] ]
+      @q.push [ :EMBED_VARIABLE, [@s.pos, @s[2]] ]
     when @s.scan(PAREN_BIND_VARIABLE_PATTERN)
-      @q.push [ :PAREN_BIND_VARIABLE, @s[2] ]
+      @q.push [ :PAREN_BIND_VARIABLE, [@s.pos, @s[2]] ]
     when @s.scan(BIND_VARIABLE_PATTERN)
-      @q.push [ :BIND_VARIABLE, @s[2] ]
+      @q.push [ :BIND_VARIABLE, [@s.pos, @s[2]] ]
     when @s.scan(STRING_LITERAL_PATTERN)
-      @q.push [ :STRING_LITERAL, @s[1] ]
+      @q.push [ :STRING_LITERAL, [@s.pos, @s[1]] ]
     when @s.scan(SPLIT_TOKEN_PATTERN)
-      @q.push [ :IDENT, @s[1] ]
+      @q.push [ :IDENT, [@s.pos, @s[1]] ]
     when @s.scan(UNMATCHED_COMMENT_START_PATTERN)   ## unmatched comment start, '/*','#*'
-      raise Racc::ParseError, "## unmatched comment. line:[#{line_no(@s.pos)}], rest:[#{@s.rest}]"
+      raise Racc::ParseError, "unmatched comment. line:[#{line_no(@s.pos)}], str:[#{@s.rest}]"
     when @s.scan(LITERAL_PATTERN)   ## other string token
-      @q.push [ :IDENT, @s[1] ]
+      @q.push [ :IDENT, [@s.pos, @s[1]] ]
     when @s.scan(SEMICOLON_AT_INPUT_END_PATTERN)
       #drop semicolon at input end
     else
-      raise Racc::ParseError, "## cannot parse. line:[#{line_no(@s.pos)}], rest:[#{@s.rest}]"
+      raise Racc::ParseError, "syntax error near line:[#{line_no(@s.pos)}], str:[#{@s.rest}]"
     end
   end
 end
 
 
 def on_error(t, v, vstack)
-  raise Racc::ParseError, "## cannot parse. line:[#{line_no(@s.pos)}], rest:[#{@s.rest}]"
+  ## cursor in value-stack is an array of two items,
+  ## that have position value as 0th item. like [731, "ctx[:limit] "]
+  cursor = vstack.find do |tokens|
+    tokens.size == 2 and tokens[0].kind_of?(Fixnum)
+  end
+  pos = cursor[0]
+  line = line_no(pos)
+  rest = @s.string[pos .. -1]
+  raise Racc::ParseError, "syntax error near line:[#{line}], str:[#{rest}]"
 end
 
 
@@ -131,7 +141,7 @@ def line_no(pos)
   scanned.each_line { lines += 1 }
   lines
 end
-..end lib/twowaysql/parser.y modeval..id9ad2e45861
+..end lib/twowaysql/parser.y modeval..id30c07c2d1a
 
 ##### racc 1.4.5 generates ###
 
@@ -351,7 +361,7 @@ module_eval <<'.,.,', 'lib/twowaysql/parser.y', 26
 
 module_eval <<'.,.,', 'lib/twowaysql/parser.y', 31
   def _reduce_8( val, _values, result )
-                  result = IfNode.new( val[0], val[1], val[2] )
+                  result = IfNode.new( val[0][1], val[1], val[2] )
    result
   end
 .,.,
@@ -378,70 +388,70 @@ module_eval <<'.,.,', 'lib/twowaysql/parser.y', 40
 
 module_eval <<'.,.,', 'lib/twowaysql/parser.y', 49
   def _reduce_14( val, _values, result )
-                  result = SubStatementNode.new( val[0], val[1] )
+                  result = SubStatementNode.new( val[0][1], val[1] )
    result
   end
 .,.,
 
 module_eval <<'.,.,', 'lib/twowaysql/parser.y', 54
   def _reduce_15( val, _values, result )
-                  result = SubStatementNode.new( val[0], val[1] )
+                  result = SubStatementNode.new( val[0][1], val[1] )
    result
   end
 .,.,
 
 module_eval <<'.,.,', 'lib/twowaysql/parser.y', 59
   def _reduce_16( val, _values, result )
-                  result = LiteralNode.new( val[0] )
+                  result = LiteralNode.new( val[0][1] )
    result
   end
 .,.,
 
 module_eval <<'.,.,', 'lib/twowaysql/parser.y', 63
   def _reduce_17( val, _values, result )
-                  result = LiteralNode.new( val[0] )
+                  result = LiteralNode.new( val[0][1] )
    result
   end
 .,.,
 
 module_eval <<'.,.,', 'lib/twowaysql/parser.y', 67
   def _reduce_18( val, _values, result )
-                  result = LiteralNode.new( val[0] )
+                  result = LiteralNode.new( val[0][1] )
    result
   end
 .,.,
 
 module_eval <<'.,.,', 'lib/twowaysql/parser.y', 71
   def _reduce_19( val, _values, result )
-                  result = LiteralNode.new( val[0] )
+                  result = LiteralNode.new( val[0][1] )
    result
   end
 .,.,
 
 module_eval <<'.,.,', 'lib/twowaysql/parser.y', 75
   def _reduce_20( val, _values, result )
-                  result = WhiteSpaceNode.new( val[0], @preserve_space )
+                  result = WhiteSpaceNode.new( val[0][1], @preserve_space )
    result
   end
 .,.,
 
 module_eval <<'.,.,', 'lib/twowaysql/parser.y', 79
   def _reduce_21( val, _values, result )
-                  result = LiteralNode.new( val[0] )
+                  result = LiteralNode.new( val[0][1] )
    result
   end
 .,.,
 
 module_eval <<'.,.,', 'lib/twowaysql/parser.y', 83
   def _reduce_22( val, _values, result )
-                  result = LiteralNode.new( val[0] )
+                  result = LiteralNode.new( val[0][1] )
    result
   end
 .,.,
 
 module_eval <<'.,.,', 'lib/twowaysql/parser.y', 87
   def _reduce_23( val, _values, result )
-                  result = LiteralNode.new( val[0] )
+                  result = LiteralNode.new( val[0][1] )
    result
   end
 .,.,
@@ -456,7 +466,7 @@ module_eval <<'.,.,', 'lib/twowaysql/parser.y', 92
 
 module_eval <<'.,.,', 'lib/twowaysql/parser.y', 96
   def _reduce_25( val, _values, result )
-                  result = ActualCommentNode.new( val[0][0] , val[0][1] )
+                  result = ActualCommentNode.new( val[0][1] , val[0][2] )
    result
   end
 .,.,
@@ -467,49 +477,49 @@ module_eval <<'.,.,', 'lib/twowaysql/parser.y', 96
 
 module_eval <<'.,.,', 'lib/twowaysql/parser.y', 103
   def _reduce_28( val, _values, result )
-                  result = BindVariableNode.new( val[0] )
+                  result = BindVariableNode.new( val[0][1] )
    result
   end
 .,.,
 
 module_eval <<'.,.,', 'lib/twowaysql/parser.y', 107
   def _reduce_29( val, _values, result )
-                  result = BindVariableNode.new( val[0] )
+                  result = BindVariableNode.new( val[0][1] )
    result
   end
 .,.,
 
 module_eval <<'.,.,', 'lib/twowaysql/parser.y', 111
   def _reduce_30( val, _values, result )
-                  result = BindVariableNode.new( val[0] )
+                  result = BindVariableNode.new( val[0][1] )
    result
   end
 .,.,
 
 module_eval <<'.,.,', 'lib/twowaysql/parser.y', 115
   def _reduce_31( val, _values, result )
-                  result = BindVariableNode.new( val[0] )
+                  result = BindVariableNode.new( val[0][1] )
    result
   end
 .,.,
 
 module_eval <<'.,.,', 'lib/twowaysql/parser.y', 119
   def _reduce_32( val, _values, result )
-                  result = ParenBindVariableNode.new( val[0] )
+                  result = ParenBindVariableNode.new( val[0][1] )
    result
   end
 .,.,
 
 module_eval <<'.,.,', 'lib/twowaysql/parser.y', 124
   def _reduce_33( val, _values, result )
-                  result = EmbedVariableNode.new( val[0] )
+                  result = EmbedVariableNode.new( val[0][1] )
    result
   end
 .,.,
 
 module_eval <<'.,.,', 'lib/twowaysql/parser.y', 128
   def _reduce_34( val, _values, result )
-                  result = EmbedVariableNode.new( val[0] )
+                  result = EmbedVariableNode.new( val[0][1] )
    result
   end
 .,.,
