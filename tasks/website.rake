@@ -1,5 +1,5 @@
 desc 'Generate website files'
-task :website_generate => [:ruby_env,:ditz_report] do
+task :website_generate => [:ruby_env,:rcov_report,:ditz_report] do
   (Dir['website/**/*.txt'] - Dir['website/version*.txt']).each do |txt|
     sh %{ #{RUBY_APP} script/txt2html #{txt} > #{txt.gsub(/txt$/,'html')} }
   end

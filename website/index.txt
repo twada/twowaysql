@@ -123,6 +123,7 @@ h2. Links
 * "Project Page":http://rubyforge.org/projects/twowaysql
 * "API Doc":http://twowaysql.rubyforge.org/rdoc/
 * "Issue Tracking":./issues/index.html
+* "Coverage Report":./coverage/index.html
 * "Forum":http://rubyforge.org/forum/?group_id=6947
 
 

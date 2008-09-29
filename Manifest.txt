@@ -43,5 +43,6 @@ tasks/deployment.rake
 tasks/ditz.rake
 tasks/environment.rake
 tasks/racc.rake
+tasks/rcov.rake
 tasks/rspec.rake
 tasks/website.rake
