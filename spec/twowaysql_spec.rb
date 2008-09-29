@@ -609,6 +609,23 @@ describe TwoWaySQL::Template do
   end
 
 
+  describe "show line number of SQL when parse error has occurred" do
+    it "single line" do
+      begin
+        TwoWaySQL::Template.parse("SELECT * FROM emp/*hoge")
+      rescue Racc::ParseError => e
+        e.to_s.should match(/line:\[1\]/)
+      end
+    end
+    it "multiple lines" do
+      begin
+        TwoWaySQL::Template.parse("SELECT\n *\n FROM\n emp\n/*hoge")
+      rescue Racc::ParseError => e
+        e.to_s.should match(/line:\[5\]/)
+      end
+    end
+  end
+
 
   describe "when parsed from '/*BEGIN*/'" do
     it "should cause parse error" do

@@ -176,60 +176,72 @@ OR_PATTERN              = /\A(\ *OR)\b/i
 def parse( io )
   @q = []
   io.each_line(nil) do |whole|
-    s = StringScanner.new(whole)
-    until s.eos? do
-      case
-      when s.scan(AND_PATTERN)
-        @q.push [ :AND, s[1] ]
-      when s.scan(OR_PATTERN)
-        @q.push [ :OR, s[1] ]
-      when s.scan(SPACES_PATTERN)
-        @q.push [ :SPACES, s[1] ]
-      when s.scan(QUESTION_PATTERN)
-        @q.push [ :QUESTION, nil ]
-      when s.scan(COMMA_PATTERN)
-        @q.push [ :COMMA, ',' ]
-      when s.scan(LPAREN_PATTERN)
-        @q.push [ :LPAREN, '(' ]
-      when s.scan(RPAREN_PATTERN)
-        @q.push [ :RPAREN, ')' ]
-      when s.scan(ELSE_PATTERN)
-        @q.push [ :ELSE, nil ]
-      when s.scan(ACTUAL_COMMENT_PATTERN)
-        @q.push [ :ACTUAL_COMMENT, [s[1], s[2]] ] if @preserve_comment
-      when s.scan(BEGIN_END_PATTERN)
-        @q.push [ s[2].intern, nil ]
-      when s.scan(CONDITIONAL_PATTERN)
-        @q.push [ s[2].intern, s[3] ]
-      when s.scan(EMBED_VARIABLE_PATTERN)
-        @q.push [ :EMBED_VARIABLE, s[2] ]
-      when s.scan(PAREN_BIND_VARIABLE_PATTERN)
-        @q.push [ :PAREN_BIND_VARIABLE, s[2] ]
-      when s.scan(BIND_VARIABLE_PATTERN)
-        @q.push [ :BIND_VARIABLE, s[2] ]
-      when s.scan(STRING_LITERAL_PATTERN)
-        @q.push [ :STRING_LITERAL, s[1] ]
-      when s.scan(SPLIT_TOKEN_PATTERN)
-        @q.push [ :IDENT, s[1] ]
-      when s.scan(UNMATCHED_COMMENT_START_PATTERN)   ## unmatched comment start, '/*','#*'
-        raise Racc::ParseError, "## unmatched comment. cannot parse [#{s.rest}]"
-      when s.scan(LITERAL_PATTERN)   ## other string token
-        @q.push [ :IDENT, s[1] ]
-      when s.scan(SEMICOLON_AT_INPUT_END_PATTERN)
-        #drop semicolon at input end
-      else
-        raise Racc::ParseError, "## cannot parse [#{s.rest}]"
-      end
-    end
-      
+    @s = StringScanner.new(whole)
   end
-    
+  scan_str
   @q.push [ false, nil ]
     
   ## cal racc's private parse method
   do_parse
 end
 
+## called by racc
 def next_token
   @q.shift
+end
+
+
+def scan_str
+  until @s.eos? do
+    case
+    when @s.scan(AND_PATTERN)
+      @q.push [ :AND, @s[1] ]
+    when @s.scan(OR_PATTERN)
+      @q.push [ :OR, @s[1] ]
+    when @s.scan(SPACES_PATTERN)
+      @q.push [ :SPACES, @s[1] ]
+    when @s.scan(QUESTION_PATTERN)
+      @q.push [ :QUESTION, nil ]
+    when @s.scan(COMMA_PATTERN)
+      @q.push [ :COMMA, ',' ]
+    when @s.scan(LPAREN_PATTERN)
+      @q.push [ :LPAREN, '(' ]
+    when @s.scan(RPAREN_PATTERN)
+      @q.push [ :RPAREN, ')' ]
+    when @s.scan(ELSE_PATTERN)
+      @q.push [ :ELSE, nil ]
+    when @s.scan(ACTUAL_COMMENT_PATTERN)
+      @q.push [ :ACTUAL_COMMENT, [@s[1], @s[2]] ] if @preserve_comment
+    when @s.scan(BEGIN_END_PATTERN)
+      @q.push [ @s[2].intern, nil ]
+    when @s.scan(CONDITIONAL_PATTERN)
+      @q.push [ @s[2].intern, @s[3] ]
+    when @s.scan(EMBED_VARIABLE_PATTERN)
+      @q.push [ :EMBED_VARIABLE, @s[2] ]
+    when @s.scan(PAREN_BIND_VARIABLE_PATTERN)
+      @q.push [ :PAREN_BIND_VARIABLE, @s[2] ]
+    when @s.scan(BIND_VARIABLE_PATTERN)
+      @q.push [ :BIND_VARIABLE, @s[2] ]
+    when @s.scan(STRING_LITERAL_PATTERN)
+      @q.push [ :STRING_LITERAL, @s[1] ]
+    when @s.scan(SPLIT_TOKEN_PATTERN)
+      @q.push [ :IDENT, @s[1] ]
+    when @s.scan(UNMATCHED_COMMENT_START_PATTERN)   ## unmatched comment start, '/*','#*'
+      raise Racc::ParseError, "## unmatched comment. line:[#{line_no}], rest:[#{@s.rest}]"
+    when @s.scan(LITERAL_PATTERN)   ## other string token
+      @q.push [ :IDENT, @s[1] ]
+    when @s.scan(SEMICOLON_AT_INPUT_END_PATTERN)
+      #drop semicolon at input end
+    else
+      raise Racc::ParseError, "## cannot parse. line:[#{line_no}], rest:[#{@s.rest}]"
+    end
+  end
+end
+
+
+def line_no
+  lines = 0
+  scanned = @s.string[0..(@s.pos)]
+  scanned.each_line { lines += 1 }
+  lines
 end
