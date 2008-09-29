@@ -3,7 +3,7 @@ title: integrate coverage report into website
 desc: integrate rcov coverage report into website
 type: :task
 component: twowaysql
-release: 
+release: release_0_4
 reporter: takuto <takuto.wada@gmail.com>
 status: :in_progress
 disposition: 
@@ -19,4 +19,8 @@ log_events:
 - - 2008-09-29 17:34:57.206684 Z
   - takuto <takuto.wada@gmail.com>
   - changed status from unstarted to in_progress
+  - ""
+- - 2008-09-29 17:40:10.806903 Z
+  - takuto <takuto.wada@gmail.com>
+  - assigned to release release_0_4 from unassigned
   - ""
