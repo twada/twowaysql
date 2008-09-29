@@ -33,14 +33,12 @@ namespace :manifest do
 
     # this task is inspired by http://d.hatena.ne.jp/bellbind/20070605/1180979599
     glob_pattern = File.join("**", "*")
-    exclude_patterns = [
-                        /^pkg/,
-                        /^doc/,
-                        /^coverage/,
-                        /^website/,
-                        /^\.git/,
-                        /.*\.output/
-                       ]
+    exclude_patterns = []
+    File.open('Manifest.skip') do |file|
+      while line = file.gets
+        exclude_patterns << Regexp.new(line.chomp)
+      end
+    end
 
     files = Dir.glob(glob_pattern).delete_if do |fname|
       File.directory?(fname) or

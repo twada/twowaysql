@@ -1,0 +1,6 @@
+^pkg
+^doc
+^coverage
+^website
+^\.git
+.*\.output
