@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: integrate coverage report into website
+desc: integrate rcov coverage report into website
+type: :task
+component: twowaysql
+release: 
+reporter: takuto <takuto.wada@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-09-29 09:44:41.700346 Z
+references: []
+
+id: 2a172da16d3a59adc8448f2e36ec48b36951e02d
+log_events: 
+- - 2008-09-29 09:44:42.828987 Z
+  - takuto <takuto.wada@gmail.com>
+  - created
+  - ""
