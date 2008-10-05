@@ -44,7 +44,7 @@ EOS
     end
 
     describe "-- comment start" do
-      it do
+      it '' do
         (@str_re =~ 'foo-bar--ELSE').should_not be_nil
         $1.should == 'foo-bar'
         $'.should == '--ELSE'
@@ -83,17 +83,17 @@ EOS
         $1.should == 'foo/bar'
         $'.should == ' /* hoge */'
       end
-      it do
+      it '' do
         (@str_re =~ 'foo/bar/* hoge */').should_not be_nil
         $1.should == 'foo/bar'
         $'.should == '/* hoge */'
       end
-      it do
+      it '' do
         (@str_re =~ 'foo/bar/* hoge */').should_not be_nil
         $1.should == 'foo/bar'
         $'.should == '/* hoge */'
       end
-      it do
+      it '' do
         (@str_re =~ 'foobar/* hoge */').should_not be_nil
         $1.should == 'foobar'
         $'.should == '/* hoge */'
@@ -106,17 +106,17 @@ EOS
         $1.should == 'foo#bar'
         $'.should == ' #* hoge *#'
       end
-      it do
+      it '' do
         (@str_re =~ 'foo#bar#* hoge *#').should_not be_nil
         $1.should == 'foo#bar'
         $'.should == '#* hoge *#'
       end
-      it do
+      it '' do
         (@str_re =~ 'foo#bar#* hoge *#').should_not be_nil
         $1.should == 'foo#bar'
         $'.should == '#* hoge *#'
       end
-      it do
+      it '' do
         (@str_re =~ 'foobar#* hoge *#').should_not be_nil
         $1.should == 'foobar'
         $'.should == '#* hoge *#'
@@ -124,12 +124,12 @@ EOS
     end
 
     describe "comma" do
-      it do
+      it '' do
         (@str_re =~ 'foo,bar').should_not be_nil
         $1.should == 'foo'
         $'.should == ',bar'
       end
-      it do
+      it '' do
         (@str_re =~ 'foo , bar').should_not be_nil
         $1.should == 'foo'
         $'.should == ' , bar'
@@ -137,12 +137,12 @@ EOS
     end
 
     describe "left paren" do
-      it do
+      it '' do
         (@str_re =~ 'foo(bar').should_not be_nil
         $1.should == 'foo'
         $'.should == '(bar'
       end
-      it do
+      it '' do
         (@str_re =~ 'foo ( bar').should_not be_nil
         $1.should == 'foo'
         $'.should == ' ( bar'
@@ -150,12 +150,12 @@ EOS
     end
 
     describe "right paren" do
-      it do
+      it '' do
         (@str_re =~ 'foo)bar').should_not be_nil
         $1.should == 'foo'
         $'.should == ')bar'
       end
-      it do
+      it '' do
         (@str_re =~ 'foo ) bar').should_not be_nil
         $1.should == 'foo'
         $'.should == ' ) bar'
@@ -170,19 +170,19 @@ EOS
     before do
       @str_re = /(\'(?:[^\']+|\'\')*\')/
     end
-    it do
+    it '' do
       (@str_re =~ "he said 'foo bar' then 'baz'").should_not be_nil
       $1.should == "'foo bar'"
     end
-    it do
+    it '' do
       (@str_re =~ "he said 'Let''s go' then went out").should_not be_nil
       $1.should == "'Let''s go'"
     end
-    it do
+    it '' do
       (@str_re =~ "he said 'foo bar'then went out").should_not be_nil
       $1.should == "'foo bar'"
     end
-    it do
+    it '' do
       sql = "SELECT * FROM emp/*BEGIN*/ WHERE /*IF ctx[:job]*/job = /*ctx[:job]*/'CLERK'/*END*//*IF ctx['deptno']*/ AND deptno = /*ctx[:deptno]*/20/*END*//*END*/"
       (@str_re =~ sql).should_not be_nil
       $1.should == "'CLERK'"
@@ -198,14 +198,14 @@ EOS
     end
 
     describe "matched pair" do
-      it do
+      it '' do
         (@str_re =~ '/*ctx[:job]*/').should_not be_nil
         $1.should == '/'
         $2.should == 'ctx[:job]'
         $'.should == ''
       end
 
-      it do
+      it '' do
         (@str_re =~ '#*ctx[:job]*#').should_not be_nil
         $1.should == '#'
         $2.should == 'ctx[:job]'
@@ -214,14 +214,14 @@ EOS
     end
 
     describe "unmatched pair" do
-      it do
+      it '' do
         (@str_re =~ '/*ctx[:job]*#').should be_nil
         $1.should be_nil
         $2.should be_nil
         $'.should be_nil
       end
       
-      it do
+      it '' do
         (@str_re =~ '/*ctx[:job]*#').should be_nil
         $1.should be_nil
         $2.should be_nil

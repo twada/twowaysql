@@ -34,7 +34,7 @@ EOS
     end
 
 
-    describe do
+    describe '' do
       before do
         template = TwoWaySQL::Template.parse(@sql)
         @result = template.merge(:name => "HOGE", :status => [3, 4])
@@ -100,7 +100,7 @@ WHERE
 EOS
     end
 
-    describe do
+    describe '' do
       before do
         template = TwoWaySQL::Template.parse(@sql)
         data = {
@@ -194,7 +194,7 @@ EOS
 
 
   describe "examples in website" do
-    it do
+    it '' do
   # given SQL string with TwoWaySQL comments
   sql = <<-EOS
     SELECT * FROM emp
@@ -259,7 +259,7 @@ EOS
       begin
         TwoWaySQL::Template.parse(sql)
       rescue Racc::ParseError => e
-        e.to_s.should match(/line:\[10\]/)
+        e.to_s.should =~ /line:\[10\]/
       end
     end
 
@@ -282,8 +282,8 @@ EOS
       begin
         TwoWaySQL::Template.parse(sql)
       rescue Racc::ParseError => e
-        e.to_s.should match(/line:\[12\]/)
-        e.to_s.should match(/OFFSET \/\*ctx\[:offset\]\*\/0/)
+        e.to_s.should =~ /line:\[12\]/
+        e.to_s.should =~ /OFFSET \/\*ctx\[:offset\]\*\/0/
         
       end
     end
@@ -319,7 +319,7 @@ EOS
         TwoWaySQL::Template.parse(sql)
       rescue Racc::ParseError => e
         # unmatched END is at line 17 but value stack indicates open BEGIN statement
-        e.to_s.should match(/line:\[14\]/)
+        e.to_s.should =~ /line:\[14\]/
       end
     end
 

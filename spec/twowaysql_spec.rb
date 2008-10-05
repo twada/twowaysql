@@ -614,14 +614,14 @@ describe TwoWaySQL::Template do
       begin
         TwoWaySQL::Template.parse("SELECT * FROM emp/*hoge")
       rescue Racc::ParseError => e
-        e.to_s.should match(/line:\[1\]/)
+        e.to_s.should =~ /line:\[1\]/
       end
     end
     it "multiple lines" do
       begin
         TwoWaySQL::Template.parse("SELECT\n *\n FROM\n emp\n/*hoge")
       rescue Racc::ParseError => e
-        e.to_s.should match(/line:\[5\]/)
+        e.to_s.should =~ /line:\[5\]/
       end
     end
   end
@@ -790,7 +790,7 @@ EOS
         @result = @template.merge(@ctx)
       end
 
-      it  do
+      it '' do
         @result.sql.should == "SELECT * FROM emp WHERE job = ? AND deptno = ? "
         @result.bound_variables.should == ["MANAGER", 30]
       end
@@ -813,7 +813,7 @@ EOS
         @result = @template.merge(@ctx)
       end
 
-      it  do
+      it '' do
         @result.sql.should == "SELECT * FROM emp WHERE job = ? AND deptno = ? "
         @result.bound_variables.should == ["MANAGER", 30]
       end
