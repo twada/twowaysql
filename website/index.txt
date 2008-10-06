@@ -103,7 +103,7 @@ You can fetch the source from:
 
 <pre>git clone git://github.com/twada/twowaysql.git</pre>
 
-Feel free to fork it and send me pull requests
+Feel free to fork it and send me patches or pull requests
 
 
 h3. Build and test instructions
@@ -134,5 +134,5 @@ h2. Author(s)
 
 h2. Contributors
 
-* Keiji Muraishi(http://github.com/kjim)
-* Keiji Yoshimi(http://github.com/walf443)
+* "Keiji Muraishi":http://github.com/kjim
+* "Keiji Yoshimi":http://github.com/walf443
