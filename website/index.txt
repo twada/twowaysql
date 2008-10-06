@@ -130,3 +130,9 @@ h2. Links
 h2. Author(s)
 
 * Takuto Wada (takuto.wada at gmail dot com)
+
+
+h2. Contributors
+
+* Keiji Muraishi(http://github.com/kjim)
+* Keiji Yoshimi(http://github.com/walf443)

@@ -439,6 +439,12 @@ Default is false. When true, parser preserves original actual comments. When fal
 * Takuto Wada(takuto.wada at gmail dot com)
 
 
+== CONTRIBUTORS:
+
+* Keiji Muraishi(http://github.com/kjim)
+* Keiji Yoshimi(http://github.com/walf443)
+
+
 == LICENSE:
 
 Copyright 2004-2008 the Seasar Foundation and the Others.
