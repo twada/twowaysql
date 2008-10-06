@@ -183,9 +183,10 @@ def parse( io )
   # @q.push [ false, nil ]
   @q.push [ false, [@s.pos, nil] ]
     
-  ## cal racc's private parse method
+  ## call racc's private parse method
   do_parse
 end
+
 
 ## called by racc
 def next_token
@@ -241,6 +242,7 @@ def scan_str
 end
 
 
+## override racc's default on_error method
 def on_error(t, v, vstack)
   ## cursor in value-stack is an array of two items,
   ## that have position value as 0th item. like [731, "ctx[:limit] "]

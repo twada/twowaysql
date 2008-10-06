@@ -11,7 +11,7 @@ module TwoWaySQL
 
   class Parser < Racc::Parser
 
-module_eval <<'..end lib/twowaysql/parser.y modeval..id30c07c2d1a', 'lib/twowaysql/parser.y', 134
+module_eval <<'..end lib/twowaysql/parser.y modeval..id28c0675e59', 'lib/twowaysql/parser.y', 134
 
 require 'strscan'
 
@@ -64,9 +64,10 @@ def parse( io )
   # @q.push [ false, nil ]
   @q.push [ false, [@s.pos, nil] ]
     
-  ## cal racc's private parse method
+  ## call racc's private parse method
   do_parse
 end
+
 
 ## called by racc
 def next_token
@@ -122,6 +123,7 @@ def scan_str
 end
 
 
+## override racc's default on_error method
 def on_error(t, v, vstack)
   ## cursor in value-stack is an array of two items,
   ## that have position value as 0th item. like [731, "ctx[:limit] "]
@@ -141,7 +143,7 @@ def line_no(pos)
   scanned.each_line { lines += 1 }
   lines
 end
-..end lib/twowaysql/parser.y modeval..id30c07c2d1a
+..end lib/twowaysql/parser.y modeval..id28c0675e59
 
 ##### racc 1.4.5 generates ###
 
