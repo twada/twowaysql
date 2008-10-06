@@ -5,6 +5,8 @@
 * {Project Page}[http://rubyforge.org/projects/twowaysql]
 * {API Doc}[http://twowaysql.rubyforge.org/rdoc/]
 * {Issue Tracking}[http://twowaysql.rubyforge.org/issues/]
+* {Coverage Report}[http://twowaysql.rubyforge.org/coverage/]
+
 
 === sources:
 * http://github.com/twada/twowaysql/tree/master
@@ -154,7 +156,7 @@ TwoWaySQL::Template is the class you may only use. TwoWaySQL::Template acts as a
 
 Firstly, In TwoWaySQL, expressions are written within SQL comment such as within "/**/" and "--". SQL may still be executed since TwoWaySQL specific, non-SQL expressions are written within comments. As a best practice, it is better to first write and test SQL and then write expressions within comments.
 
-To write actual comments in SQL, *insert a space* after "/*" before the comment string. For example, /* hoge*/. TwoWaySQL will recognize the space(s) after the comment start ("/*") and treat the enclosed content as an actual comment.
+To write actual comments in SQL, *insert a space* after "/*" before the comment string. For example, /* foo*/. TwoWaySQL will recognize the space(s) after the comment start ("/*") and treat the enclosed content as an actual comment.
 
 
 
@@ -175,9 +177,9 @@ TwoWaySQL may use bind variable as follows. In this case, value of ctx[:empno] i
   sql = "SELECT * FROM emp WHERE job = /*ctx[:job]*/'CLERK' AND deptno = /*ctx[:deptno]*/20"
   template = TwoWaySQL::Template.parse(sql)
 
-  merged = template.merge(:job => "HOGE", :deptno => 30)
+  merged = template.merge(:job => "FOO", :deptno => 30)
   merged.sql                #=> "SELECT * FROM emp WHERE job = ? AND deptno = ?"
-  merged.bound_variables    #=> ["HOGE", 30]
+  merged.bound_variables    #=> ["FOO", 30]
 
 
 
@@ -211,7 +213,7 @@ acceptable argument for IN clause is an array-like object. Say, Object that resp
 
 If you want to use "LIKE", you may write bind variables:
 
-  ename LIKE /*ctx[:ename]*/'hoge'
+  ename LIKE /*ctx[:ename]*/'foo'
 
 Unfortunately, there is no special support for "LIKE". So, to use a wildcard character, add wildcard directy to the data. For example, to specify to include "COT", add wildcard character in the value as follows:
 
@@ -247,9 +249,9 @@ To change SQL during execution based on a condition, use IF comments. IF comment
 
 An example of IF comment is as follows:
 
-  /*IF ctx[:foo]*/hoge = /*ctx[:hoge]*/'abc'/*END*/
+  /*IF ctx[:foo]*/foo = /*ctx[:foo]*/'abc'/*END*/
 
-When the condition returns a truthy value, TwoWaySQL treats statements in "/*IF*/" and "/*END*/" as active. In the above example, "hoge = /*ctx[:hoge]*/'abc'" will be output only when 'eval(ctx[:foo])' retuens an truthy value.
+When the condition returns a truthy value, TwoWaySQL treats statements in "/*IF*/" and "/*END*/" as active. In the above example, "foo = /*ctx[:foo]*/'abc'" will be output only when 'eval(ctx[:foo])' retuens an truthy value.
 
 
 ==== usage
@@ -275,11 +277,11 @@ When the condition returns a truthy value, TwoWaySQL treats statements in "/*IF*
 
 You can use ELSE comment to activate statements when condition is false. Sn example of IF comment with ELSE is as follows.
 
-  /*IF ctx[:foo]*/hoge = /*ctx[:hoge]*/'abc'
-    -- ELSE hoge IS NULL
+  /*IF ctx[:foo]*/foo = /*ctx[:foo]*/'abc'
+    -- ELSE foo IS NULL
   /*END*/
 
-In this case, when the eval(ctx[:foo]) returns an falsy value, string "hoge IS NULL" will be active.
+In this case, when the eval(ctx[:foo]) returns an falsy value, string "foo IS NULL" will be active.
 
 
 ==== ELSE comment sample
