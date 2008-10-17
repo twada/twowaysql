@@ -51,7 +51,6 @@ module TwoWaySQL
       @root.accept(c)
       MergeResult.new(c)
     end
-    alias mungle merge
 
     protected
     def initialize(root)
