@@ -33,9 +33,9 @@ module TwoWaySQL
     #
     # === Usage
     #
-    #   merged = template.merge(:job => "HOGE", :deptno => 30)
+    #   merged = template.merge(:job => "MANAGER", :deptno => 30)
     #   merged.sql                #=> "SELECT * FROM emp WHERE job = ? AND deptno = ?"
-    #   merged.bound_variables    #=> ["HOGE", 30]
+    #   merged.bound_variables    #=> ["MANAGER", 30]
     #
     # === Arguments
     #
@@ -64,9 +64,9 @@ module TwoWaySQL
   #
   # === Usage
   #
-  #   merged = template.merge(:job => "HOGE", :deptno => 30)
+  #   merged = template.merge(:job => "MANAGER", :deptno => 30)
   #   merged.sql                #=> "SELECT * FROM emp WHERE job = ? AND deptno = ?"
-  #   merged.bound_variables    #=> ["HOGE", 30]
+  #   merged.bound_variables    #=> ["MANAGER", 30]
   #
   class MergeResult
     def initialize(context)
