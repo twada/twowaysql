@@ -130,12 +130,12 @@ module TwoWaySQL
 
 
   class SubStatementNode < Node
-    def initialize(prefix, tree)
-      @prefix = prefix
+    def initialize(first_node, tree)
+      @first_node = first_node
       @tree = tree
     end
     def accept(ctx)
-      ctx.add_sql(@prefix) if ctx.enabled?
+      ctx.add_sql(@first_node) if ctx.enabled?
       exec_list(@tree, ctx)
     end
     def each
