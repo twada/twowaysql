@@ -94,9 +94,6 @@ module TwoWaySQL
     def accept(ctx)
       exec_list(@tree, ctx)
     end
-    def children
-      @tree
-    end
   end
 
 
@@ -174,6 +171,7 @@ module TwoWaySQL
     def accept(ctx)
       result = do_eval(ctx, @exp)
       return if result.nil?
+      ##TODO: is there any better way to handle array-like structure?
       if result.respond_to?('to_ary')
         bind_values(ctx, result.to_ary)
       else
