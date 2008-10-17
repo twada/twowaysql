@@ -236,7 +236,7 @@ def scan_str
     when @s.scan(SEMICOLON_AT_INPUT_END_PATTERN)
       #drop semicolon at input end
     else
-      raise Racc::ParseError, "syntax error near line:[#{line_no(@s.pos)}], str:[#{@s.rest}]"
+      raise Racc::ParseError, "syntax error at or near line:[#{line_no(@s.pos)}], str:[#{@s.rest}]"
     end
   end
 end
@@ -245,14 +245,14 @@ end
 ## override racc's default on_error method
 def on_error(t, v, vstack)
   ## cursor in value-stack is an array of two items,
-  ## that have position value as 0th item. like [731, "ctx[:limit] "]
+  ##   that have position value as 0th item. like [731, "ctx[:limit] "]
   cursor = vstack.find do |tokens|
     tokens.size == 2 and tokens[0].kind_of?(Fixnum)
   end
   pos = cursor[0]
   line = line_no(pos)
   rest = @s.string[pos .. -1]
-  raise Racc::ParseError, "syntax error near line:[#{line}], str:[#{rest}]"
+  raise Racc::ParseError, "syntax error at or near line:[#{line}], str:[#{rest}]"
 end
 
 
