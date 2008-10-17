@@ -215,7 +215,7 @@ If you want to use "LIKE", you may write bind variables:
 
   ename LIKE /*ctx[:ename]*/'foo'
 
-Unfortunately, there is no special support for "LIKE". So, to use a wildcard character, add wildcard directy to the data. For example, to specify to include "COT", add wildcard character in the value as follows:
+Unfortunately, there is no special support for "LIKE". So, to use a wildcard character, add wildcard directly to the data. For example, to specify to include "COT", add wildcard character in the value as follows:
 
   :ename => "%COT%"
 
@@ -228,7 +228,7 @@ You can use Embedded variable comment to embed value directly (say without quoti
   /*$variable name*/Literal
 
 ===== CAUTION:
-As you noticed. Embedded variable comment has risk for SQL Injection. Please note, like any other 'eval' usage of TwoWaySQL, Embedded variable comment evals the data in safe level 4. Therefore, dangerous actions in Ruby world (ex. system call, valiable assignments, tainted strings) are never executed. However, this is not enough. Valid ruby string is still dangerous string as SQL fragments. Do NOT use user input or any other strings outside your code. If you use Embedded variable comment, you should carefully check the data and its origin.
+Please note, Embedded variable comment has risk for SQL Injection. Like any other 'eval' usage of TwoWaySQL, Embedded variable comment evals the data in safe level 4. Therefore, dangerous actions in Ruby world (ex. system call, variable assignments, tainted strings) are never executed. However, this is not enough. Valid ruby string is still dangerous string as SQL fragments. Do NOT use user input or any other strings outside your code. If you use Embedded variable comment, you should carefully check the data and its origin.
 
 ===== usage
 
@@ -251,7 +251,7 @@ An example of IF comment is as follows:
 
   /*IF ctx[:foo]*/foo = /*ctx[:foo]*/'abc'/*END*/
 
-When the condition returns a truthy value, TwoWaySQL treats statements in "/*IF*/" and "/*END*/" as active. In the above example, "foo = /*ctx[:foo]*/'abc'" will be output only when 'eval(ctx[:foo])' retuens an truthy value.
+When the condition returns a truthy value, TwoWaySQL treats statements in "/*IF*/" and "/*END*/" as active. In the above example, "foo = /*ctx[:foo]*/'abc'" will be output only when 'eval(ctx[:foo])' returns an truthy value.
 
 
 ==== usage
