@@ -1,23 +1,29 @@
 namespace :racc do
+  @grammar = "lib/twowaysql/parser"
+  @generate_parser = "racc -o #{@grammar}.rb #{@grammar}.y"
+  @debug_parser = "racc -v -o #{@grammar}.rb -g #{@grammar}.y"
+  @revert_generated = "git checkout #{@grammar}.rb"
+  
   desc 'Regenerate parser'
   task :gen do
-    `racc -o lib/twowaysql/parser.rb lib/twowaysql/parser.y`
+    `#{@generate_parser}`
   end
 
   desc 'Debug parser'
   task :debug do
-    `racc -v -o lib/twowaysql/parser.rb -g lib/twowaysql/parser.y`
+    `#{@debug_parser}`
 
     $:.unshift(File.dirname(__FILE__) + '/../lib')
     require 'twowaysql'
-    template = TwoWaySQL::Template.parse($stdin, :debug => true, :preserve_space => true)
+    template = TwoWaySQL::Template.parse($stdin, :debug => true)
     template.merge({})
 
-    `racc -o lib/twowaysql/parser.rb lib/twowaysql/parser.y`
+    `#{@revert_generated}`
   end
 
-  desc 'Output tab file'
+  desc 'Update tab file'
   task :tab do
-    `racc -v -o lib/twowaysql/parser.rb -g lib/twowaysql/parser.y`
+    `#{@debug_parser}`
+    `#{@revert_generated}`
   end
 end
