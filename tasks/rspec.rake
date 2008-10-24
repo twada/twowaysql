@@ -19,3 +19,15 @@ Spec::Rake::SpecTask.new do |t|
   t.spec_opts = ['--options', "spec/spec.opts"]
   t.spec_files = FileList['spec/**/*_spec.rb']
 end
+
+desc 'Generate RCov html report'
+Spec::Rake::SpecTask.new do |t|
+  t.name = :rcov_report
+  t.spec_opts = ['--options', "spec/spec.opts"]
+  t.spec_files = FileList['spec/**/*_spec.rb']
+  t.warning = true
+  t.rcov = true
+#  t.rcov_opts = ['--exclude', "lib/twowaysql.rb,spec"]
+  t.rcov_opts = ['--exclude', "spec"]
+  t.rcov_dir = 'website/coverage'
+end
