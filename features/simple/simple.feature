@@ -7,3 +7,8 @@ Feature: Simple usage
     When the template is merged with context
     Then merged sql should be "SELECT * FROM emp WHERE job = ?"
     And bound variables should be "['MANAGER']"
+
+  More Examples:
+    | template           | context | sql               | bound_variables |
+    | SELECT * FROM emp  |         | SELECT * FROM emp | []              |
+    | SELECT * FROM emp WHERE age < /*ctx[:age]*/30 | ctx[:age] = 25 | SELECT * FROM emp WHERE age < ? | [25] |
