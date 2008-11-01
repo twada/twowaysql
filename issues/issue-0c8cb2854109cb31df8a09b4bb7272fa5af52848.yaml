@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: use Cucumber to describe features
+desc: use Cucumber to describe features
+type: :task
+component: twowaysql
+release: 
+reporter: takuto <takuto.wada@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-11-01 09:49:10.745475 Z
+references: []
+
+id: 0c8cb2854109cb31df8a09b4bb7272fa5af52848
+log_events: 
+- - 2008-11-01 09:49:12.136663 Z
+  - takuto <takuto.wada@gmail.com>
+  - created
+  - ""
