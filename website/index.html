@@ -31,44 +31,26 @@
 <div id="main">
 
     <h1>Template Engine for SQL</h1>
-    <div id="version" class="clickable" onclick='document.location = "http://rubyforge.org/projects/twowaysql"; return false'>
-      <p>Get Version</p>
-      <a href="http://rubyforge.org/projects/twowaysql" class="numbers">0.4.0</a>
+    <div class="sidebar">
+      <div id="version" class="clickable" onclick='document.location = "http://rubyforge.org/projects/twowaysql"; return false'>
+        <p>Get Version</p>
+        <a href="http://rubyforge.org/projects/twowaysql" class="numbers">0.4.1</a>
+      </div>
     </div>
-    <h1>&#x2192; &#8216;twowaysql&#8217;</h1>
-
-
-	<h2>What</h2>
-
-
-	<p>TwoWaySQL is a Template Engine for <span class="caps">SQL</span>.</p>
-
-
-	<p>With TwoWaySQL, you can bind variables to <span class="caps">SQL</span> or modify <span class="caps">SQL</span> conditionally and run and preview TwoWaySQL-style <span class="caps">SQL</span> by tools like pgAdmin3, since the <span class="caps">SQL</span> is still valid. <a href="http://twowaysql.rubyforge.org/rdoc/">see more docs</a></p>
-
-
-	<h2>Installing</h2>
-
-
-	<p><pre class='syntax'><span class="punct">(</span><span class="ident">sudo</span><span class="punct">)</span> <span class="ident">gem</span> <span class="ident">install</span> <span class="ident">twowaysql</span></pre></p>
-
-
-	<h2>The basics</h2>
-
-
-	<p><a href="http://twowaysql.rubyforge.org/rdoc/">see docs</a></p>
-
-
-	<h2>Demonstration of usage</h2>
-
-
-	<h3>simple case</h3>
-
-
+    <h1>=&gt; &#8216;twowaysql&#8217;</h1>
+<h2>What</h2>
+<p>TwoWaySQL is a Template Engine for <span class="caps">SQL</span>.</p>
+<p>With TwoWaySQL, you can bind variables to <span class="caps">SQL</span> or modify <span class="caps">SQL</span> conditionally and run and preview TwoWaySQL-style <span class="caps">SQL</span> by tools like pgAdmin3, since the <span class="caps">SQL</span> is still valid. <a href="http://twowaysql.rubyforge.org/rdoc/">see more docs</a></p>
+<h2>Installing</h2>
+<p><pre class='syntax'><span class="punct">(</span><span class="ident">sudo</span><span class="punct">)</span> <span class="ident">gem</span> <span class="ident">install</span> <span class="ident">twowaysql</span></pre></p>
+<h2>The basics</h2>
+<p><a href="http://twowaysql.rubyforge.org/rdoc/">see docs</a></p>
+<h2>Demonstration of usage</h2>
+<h3>simple case</h3>
 <pre>
 <code>
   # given SQL string with TwoWaySQL comments
-  sql = "SELECT * FROM emp WHERE job = /*ctx[:job]*/'CLERK'" 
+  sql = "SELECT * FROM emp WHERE job = /*ctx[:job]*/'CLERK'"
 
   # parse the SQL to create template object
   template = TwoWaySQL::Template.parse(sql)
@@ -76,14 +58,11 @@
   # merge data with template
   merged = template.merge(:job =&gt; 'MANAGER')
 
-  p merged.sql      #=&gt; "SELECT * FROM emp WHERE job = ?" 
+  p merged.sql      #=&gt; "SELECT * FROM emp WHERE job = ?"
   p merged.bound_variables          #=&gt; ['MANAGER']
 </code>
 </pre>
-
-	<h3>complex case</h3>
-
-
+<h3>complex case</h3>
 <pre>
 <code>
   # given SQL string with TwoWaySQL comments
@@ -97,8 +76,10 @@
     /*IF ctx[:order_by] */ ORDER BY /*$ctx[:order_by]*/id /*$ctx[:order]*/ASC /*END*/
   EOS
 
+
   # parse the SQL to create template object
   template = TwoWaySQL::Template.parse(sql)
+
 
   # merge data with template
   data = {
@@ -109,18 +90,20 @@
   }
   merged = template.merge(data)
 
+
   expected_sql = &lt;&lt;-EOS
     SELECT * FROM emp
     WHERE
-
+      
        deptno IN (?, ?, ?) 
        AND age &gt; ? 
-
+    
      ORDER BY age DESC 
   EOS
 
   merged.sql == expected_sql      #=&gt; true
   merged.bound_variables          #=&gt; [10,20,30,35]
+
 
   # use merged SQL and variables with any O-R Mapper you like (ex. Sequel)
   require 'sequel'
@@ -129,68 +112,39 @@
   . . .
 </code>
 </pre>
-
-	<p><a href="http://twowaysql.rubyforge.org/rdoc/">more examples</a></p>
-
-
-	<h2>How to submit patches</h2>
-
-
-	<p>You can fetch the source from:</p>
-
-
-	<ul>
+<p><a href="http://twowaysql.rubyforge.org/rdoc/">more examples</a></p>
+<h2>How to submit patches</h2>
+<p>You can fetch the source from:</p>
+<ul>
 	<li>github: <a href="http://github.com/twada/twowaysql/tree/master">http://github.com/twada/twowaysql/tree/master</a></li>
-	</ul>
-
-
+</ul>
 <pre>git clone git://github.com/twada/twowaysql.git</pre>
-
-	<p>Feel free to fork it and send me patches or pull requests</p>
-
-
-	<h3>Build and test instructions</h3>
-
-
+<p>Feel free to fork it and send me patches or pull requests</p>
+<h3>Build and test instructions</h3>
 <pre>cd twowaysql
-rake test
+rake spec
 rake install_gem</pre>
-
-	<h2>License</h2>
-
-
-	<p>This code is free to use under the terms of the <span class="caps">ASL</span> license.</p>
-
-
-	<h2>Links</h2>
-
-
-	<ul>
+<h2>License</h2>
+<p>This code is free to use under the terms of the <span class="caps">ASL</span> license.</p>
+<h2>Links</h2>
+<ul>
 	<li><a href="http://rubyforge.org/projects/twowaysql">Project Page</a></li>
-		<li><a href="http://twowaysql.rubyforge.org/rdoc/"><span class="caps">API</span> Doc</a></li>
-		<li><a href="./issues/index.html">Issue Tracking</a></li>
-		<li><a href="./coverage/index.html">Coverage Report</a></li>
-		<li><a href="http://rubyforge.org/forum/?group_id=6947">Forum</a></li>
-	</ul>
-
-
-	<h2>Author(s)</h2>
-
-
-	<ul>
+	<li><a href="http://twowaysql.rubyforge.org/rdoc/"><span class="caps">API</span> Doc</a></li>
+	<li><a href="./issues/index.html">Issue Tracking</a></li>
+	<li><a href="./coverage/index.html">Coverage Report</a></li>
+	<li><a href="http://rubyforge.org/forum/?group_id=6947">Forum</a></li>
+</ul>
+<h2>Author(s)</h2>
+<ul>
 	<li>Takuto Wada (takuto.wada at gmail dot com)</li>
-	</ul>
-
-
-	<h2>Contributors</h2>
-
-
-	<ul>
+</ul>
+<h2>Contributors</h2>
+<ul>
 	<li><a href="http://github.com/kjim">Keiji Muraishi</a></li>
-		<li><a href="http://github.com/walf443">Keiji Yoshimi</a></li>
-	</ul>
+	<li><a href="http://github.com/walf443">Keiji Yoshimi</a></li>
+</ul>
     <p class="coda">
-      Takuto Wada, 20th October 2008<br>
+      <a href="takuto.wada@gmail.com">Takuto Wada</a>, 3rd November 2008<br>
       Theme extended from <a href="http://rb2js.rubyforge.org/">Paul Battley</a>
     </p>
 </div>

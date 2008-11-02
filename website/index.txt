@@ -1,6 +1,6 @@
 h1. Template Engine for SQL
 
-h1. &#x2192; 'twowaysql'
+h1. => 'twowaysql'
 
 
 h2. What
