@@ -13,7 +13,7 @@ task :ditz_release do
 
   release = ENV['DITZ_REL']
   puts "ditz release #{release}"
-  `ditz -n -i issues release #{release}`
+  `ditz -i issues release --no-comment #{release}`
 
   mv 'History.txt', 'History.txt.tmp'
   puts "generate changelog for #{release}"
