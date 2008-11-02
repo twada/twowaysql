@@ -3,7 +3,7 @@ title: apply latest newgem structure
 desc: apply latest newgem structure
 type: :task
 component: twowaysql
-release: 
+release: release_0_4_1
 reporter: takuto <takuto.wada@gmail.com>
 status: :in_progress
 disposition: 
@@ -19,4 +19,8 @@ log_events:
 - - 2008-11-02 21:08:03.079665 Z
   - takuto <takuto.wada@gmail.com>
   - changed status from unstarted to in_progress
+  - ""
+- - 2008-11-02 21:22:12.307551 Z
+  - takuto <takuto.wada@gmail.com>
+  - assigned to release release_0_4_1 from unassigned
   - ""
