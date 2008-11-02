@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: apply latest newgem structure
+desc: apply latest newgem structure
+type: :task
+component: twowaysql
+release: 
+reporter: takuto <takuto.wada@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-11-02 21:05:36.085228 Z
+references: []
+
+id: ec698dd75fb717a23045852de2fb367cff119b2e
+log_events: 
+- - 2008-11-02 21:05:37.613114 Z
+  - takuto <takuto.wada@gmail.com>
+  - created
+  - ""
