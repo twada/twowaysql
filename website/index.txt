@@ -109,7 +109,7 @@ Feel free to fork it and send me patches or pull requests
 h3. Build and test instructions
 
 <pre>cd twowaysql
-rake test
+rake spec
 rake install_gem</pre>
 
 

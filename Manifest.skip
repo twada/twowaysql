@@ -1,7 +1,11 @@
+Manifest.skip
+Rakefile
 ^pkg
 ^doc
+^config
 ^coverage
 ^script
+^tasks
 ^website
 ^\.git
 .*\.output

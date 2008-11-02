@@ -4,3 +4,7 @@ $:.unshift(File.dirname(__FILE__)) unless
 require 'twowaysql/node'
 require 'twowaysql/parser'
 require 'twowaysql/template'
+
+module TwoWaySQL
+  VERSION = '0.4.0'
+end
