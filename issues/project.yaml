@@ -57,3 +57,12 @@ releases:
     - takuto <takuto.wada@gmail.com>
     - released
     - ""
+- !ditz.rubyforge.org,2008-03-06/release 
+  name: release_0_4_1
+  status: :unreleased
+  release_time: 
+  log_events: 
+  - - 2008-11-02 21:19:28.448115 Z
+    - takuto <takuto.wada@gmail.com>
+    - created
+    - release for applying latest newgem structure
