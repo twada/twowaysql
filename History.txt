@@ -1,3 +1,6 @@
+== release_0_4_1 / 2008-11-02
+* apply latest newgem structure
+
 == release_0_4 / 2008-09-29
 * line number support on parse error
 * integrate coverage report into website
