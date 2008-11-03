@@ -1,5 +1,12 @@
 desc 'Release the website and new gem version'
-task :deploy => [:check_version, :ditz_release, :website, :release]
+task :deploy => [:check_version, :ditz_release, :website, :release, :tag_release]
+
+
+desc 'create release tag'
+task :tag_release do
+  `git tag #{$hoe.version}`
+end
+
 
 namespace :manifest do
   remove_task :refresh
