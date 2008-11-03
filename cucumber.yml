@@ -1,1 +1,1 @@
-rest: --format progress features
+rest: --format pretty
