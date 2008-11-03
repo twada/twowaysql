@@ -3,10 +3,10 @@ title: use Cucumber to describe features
 desc: use Cucumber to describe features
 type: :task
 component: twowaysql
-release: 
+release: release_0_4_2
 reporter: takuto <takuto.wada@gmail.com>
-status: :in_progress
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2008-11-01 09:49:10.745475 Z
 references: []
 
@@ -19,4 +19,12 @@ log_events:
 - - 2008-11-03 04:51:12.548699 Z
   - takuto <takuto.wada@gmail.com>
   - changed status from unstarted to in_progress
+  - ""
+- - 2008-11-03 06:44:22.905684 Z
+  - takuto <takuto.wada@gmail.com>
+  - closed with disposition fixed
+  - cucumberize spike finished. Migration from rspec should be a new task.
+- - 2008-11-03 06:45:58.082688 Z
+  - takuto <takuto.wada@gmail.com>
+  - assigned to release release_0_4_2 from unassigned
   - ""
