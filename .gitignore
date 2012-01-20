@@ -1,7 +1,7 @@
-pkg/*
-doc/*
-coverage/*
-website/issues/*
-website/coverage/*
-lib/twowaysql/parser.output
+*.gem
 .ditz-config
+.bundle
+Gemfile.lock
+lib/twowaysql/parser.output
+pkg/*
+coverage/*
