@@ -1,3 +1,7 @@
+== release_0_5 / 2012-01-20
+* use Bundler to build this gem
+* fix old specs / features
+
 == release_0_4_1 / 2008-11-02
 * apply latest newgem structure
 
