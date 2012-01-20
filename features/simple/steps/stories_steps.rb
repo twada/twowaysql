@@ -7,23 +7,23 @@ end
 After do
 end
 
-Given /template is "(.*)"/ do |text|
+Given /template is (.*)/ do |text|
   @template = TwoWaySQL::Template.parse(text)
 end
 
-Given /modify context "(.*)"/ do |exp|
+Given /modify context (.*)/ do |exp|
   ctx = @ctx
   eval(exp)
 end
 
-When /the template is merged with context/ do
+When /template merged with context/ do
   @result = @template.merge(@ctx)
 end
 
-Then /merged sql should be "(.*)"/ do |text|
+Then /merged sql should be (.*)/ do |text|
   @result.sql.should == text
 end
 
-Then /bound variables should be "(.*)"/ do |exp|
+Then /bound variables should be (.*)/ do |exp|
   @result.bound_variables.should == eval(exp)
 end
