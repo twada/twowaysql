@@ -1,3 +1,6 @@
+== release_0_6 / 2015-04-03
+* support ruby 2.1 and 2.2 (Thanks tim-saki)
+
 == release_0_5 / 2012-01-20
 * use Bundler to build this gem
 * fix old specs / features
