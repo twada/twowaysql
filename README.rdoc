@@ -443,6 +443,7 @@ Default is false. When true, parser preserves original actual comments. When fal
 
 * Keiji Muraishi(http://github.com/kjim)
 * Keiji Yoshimi(http://github.com/walf443)
+* tim-saki(http://github.com/tim-saki)
 
 
 == LICENSE:
