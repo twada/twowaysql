@@ -447,7 +447,7 @@ Default is false. When true, parser preserves original actual comments. When fal
 
 == LICENSE:
 
-Copyright 2008-2012 Takuto Wada
+Copyright 2008-2015 Takuto Wada
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
