@@ -73,7 +73,7 @@ module TwoWaySQL
 
     private
     def safe_eval(ctx, exp)
-      within_safe_level(4) { eval(exp) }
+      within_safe_level(3) { eval(exp) }
     end
 
     def within_safe_level(level)
