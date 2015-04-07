@@ -225,7 +225,7 @@ Unfortunately, there is no special support for "LIKE". So, to use a wildcard cha
 
 You can use Embedded variable comment to embed value directly (say without quoting or escaping) into the SQL as a string. Literal to the right of the Embedded variable comment will be replaced with value. Embedded variable comment has the following syntax:
 
-  /*$variable name*/Literal
+  /*$ctx[:variable]*/Literal
 
 ===== CAUTION:
 Please note, Embedded variable comment has risk for SQL Injection. Like any other 'eval' usage of TwoWaySQL, Embedded variable comment evals the data in safe level 4. Therefore, dangerous actions in Ruby world (ex. system call, variable assignments, tainted strings) are never executed. However, this is not enough. Valid ruby string is still dangerous string as SQL fragments. Do NOT use user input or any other strings outside your code. If you use Embedded variable comment, you should carefully check the data and its origin.
